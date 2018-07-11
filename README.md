@@ -62,16 +62,12 @@ Nurseryではまず、棒読みちゃんの音声を「スピーカーのフリ�
 
 ## 営利目的での利用について
 
-[Nurseryのライセンス](LICENSE)は商用利用および営利目的での利用を妨げるものではありません。
-
-しかし、後述の権利表記にある通り、同梱の[BASS audio library](https://www.un4seen.com/)および[BASS.NET](http://bass.radio42.com/)は非営利目的での利用に限り無償提供されています。そのため、Nurseryを営利目的で使用することはできません。
-
-Nurseryのソースコードそのものは、[LICENSE](LICENSE)に従い、営利目的でも利用することができます。
+後述の権利表記にある通り、Nursery内部で使用している[BASS audio library](https://www.un4seen.com/)および[BASS.NET](http://bass.radio42.com/)は非営利目的での利用に限り無償提供されています。そのため、Nurseryを営利目的で利用することはできません。
 
 
 ## 権利表記
 
-### ライブラリ
+### ライブラリ、参考
 
 * [BASS audio library - un4seen.com](https://www.un4seen.com/)
 * [BASS.NET - radio42](http://bass.radio42.com/)
@@ -83,6 +79,7 @@ Nurseryのソースコードそのものは、[LICENSE](LICENSE)に従い、営�
 * [Newtonsoft Json.NET](https://www.newtonsoft.com/json) ([MIT License](https://github.com/JamesNK/Newtonsoft.Json/blob/master/LICENSE.md))
 * [NGettext](https://github.com/neris/NGettext) ([MIT License](https://github.com/neris/NGettext/blob/master/LICENSE))
 * [opas.dll - Opus Interactive Audio Codec](http://opus-codec.org/) ([three-clause BSD license](http://opus-codec.org/license/))
+* [Discord-Audio-Stream-Bot](https://github.com/BinkanSalaryman/Discord-Audio-Stream-Bot) （参考にさせていただいたコード）
 
 ### ロゴ、アイコン画像素材
 
