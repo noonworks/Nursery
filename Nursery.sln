@@ -1,0 +1,109 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 15
+VisualStudioVersion = 15.0.27428.2015
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Nursery", "Nursery\Nursery.csproj", "{DDF3682B-E64E-4D21-8C73-974E1332A064}"
+	ProjectSection(ProjectDependencies) = postProject
+		{2BE32D27-D2A6-46FB-98E4-C082584CDDDD} = {2BE32D27-D2A6-46FB-98E4-C082584CDDDD}
+		{E93FE9E4-940C-4D9A-A8C7-9628E053FD18} = {E93FE9E4-940C-4D9A-A8C7-9628E053FD18}
+	EndProjectSection
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PluginInterface", "PluginInterface\PluginInterface.csproj", "{0CB03DFF-B7B8-4D19-91D6-6E9AEEACFDC3}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Bouyomichan", "Bouyomichan\Bouyomichan.csproj", "{68E8856B-8385-409A-ABDE-65BA96C48E83}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Utility", "Utility\Utility.csproj", "{3BFB5EE1-681C-4069-AB82-7936F494DAB2}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BasicPlugins", "BasicPlugins\BasicPlugins.csproj", "{2BE32D27-D2A6-46FB-98E4-C082584CDDDD}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Options", "Options\Options.csproj", "{AEB051A5-5BE4-4633-BAD7-5359D2833A94}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SoundEffectPlugin", "SoundEffectPlugin\SoundEffectPlugin.csproj", "{E93FE9E4-940C-4D9A-A8C7-9628E053FD18}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UserDefinedFilterPlugin", "UserDefinedFilterPlugin\UserDefinedFilterPlugin.csproj", "{2E0A896A-C686-4139-AB3A-3B3E384D8F36}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "doc", "doc", "{9A0CE596-4ED8-4F36-B28E-AA42FD0699FB}"
+	ProjectSection(SolutionItems) = preProject
+		README.md = README.md
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "dist_files", "dist_files", "{2011E4BB-E93D-4CB3-8890-8545C15B67E2}"
+	ProjectSection(SolutionItems) = preProject
+		dist_files\config.json = dist_files\config.json
+		dist_files\Nursery.debug.cmd = dist_files\Nursery.debug.cmd
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "plugins", "plugins", "{BDB5E766-93EB-4ACD-9DB1-64719DA24B96}"
+	ProjectSection(SolutionItems) = preProject
+		dist_files\plugins\Nursery.BasicPlugins.AddNameFilter.json = dist_files\plugins\Nursery.BasicPlugins.AddNameFilter.json
+		dist_files\plugins\Nursery.BasicPlugins.ListFilter.json = dist_files\plugins\Nursery.BasicPlugins.ListFilter.json
+		dist_files\plugins\Nursery.BasicPlugins.LongMessageFilter.json = dist_files\plugins\Nursery.BasicPlugins.LongMessageFilter.json
+		dist_files\plugins\Nursery.SoundEffectPlugin.SoundEffectCommand.json = dist_files\plugins\Nursery.SoundEffectPlugin.SoundEffectCommand.json
+		dist_files\plugins\Nursery.UserDefinedFilterPlugin.UserDefinedFilter.json = dist_files\plugins\Nursery.UserDefinedFilterPlugin.UserDefinedFilter.json
+		dist_files\plugins\plugins.json = dist_files\plugins\plugins.json
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "sounds", "sounds", "{BD87742D-AEEB-4C2B-9EF7-6208896809EF}"
+	ProjectSection(SolutionItems) = preProject
+		dist_files\sounds\clapping_short2.json = dist_files\sounds\clapping_short2.json
+		dist_files\sounds\clapping_short2.mp3 = dist_files\sounds\clapping_short2.mp3
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "filters", "filters", "{0B74AE3B-1560-4434-92B2-8BC613F272B6}"
+	ProjectSection(SolutionItems) = preProject
+		dist_files\filters\filters.json = dist_files\filters\filters.json
+		dist_files\filters\housou_kinshi_sample.json = dist_files\filters\housou_kinshi_sample.json
+	EndProjectSection
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{DDF3682B-E64E-4D21-8C73-974E1332A064}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{DDF3682B-E64E-4D21-8C73-974E1332A064}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{DDF3682B-E64E-4D21-8C73-974E1332A064}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{DDF3682B-E64E-4D21-8C73-974E1332A064}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0CB03DFF-B7B8-4D19-91D6-6E9AEEACFDC3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0CB03DFF-B7B8-4D19-91D6-6E9AEEACFDC3}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0CB03DFF-B7B8-4D19-91D6-6E9AEEACFDC3}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0CB03DFF-B7B8-4D19-91D6-6E9AEEACFDC3}.Release|Any CPU.Build.0 = Release|Any CPU
+		{68E8856B-8385-409A-ABDE-65BA96C48E83}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{68E8856B-8385-409A-ABDE-65BA96C48E83}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{68E8856B-8385-409A-ABDE-65BA96C48E83}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{68E8856B-8385-409A-ABDE-65BA96C48E83}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3BFB5EE1-681C-4069-AB82-7936F494DAB2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3BFB5EE1-681C-4069-AB82-7936F494DAB2}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3BFB5EE1-681C-4069-AB82-7936F494DAB2}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3BFB5EE1-681C-4069-AB82-7936F494DAB2}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2BE32D27-D2A6-46FB-98E4-C082584CDDDD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2BE32D27-D2A6-46FB-98E4-C082584CDDDD}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2BE32D27-D2A6-46FB-98E4-C082584CDDDD}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2BE32D27-D2A6-46FB-98E4-C082584CDDDD}.Release|Any CPU.Build.0 = Release|Any CPU
+		{AEB051A5-5BE4-4633-BAD7-5359D2833A94}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{AEB051A5-5BE4-4633-BAD7-5359D2833A94}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{AEB051A5-5BE4-4633-BAD7-5359D2833A94}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{AEB051A5-5BE4-4633-BAD7-5359D2833A94}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E93FE9E4-940C-4D9A-A8C7-9628E053FD18}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E93FE9E4-940C-4D9A-A8C7-9628E053FD18}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E93FE9E4-940C-4D9A-A8C7-9628E053FD18}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E93FE9E4-940C-4D9A-A8C7-9628E053FD18}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2E0A896A-C686-4139-AB3A-3B3E384D8F36}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2E0A896A-C686-4139-AB3A-3B3E384D8F36}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2E0A896A-C686-4139-AB3A-3B3E384D8F36}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2E0A896A-C686-4139-AB3A-3B3E384D8F36}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{BDB5E766-93EB-4ACD-9DB1-64719DA24B96} = {2011E4BB-E93D-4CB3-8890-8545C15B67E2}
+		{BD87742D-AEEB-4C2B-9EF7-6208896809EF} = {2011E4BB-E93D-4CB3-8890-8545C15B67E2}
+		{0B74AE3B-1560-4434-92B2-8BC613F272B6} = {2011E4BB-E93D-4CB3-8890-8545C15B67E2}
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {01CBC977-6CE7-4E18-9060-3A4F74961B8E}
+	EndGlobalSection
+EndGlobal

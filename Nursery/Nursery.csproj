@@ -1,0 +1,198 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{DDF3682B-E64E-4D21-8C73-974E1332A064}</ProjectGuid>
+    <OutputType>Exe</OutputType>
+    <RootNamespace>Nursery</RootNamespace>
+    <AssemblyName>Nursery</AssemblyName>
+    <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <DebugType>none</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+  </PropertyGroup>
+  <PropertyGroup>
+    <ApplicationIcon>nursery.ico</ApplicationIcon>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="Bass.Net">
+      <HintPath>..\libs\Bass.Net.dll</HintPath>
+    </Reference>
+    <Reference Include="CommandLine">
+      <HintPath>..\libs\CommandLine.dll</HintPath>
+    </Reference>
+    <Reference Include="Discord.Net.Core">
+      <HintPath>..\libs\Discord.Net.Core.dll</HintPath>
+    </Reference>
+    <Reference Include="Discord.Net.Rest">
+      <HintPath>..\libs\Discord.Net.Rest.dll</HintPath>
+    </Reference>
+    <Reference Include="Discord.Net.Rpc">
+      <HintPath>..\libs\Discord.Net.Rpc.dll</HintPath>
+    </Reference>
+    <Reference Include="Discord.Net.Webhook">
+      <HintPath>..\libs\Discord.Net.Webhook.dll</HintPath>
+    </Reference>
+    <Reference Include="Discord.Net.WebSocket">
+      <HintPath>..\libs\Discord.Net.WebSocket.dll</HintPath>
+    </Reference>
+    <Reference Include="Newtonsoft.Json">
+      <HintPath>..\libs\Newtonsoft.Json.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Collections.Immutable, Version=1.2.1.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\libs\System.Collections.Immutable.dll</HintPath>
+    </Reference>
+    <Reference Include="System.ComponentModel.Composition" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Interactive.Async">
+      <HintPath>..\libs\System.Interactive.Async.dll</HintPath>
+    </Reference>
+    <Reference Include="System.IO.Compression.FileSystem" />
+    <Reference Include="System.Numerics" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="BassWrapper.cs" />
+    <Compile Include="PluginManager.cs" />
+    <Compile Include="Program.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="VoiceBot.cs" />
+    <Compile Include="VoiceChat.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Bouyomichan\Bouyomichan.csproj">
+      <Project>{68e8856b-8385-409a-abde-65ba96c48e83}</Project>
+      <Name>Bouyomichan</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Options\Options.csproj">
+      <Project>{aeb051a5-5be4-4633-bad7-5359d2833a94}</Project>
+      <Name>Options</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\PluginInterface\PluginInterface.csproj">
+      <Project>{0cb03dff-b7b8-4d19-91d6-6e9aeeacfdc3}</Project>
+      <Name>PluginInterface</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Utility\Utility.csproj">
+      <Project>{3bfb5ee1-681c-4069-ab82-7936f494dab2}</Project>
+      <Name>Utility</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="..\libs\bass.dll">
+      <Link>bass.dll</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="..\libs\libsodium.dll">
+      <Link>libsodium.dll</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="..\libs\opus.dll">
+      <Link>opus.dll</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="..\dist_files\config.default.json">
+      <Link>config.json</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="..\dist_files\Nursery.debug.cmd">
+      <Link>Nursery.debug.cmd</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="..\dist_files\plugins\plugins.json">
+      <Link>plugins\plugins.json</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="nursery.ico" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <Target Name="AfterBuild">
+    <ItemGroup>
+      <LocaleFiles Include="$(SolutionDir)locale\locale\**\*.*"/>
+      <BasicPluginsFiles Include="$(SolutionDir)BasicPlugins\$(OutDir)Nursery.BasicPlugins.*"/>
+      <SoundEffectPluginFiles Include="$(SolutionDir)SoundEffectPlugin\$(OutDir)Nursery.SoundEffectPlugin.*"/>
+      <UserDefinedFilterPluginFiles Include="$(SolutionDir)UserDefinedFilterPlugin\$(OutDir)Nursery.UserDefinedFilterPlugin.*"/>
+      <SoundsFiles Include="$(SolutionDir)dist_files\sounds\**\*.*"/>
+      <FiltersFiles Include="$(SolutionDir)dist_files\filters\**\*.*"/>
+    </ItemGroup>
+    <Copy
+      SourceFiles="@(BasicPluginsFiles)"
+      DestinationFolder="$(TargetDir)\plugins"
+    />
+    <Copy
+      SourceFiles="@(SoundEffectPluginFiles)"
+      DestinationFolder="$(TargetDir)\plugins"
+    />
+    <Copy
+      SourceFiles="@(UserDefinedFilterPluginFiles)"
+      DestinationFolder="$(TargetDir)\plugins"
+    />
+    <Copy
+      SourceFiles="@(LocaleFiles)"
+      DestinationFiles="@(LocaleFiles->'$(TargetDir)\locale\%(RecursiveDir)%(Filename)%(Extension)')"
+    />
+    <Copy
+      SourceFiles="@(SoundsFiles)"
+      DestinationFiles="@(SoundsFiles->'$(TargetDir)\sounds\%(RecursiveDir)%(Filename)%(Extension)')"
+    />
+    <Copy
+      SourceFiles="@(FiltersFiles)"
+      DestinationFiles="@(FiltersFiles->'$(TargetDir)\filters\%(RecursiveDir)%(Filename)%(Extension)')"
+    />
+    <CallTarget Targets="DebugAfterBuild" Condition="'$(Configuration)' == 'Debug'" />
+    <CallTarget Targets="ReleaseAfterBuild" Condition="'$(Configuration)' == 'Release'" />
+  </Target>
+  <Target Name="AfterClean">
+    <RemoveDir Directories="$(TargetDir)\plugins" />
+    <RemoveDir Directories="$(TargetDir)\locale" />
+    <RemoveDir Directories="$(TargetDir)\sounds" />
+    <RemoveDir Directories="$(TargetDir)\filters" />
+  </Target>
+  <Target Name="DebugAfterBuild">
+    <ItemGroup>
+      <DebugConfigFiles Include="$(SolutionDir)config.debug.json"/>
+      <DebugConfigFilesDest Include="$(TargetDir)config.json"/>
+    </ItemGroup>
+    <Copy
+      SourceFiles="@(DebugConfigFiles)"
+      DestinationFiles="@(DebugConfigFilesDest)"
+    />
+  </Target>
+  <Target Name="ReleaseAfterBuild">
+    <ItemGroup>
+      <DeletePDBFiles Include="$(TargetDir)**\*.pdb"/>
+      <DeleteXMLFiles Include="$(TargetDir)*.xml"/>
+      <DeleteBassFiles Include="$(TargetDir)bass*.dll"/>
+    </ItemGroup>
+    <Delete Files="@(DeletePDBFiles)" />
+    <Delete Files="@(DeleteXMLFiles)" />
+    <Delete Files="@(DeleteBassFiles)" />
+  </Target>
+</Project>

@@ -1,0 +1,30 @@
+﻿{
+  "plugins": [
+    "Nursery.BasicPlugins.IgnoreSelfFilter",
+    "Nursery.BasicPlugins.JoinCommand",
+    "Nursery.BasicPlugins.LeaveCommand",
+    "Nursery.BasicPlugins.WhereCommand",
+    "Nursery.BasicPlugins.AddTextChannelCommand",
+    "Nursery.BasicPlugins.RemoveTextChannelCommand",
+    "Nursery.BasicPlugins.DiscordEmojiIdCommand",
+    "Nursery.BasicPlugins.DiscordRoleIdCommand",
+    "Nursery.SoundEffectPlugin.SoundEffectListCommand",
+    "Nursery.SoundEffectPlugin.SoundEffectReloadCommand",
+    "Nursery.SoundEffectPlugin.SoundEffectStopCommand",
+    "Nursery.UserDefinedFilterPlugin.UserDefinedFilterReloadCommand",
+    "Nursery.BasicPlugins.HelpCommand",
+    "Nursery.BasicPlugins.UnknownMentionFilter",
+    "Nursery.BasicPlugins.ListFilter",
+    "Nursery.BasicPlugins.JoinedFilter",
+    "Nursery.BasicPlugins.ChannelFilter",
+    "Nursery.SoundEffectPlugin.SoundEffectCommand",
+    "Nursery.BasicPlugins.MentionFilter",
+    "Nursery.BasicPlugins.DiscordEmojiFilter",
+    "Nursery.BasicPlugins.AttachmentFilter",
+    "Nursery.BasicPlugins.UrlFilter",
+    "Nursery.BasicPlugins.LongMessageFilter",
+    "Nursery.UserDefinedFilterPlugin.UserDefinedFilter",
+    "Nursery.BasicPlugins.BlankFilter",
+    "Nursery.BasicPlugins.AddNameFilter"
+  ]
+}

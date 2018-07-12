@@ -1,0 +1,242 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: Nursery beta1.0\n"
+"POT-Creation-Date: 2018-07-10 22:18+0900\n"
+"PO-Revision-Date: 2018-07-10 22:18+0900\n"
+"Last-Translator: noonworks <noonworks@gmail.com>\n"
+"Language-Team: noonworks https://github.com/noonworks/Nursery\n"
+"Language: ja_JP\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: Poedit 2.0.8\n"
+"X-Poedit-Basepath: ../BasicPlugins\n"
+"Plural-Forms: nplurals=1; plural=0;\n"
+"X-Poedit-KeywordsList: _;_n:1,2;_p:1c,2;_pn:1c,2,3\n"
+"X-Poedit-SearchPath-0: .\n"
+
+#. TRANSLATORS: Bot-Help message. AddNameFilter plugin.
+msgid "Filter to add Nickname or Username to messages."
+msgstr "メッセージにニックネームまたはユーザーネームを追加するフィルタ。"
+
+#. TRANSLATORS: Bot message. AddNameFilter plugin. {0} is user name. {1} is message content.
+#, csharp-format
+msgid "{0} says: {1}"
+msgstr "{0}：{1}"
+
+#. TRANSLATORS: Bot-Help message. AddTextChannelCommand plugin.
+msgid "Add voice-bot to text channel."
+msgstr "voice-botにテキストチャンネルを追加します。"
+
+#. TRANSLATORS: Bot message. AddTextChannelCommand plugin. {0} is mention part. {1} is name of text channel.
+#, csharp-format
+msgid "{0}Text channel [{1}] is already added."
+msgstr "{0}テキストチャンネル [{1}] はすでに追加されています。"
+
+#. TRANSLATORS: Bot message. AddTextChannelCommand plugin. {0} is mention part. {1} is name of text channel.
+#, csharp-format
+msgid "{0}Added text channel [{1}]."
+msgstr "{0}テキストチャンネルに [{1}] を追加しました。"
+
+#. TRANSLATORS: Bot message. AddTextChannelCommand plugin. {0} is mention part.
+#. TRANSLATORS: Bot message. LeaveCommand plugin. {0} is mention part.
+#. TRANSLATORS: Bot message. RemoveTextChannelCommand plugin. {0} is mention part.
+#, csharp-format
+msgid "{0}Oh? I'm not in any channels..."
+msgstr "{0}あれ？チャンネルに接続していないのですが……。"
+
+#. TRANSLATORS: Bot-Help message. AttachmentFilter plugin.
+msgid "Filter to add information of attachment files."
+msgstr "添付ファイルの情報を追加するフィルタ。"
+
+#. TRANSLATORS: Bot message. AttachmentFilter plugin. {0} is number of file(s).
+#, csharp-format
+msgid " (with {0} file)"
+msgid_plural " (with {0} files)"
+msgstr[0] " （{0}個の添付ファイル）"
+
+#. TRANSLATORS: Bot-Help message. BlankFilter plugin.
+msgid "Filter to blank messages."
+msgstr "空のメッセージを無視するフィルタ。"
+
+#. TRANSLATORS: Bot-Help message. ChannelFilter plugin.
+msgid ""
+"Filter to ignore messages from the text channel where voice-bot is not "
+"joined."
+msgstr "voice-botが参加していないテキストチャンネルの発言を無視するフィルタ。"
+
+#. TRANSLATORS: Bot-Help message. DiscordEmojiFilter plugin.
+msgid ""
+"Filter to replace Discord-emoji from number format to :shortname: format."
+msgstr "Discord絵文字をID番号形式から名前に変換するフィルタ。"
+
+#. TRANSLATORS: DebugLog message. DiscordEmojiFilter plugin. {0} is Emoji name. {1} is Emoji Id.
+#, csharp-format
+msgid "* Discord emoji :{0}:{1} is replaced."
+msgstr "* Discord絵文字 :{0}:{1} が変換されました。"
+
+#. TRANSLATORS: Bot-Help message. DiscordEmojiIdCommand plugin.
+msgid "Show discord emoji ID."
+msgstr "Discord絵文字のIDを表示します。"
+
+#. TRANSLATORS: Bot message. DiscordEmojiIdCommand plugin. {0} is Emoji name. {1} is Emoji Id.
+#, csharp-format
+msgid ":{0}: is {1}"
+msgstr ":{0}: は {1}"
+
+#. TRANSLATORS: Bot-Help message. DiscordRoleIdCommand plugin.
+msgid "Show discord Role ID."
+msgstr "Discordの役割のIDを表示します。"
+
+#. TRANSLATORS: Bot message. DiscordRoleIdCommand plugin. {0} is Role name. {1} is Role Id.
+#, csharp-format
+msgid "{0} is {1}"
+msgstr "{0} は {1}"
+
+#. TRANSLATORS: Bot-Help message. HelpText plugin.
+msgid "Show command and filter help."
+msgstr "コマンドとフィルタのヘルプを表示します。"
+
+#. TRANSLATORS: Bot message. HelpText plugin.
+msgid "[COMMANDS]"
+msgstr "【コマンド一覧】"
+
+#. TRANSLATORS: Bot message. HelpText plugin.
+msgid "[FILTERS]"
+msgstr "【フィルタ一覧】"
+
+#. TRANSLATORS: Bot-Help message. IgnoreSelfFilter plugin.
+msgid "Filter to ignore voice-bot's self message."
+msgstr "voice-bot自身の発言を無視するフィルタ。"
+
+#. TRANSLATORS: Bot-Help message. JoinCommand plugin.
+msgid "Join voice-bot to channel."
+msgstr "voice-botをチャンネルに参加させます。"
+
+#, csharp-format
+msgid ""
+"{0}Oh? I'm already connected to the channel. Please let me bye, and call me "
+"again."
+msgstr ""
+"{0}あれ？すでにチャンネルに接続しているようです。一度退出させてからまた呼んで"
+"ください。"
+
+#, csharp-format
+msgid ""
+"{0}Where should I go? Please connect to the voice channel, and call me again."
+msgstr ""
+"{0}どこに行けばよいですか？ボイスチャンネルに接続してからまた呼んでください。"
+
+#, csharp-format
+msgid "Set text channel to [{0}], voice channel to [{1}]."
+msgstr "テキストチャンネルを [{0}] 、ボイスチャンネルを [{1}] に設定しました。"
+
+#. TRANSLATORS: Bot-Help message. JoinedFilter plugin.
+msgid "Filter to ignore messages when voice-bot is not joining any channel."
+msgstr ""
+"voice-botがどのチャンネルにも参加していないときに発言を無視するフィルタ。"
+
+#. TRANSLATORS: Bot-Help message. LeaveCommand plugin.
+msgid "Remove voice-bot from channel."
+msgstr "voice-botをチャンネルから退去させます。"
+
+#. TRANSLATORS: Bot message. LeaveCommand plugin.
+msgid "Bye!"
+msgstr "さようなら。"
+
+#. TRANSLATORS: Bot-Help message. ListFilter plugin.
+msgid "Filter to ignore listed users."
+msgstr "リストに指定されたユーザーの発言を無視するフィルタ。"
+
+#. TRANSLATORS: Bot-Help message. LongMessageFilter plugin.
+msgid "Filter to shorten long messages."
+msgstr "長いメッセージを省略するフィルタ。"
+
+#. TRANSLATORS: Bot message. LongMessageFilter plugin.
+msgid " (omitted)"
+msgstr "（以下略）"
+
+#. TRANSLATORS: Bot-Help message. MentionFilter plugin.
+msgid "Filter to replace mentions from number format to Nickname or Username."
+msgstr ""
+"メンションを数値形式からニックネームもしくはユーザーネームに変換するフィル"
+"タ。"
+
+#. TRANSLATORS: Bot message. MentionFilter plugin. Replacer for "@everyone".
+msgid " at everyone "
+msgstr "アットみんな"
+
+#. TRANSLATORS: Bot message. MentionFilter plugin. Replacer for "@here".
+msgid " at here "
+msgstr "アット人々"
+
+#. TRANSLATORS: Bot message. MentionFilter plugin. Replacer for "@XXX". {0} is user name.
+#, csharp-format
+msgid "at {0}"
+msgstr "アット{0}"
+
+#. TRANSLATORS: Bot-Help message. RemoveTextChannelCommand plugin.
+msgid "Remove voice-bot from text channel."
+msgstr "voice-botからテキストチャンネルを除外します。"
+
+#. TRANSLATORS: Bot message. RemoveTextChannelCommand plugin. {0} is mention part. {1} is name of text channel.
+#, csharp-format
+msgid "{0}Text channel [{1}] is not added."
+msgstr "{0}テキストチャンネル [{1}] は追加されていません。"
+
+#. TRANSLATORS: Bot message. RemoveTextChannelCommand plugin. {0} is mention part. {1} is name of text channel.
+#, csharp-format
+msgid "{0}Removed text channel [{1}]."
+msgstr "{0}テキストチャンネルから [{1}] を除外しました。"
+
+#. TRANSLATORS: Bot-Help message. UnknownMentionFilter plugin.
+msgid "Filter to ignore mentions that voice-bot could not been understood."
+msgstr "voice-botが理解できなかったコマンドに返事をするフィルタ。"
+
+#. TRANSLATORS: Bot message. UnknownMentionFilter plugin. {0} is mention part.
+#, csharp-format
+msgid "{0}Sorry, I could not understand the command."
+msgstr "{0}ごめんなさい。コマンドが理解できません。"
+
+#. TRANSLATORS: Bot-Help message. UrlFilter plugin.
+msgid "Filter to replace url to short format."
+msgstr "URLを短い形式に変換するフィルタ。"
+
+#. TRANSLATORS: Bot message. UrlFilter plugin. Replacer of ".".
+msgid " dot "
+msgstr "ドット"
+
+#. TRANSLATORS: Bot message. UrlFilter plugin. {0} is URL.
+#, csharp-format
+msgid " URL {0} "
+msgstr " {0} のURL "
+
+#. TRANSLATORS: Bot-Help message. WhereCommand plugin.
+msgid "Show where voice-bot is in."
+msgstr "voice-botがどのチャンネルに参加しているか表示します。"
+
+#. TRANSLATORS: Bot message. WhereCommand plugin. {0} is mention part.
+#, csharp-format
+msgid "{0}Sorry, I can not find your server."
+msgstr "{0}ごめんなさい。あなたのいるサーバーがわかりません。"
+
+#. TRANSLATORS: Bot message. WhereCommand plugin.
+msgid "Where am I:"
+msgstr "現在のチャンネル"
+
+#. TRANSLATORS: Bot message. WhereCommand plugin.
+msgid "[I'm not joining any voice channel.]"
+msgstr "【ボイスチャンネルに参加していません。】"
+
+#. TRANSLATORS: Bot message. WhereCommand plugin.
+msgid "[Voice channel]"
+msgstr "【ボイスチャンネル】"
+
+#. TRANSLATORS: Bot message. WhereCommand plugin.
+msgid "[I'm not joining any text channel.]"
+msgstr "【テキストチャンネルに参加していません。】"
+
+#. TRANSLATORS: Bot message. WhereCommand plugin.
+msgid "[Text Channel]"
+msgid_plural "[Text Channels]"
+msgstr[0] "【テキストチャンネル】"

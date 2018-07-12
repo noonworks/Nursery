@@ -1,0 +1,6 @@
+﻿{
+  "token": "ここにBotのトークンを貼り付け",
+  "device_read": "ライン (Yamaha NETDUETTO Driver (WDM))",
+  "device_sound_effect": "ライン (Yamaha NETDUETTO Driver (WDM))",
+  "plugins_dir": "plugins"
+}

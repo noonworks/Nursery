@@ -1,0 +1,13 @@
+﻿{
+  "filters": [
+    {
+      "name": "bot_filter",
+      "type": "blacklist",
+      "terminate": "true",
+      "values": [
+        "bot",
+        "Mbot"
+      ]
+    }
+  ]
+}

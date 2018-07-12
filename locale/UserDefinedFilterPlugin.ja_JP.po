@@ -1,0 +1,64 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: Nursery beta1.0\n"
+"POT-Creation-Date: 2018-07-10 23:28+0900\n"
+"PO-Revision-Date: 2018-07-10 23:28+0900\n"
+"Last-Translator: noonworks <noonworks@gmail.com>\n"
+"Language-Team: noonworks https://github.com/noonworks/Nursery\n"
+"Language: ja_JP\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: Poedit 2.0.8\n"
+"X-Poedit-Basepath: ../UserDefinedFilterPlugin\n"
+"Plural-Forms: nplurals=1; plural=0;\n"
+"X-Poedit-KeywordsList: _;_n:1,2;_p:1c,2;_pn:1c,2,3\n"
+"X-Poedit-SearchPath-0: .\n"
+
+#. TRANSLATORS: Log message. UserDefinedFilter plugin.
+msgid "Could not set function."
+msgstr "関数を設定できませんでした。"
+
+#. TRANSLATORS: Log message. UserDefinedFilter plugin.
+msgid "Could not get JS result."
+msgstr "JSの実行結果を取得できませんでした。"
+
+#. TRANSLATORS: Bot-Help message. UserDefinedFilter plugin.
+msgid "Filter with user-defined patterns."
+msgstr "ユーザー定義フィルタを実行するフィルタ。"
+
+#. TRANSLATORS: Log message. UserDefinedFilter plugin. {0} is directory.
+#, csharp-format
+msgid "Filters directory [{0}] is not found."
+msgstr "ユーザー定義フィルタディレクトリ [{0}] が見つかりません。"
+
+#. TRANSLATORS: Log message. UserDefinedFilter plugin. {0} is file path.
+#, csharp-format
+msgid "Filters config file [{0}] is not found."
+msgstr "ユーザー定義フィルタ一覧ファイル [{0}] が見つかりません。"
+
+#. TRANSLATORS: Log message. UserDefinedFilter plugin. {0} is file path.
+#, csharp-format
+msgid "Could not load filters config [{0}]."
+msgstr "ユーザー定義フィルタ一覧ファイル [{0}] が読み込めません。"
+
+#. TRANSLATORS: Log message. UserDefinedFilter plugin. {0} is file path.
+#, csharp-format
+msgid "Could not load filter config [{0}]."
+msgstr "ユーザー定義フィルタ [{0}] が読み込めません。"
+
+#. TRANSLATORS: Bot-Help message. UserDefinedFilterReloadCommand plugin.
+msgid "Reload user-defined filters."
+msgstr "ユーザー定義フィルタを再読み込みします。"
+
+#. TRANSLATORS: Log message. UserDefinedFilterReloadCommand plugin.
+msgid "Could not find UserDefinedFilter."
+msgstr "UserDefinedFilterプラグインが見つかりませんでした。"
+
+#. TRANSLATORS: Bot message. UserDefinedFilterReloadCommand plugin.
+msgid "Sorry, I could not get information."
+msgstr "ごめんなさい。情報を取得できませんでした。"
+
+#. TRANSLATORS: Bot message. UserDefinedFilterReloadCommand plugin.
+msgid "User-defined filters are reloaded."
+msgstr "ユーザー定義フィルタを再読み込みしました。"

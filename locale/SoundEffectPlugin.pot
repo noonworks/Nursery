@@ -1,0 +1,103 @@
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: Nursery beta1.0\n"
+"POT-Creation-Date: 2018-07-10 23:03+0900\n"
+"PO-Revision-Date: 2018-07-10 20:12+0900\n"
+"Last-Translator: noonworks <noonworks@gmail.com>\n"
+"Language-Team: noonworks https://github.com/noonworks/Nursery\n"
+"Language: en_US\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: Poedit 2.0.8\n"
+"X-Poedit-Basepath: ../SoundEffectPlugin\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"X-Poedit-KeywordsList: _;_n:1,2;_p:1c,2;_pn:1c,2,3\n"
+"X-Poedit-SearchPath-0: .\n"
+
+#. TRANSLATORS: Log message. SoundEffectCommand plugin.
+msgid "Could not set function."
+msgstr ""
+
+#. TRANSLATORS: Log message. SoundEffectCommand plugin.
+msgid "Could not get JS result."
+msgstr ""
+
+#. TRANSLATORS: Bot-Help message. SoundEffectCommand plugin.
+msgid "Play sounds."
+msgstr ""
+
+#. TRANSLATORS: Log message. SoundEffectCommand plugin. {0} is directory.
+#, csharp-format
+msgid "Sounds directory [{0}] is not found."
+msgstr ""
+
+#. TRANSLATORS: Log message. SoundEffectCommand plugin. {0} is file path.
+#, csharp-format
+msgid "* Could not load [{0}]."
+msgstr ""
+
+#. TRANSLATORS: Bot message. SoundEffectCommand plugin.
+msgid "Sound file is not found!"
+msgid_plural "Sound files are not found!"
+msgstr[0] ""
+msgstr[1] ""
+
+#. TRANSLATORS: Bot message. SoundEffectCommand plugin.
+msgid "Could not play sound file."
+msgid_plural "Could not play sound files."
+msgstr[0] ""
+msgstr[1] ""
+
+#. TRANSLATORS: Bot-Help message. SoundEffectListCommand plugin.
+msgid "Show sound list."
+msgstr ""
+
+#. TRANSLATORS: Log message. SoundEffectListCommand plugin.
+#. TRANSLATORS: Log message. SoundEffectReloadCommand plugin.
+#. TRANSLATORS: Log message. SoundEffectStopCommand plugin.
+msgid "Could not find SoundEffectCommand."
+msgstr ""
+
+#. TRANSLATORS: Bot message. SoundEffectListCommand plugin.
+msgid "[`se NAME` or `sound NAME`]"
+msgstr ""
+
+#. TRANSLATORS: Bot message. SoundEffectListCommand plugin.
+msgid "[Other keywords]"
+msgstr ""
+
+#. TRANSLATORS: Bot message. SoundEffectListCommand plugin.
+msgid "* (Regex) "
+msgstr ""
+
+#. TRANSLATORS: Bot message. SoundEffectListCommand plugin.
+msgid "* (Function) "
+msgstr ""
+
+#. TRANSLATORS: Bot message. SoundEffectListCommand plugin.
+#. TRANSLATORS: Bot message. SoundEffectReloadCommand plugin.
+#. TRANSLATORS: Bot message. SoundEffectStopCommand plugin.
+msgid "Sorry, I could not get information."
+msgstr ""
+
+#. TRANSLATORS: Bot-Help message. SoundEffectReloadCommand plugin.
+msgid "Reload sound list."
+msgstr ""
+
+#. TRANSLATORS: Log message. SoundEffectReloadCommand plugin.
+msgid "Could not find SoundEffectListCommand."
+msgstr ""
+
+#. TRANSLATORS: Bot message. SoundEffectReloadCommand plugin.
+msgid "Sound data reloaded."
+msgstr ""
+
+#. TRANSLATORS: Bot-Help message. SoundEffectStopCommand plugin.
+msgid "Stop all sounds."
+msgstr ""
+
+#. TRANSLATORS: Bot message. SoundEffectStopCommand plugin.
+msgid "All sounds are stopped."
+msgstr ""

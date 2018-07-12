@@ -1,0 +1,378 @@
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: Nursery beta1.0\n"
+"POT-Creation-Date: 2018-07-10 19:38+0900\n"
+"PO-Revision-Date: 2018-07-10 16:52+0900\n"
+"Last-Translator: noonworks <noonworks@gmail.com>\n"
+"Language-Team: noonworks https://github.com/noonworks/Nursery\n"
+"Language: en_US\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: Poedit 2.0.8\n"
+"X-Poedit-Basepath: ..\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"X-Poedit-KeywordsList: _;_n:1,2;_p:1c,2;_pn:1c,2,3\n"
+"X-Poedit-SearchPath-0: .\n"
+"X-Poedit-SearchPathExcluded-0: BasicPlugins\n"
+"X-Poedit-SearchPathExcluded-1: SoundEffectPlugin\n"
+"X-Poedit-SearchPathExcluded-2: UserDefinedFilterPlugin\n"
+
+#. TRANSLATORS: Log message. In BassWrapper.
+msgid "- get sound device ..."
+msgstr ""
+
+#. TRANSLATORS: Log message. In BassWrapper.
+msgid "- get record device ..."
+msgstr ""
+
+#. TRANSLATORS: Log message. In BassWrapper.
+msgid "- initialize sound device ..."
+msgstr ""
+
+#. TRANSLATORS: Error message. In BassWrapper. {0} is error code.
+#, csharp-format
+msgid "Failed to init sound device: {0}"
+msgstr ""
+
+#. TRANSLATORS: Log message. In BassWrapper.
+msgid "- initialize record device ..."
+msgstr ""
+
+#. TRANSLATORS: Error message. In BassWrapper. {0} is error code.
+#, csharp-format
+msgid "Failed to init recording device: {0}"
+msgstr ""
+
+#. TRANSLATORS: Error message. In BassWrapper. {0} is name of recording device. {1} is list of available recording device(s).
+#, csharp-format
+msgid ""
+"Recording device \"{0}\" is not found.\n"
+"Available recording devices:\n"
+"{1}"
+msgstr ""
+
+#. TRANSLATORS: Error message. In BassWrapper. {0} is name of sound device. {1} is list of available sound device(s).
+#, csharp-format
+msgid ""
+"Sound device \"{0}\" is not found.\n"
+"Available sound devices:\n"
+"{1}"
+msgstr ""
+
+#. TRANSLATORS: Log message. In BassWrapper.
+msgid "- free sound device ..."
+msgstr ""
+
+#. TRANSLATORS: Log message. In BassWrapper.
+msgid "  - success"
+msgstr ""
+
+#. TRANSLATORS: Log message. In BassWrapper.
+msgid "- free record device ..."
+msgstr ""
+
+#. TRANSLATORS: Error message. In PluginManager. {0} is plugin directory.
+#, csharp-format
+msgid "Plugin directory [{0}] is not found."
+msgstr ""
+
+#. TRANSLATORS: Log message. In PluginManager. {0} is dll file which could not load.
+#, csharp-format
+msgid "* Could not load [{0}]."
+msgstr ""
+
+#. TRANSLATORS: Log message. In PluginManager. {0} is dll file path.
+#, csharp-format
+msgid "  - Load [{0}] ..."
+msgstr ""
+
+#. TRANSLATORS: Log message. In PluginManager. {0} is plugin name. {1} is plugin index.
+#, csharp-format
+msgid "    - {0} [{1}]"
+msgstr ""
+
+#. TRANSLATORS: Log message. In PluginManager. {0} is plugin name.
+#, csharp-format
+msgid "    - {0} (disabled)"
+msgstr ""
+
+#. TRANSLATORS: Log message. Initializing Nursery.
+msgid "Already initialized."
+msgstr ""
+
+#. TRANSLATORS: Log message. Initializing Nursery.
+msgid "Load config ..."
+msgstr ""
+
+#. TRANSLATORS: Log message. Initializing Nursery.
+msgid "Could not load config. Check your config file."
+msgstr ""
+
+#. TRANSLATORS: Log message. Initializing Nursery.
+msgid "Create VoiceBot ..."
+msgstr ""
+
+#. TRANSLATORS: Log message. Initializing Nursery.
+msgid "- set Discord events ..."
+msgstr ""
+
+#. TRANSLATORS: Log message. Initializing Nursery.
+msgid "- Logged in!"
+msgstr ""
+
+#. TRANSLATORS: Log message. Initializing Nursery.
+msgid "- Logged out!"
+msgstr ""
+
+#. TRANSLATORS: Log message. Initializing Nursery.
+msgid "- Connected!"
+msgstr ""
+
+#. TRANSLATORS: Log message. Initializing Nursery.
+msgid "- Disconnected!"
+msgstr ""
+
+#. TRANSLATORS: DebugLog message. Initializing Nursery.
+msgid "Exception in disconnecting:"
+msgstr ""
+
+#. TRANSLATORS: Log message. Initializing Nursery.
+msgid "- login to Discord ..."
+msgstr ""
+
+#. TRANSLATORS: Log message. Initializing Nursery.
+msgid "Could not login to Discord. Please check bot account and its token."
+msgstr ""
+
+#. TRANSLATORS: Log message. Initializing Nursery.
+msgid "- Logged in and Connected!"
+msgstr ""
+
+#. TRANSLATORS: Log message. Initializing Nursery.
+msgid "Could not login to Discord. Login challange was timeouted."
+msgstr ""
+
+#. TRANSLATORS: Log message. Initializing Nursery.
+msgid "Done!"
+msgstr ""
+
+#. TRANSLATORS: Log message. Initializing Nursery.
+msgid "- initialize Bouyomi-chan ..."
+msgstr ""
+
+#. TRANSLATORS: Error message. Initializing Nursery.
+msgid "Could not load Bouyomi-chan. Please check Bouyomi-chan awaking."
+msgstr ""
+
+#. TRANSLATORS: Log message. Initializing Nursery.
+msgid "- initialize sound devices ..."
+msgstr ""
+
+#. TRANSLATORS: Error message. Initializing Nursery.
+msgid ""
+"Could not initialize sound devices. Please check virtual devices installed "
+"and valid name set."
+msgstr ""
+
+#. TRANSLATORS: Error message. Initializing Nursery.
+msgid ""
+"Could not initialize recording devices. Please check virtual devices "
+"installed and valid name set."
+msgstr ""
+
+#. TRANSLATORS: Log message. Initializing Nursery.
+msgid "- initialize Discord client ..."
+msgstr ""
+
+#. TRANSLATORS: Log message. Initializing Nursery.
+msgid "- load plugins ..."
+msgstr ""
+
+#. TRANSLATORS: Log message. Disconnect Nursery.
+msgid "- disconnect from Voice channel ..."
+msgstr ""
+
+#. TRANSLATORS: Log message. Disconnect Nursery.
+msgid "- disconnect from discord ..."
+msgstr ""
+
+#. TRANSLATORS: Log message. Disconnect Nursery.
+msgid "- Disconnected and Logged out!"
+msgstr ""
+
+#. TRANSLATORS: Log message. Disconnect Nursery.
+msgid "Could not stop Discord. Stop challange was timeouted."
+msgstr ""
+
+#. TRANSLATORS: Log message. Disconnect Nursery.
+msgid "Could not disconnect."
+msgstr ""
+
+#. TRANSLATORS: Log message. Dispose Nursery.
+msgid "Clean up ..."
+msgstr ""
+
+#. TRANSLATORS: Log message. Dispose Nursery.
+msgid "- unload Bouyomi-chan ..."
+msgstr ""
+
+#. TRANSLATORS: Log message. Dispose Nursery.
+msgid "- unload sound devices ..."
+msgstr ""
+
+#. TRANSLATORS: Log message. Dispose Nursery.
+msgid "- unload discord ..."
+msgstr ""
+
+#. TRANSLATORS: Log message. Dispose Nursery.
+msgid "Disposing Done!"
+msgstr ""
+
+#. TRANSLATORS: Log message. Dispose Nursery.
+msgid "Could not clean up VoiceBot instance."
+msgstr ""
+
+#. TRANSLATORS: DebugLog message. {0} is message content.
+#, csharp-format
+msgid "* Message [{0}]"
+msgstr ""
+
+#. TRANSLATORS: DebugLog message. {0} is applied plugin names list.
+#, csharp-format
+msgid "* Applied plugins: {0}"
+msgstr ""
+
+#. TRANSLATORS: Log message. In VoiceChat.
+#. TRANSLATORS: Error message. In VoiceChat.
+msgid "Could not disconnect from voice channel."
+msgstr ""
+
+#. TRANSLATORS: Log message. In VoiceChat.
+msgid "(Audio recording canceled.)"
+msgstr ""
+
+#. TRANSLATORS: Log message. In VoiceChat.
+msgid "Error in audio recording."
+msgstr ""
+
+#. TRANSLATORS: Log message. In VoiceChat.
+msgid "* Connect to voice channel"
+msgstr ""
+
+#. TRANSLATORS: Log message. In VoiceChat.
+msgid "- join voice channel ..."
+msgstr ""
+
+#. TRANSLATORS: Log message. In VoiceChat.
+msgid "- create stream ..."
+msgstr ""
+
+#. TRANSLATORS: Log message. In VoiceChat.
+msgid "- start recording ..."
+msgstr ""
+
+#. TRANSLATORS: Log message. In VoiceChat. {0} is error code.
+#, csharp-format
+msgid "Could not start recording. Error code: {0}"
+msgstr ""
+
+#. TRANSLATORS: Log message. In VoiceChat.
+msgid "- already in recording."
+msgstr ""
+
+#. TRANSLATORS: Log message. In VoiceChat.
+msgid "... Done!"
+msgstr ""
+
+#. TRANSLATORS: Error message. In VoiceChat.
+msgid "Could not connect to voice channel."
+msgstr ""
+
+#. TRANSLATORS: Log message. In VoiceChat.
+msgid "* Disconnect from voice channel"
+msgstr ""
+
+#. TRANSLATORS: Log message. In VoiceChat.
+msgid "- close stream ..."
+msgstr ""
+
+#. TRANSLATORS: Log message. In VoiceChat.
+msgid "- stream is closed."
+msgstr ""
+
+#. TRANSLATORS: Log message. In VoiceChat.
+msgid "- leave voice channel ..."
+msgstr ""
+
+#. TRANSLATORS: Log message. In VoiceChat.
+msgid "- not in voice channel."
+msgstr ""
+
+#. TRANSLATORS: Log message. In VoiceChat.
+msgid "- stop recording ..."
+msgstr ""
+
+#. TRANSLATORS: Log message. In VoiceChat. {0} is error code.
+#, csharp-format
+msgid "Could not stop recording. ErrorCode: {0}"
+msgstr ""
+
+#. TRANSLATORS: Log message. In VoiceChat.
+msgid "- not in recording."
+msgstr ""
+
+#. TRANSLATORS: Error message. In Config.
+msgid "Please Initialize before get instance."
+msgstr ""
+
+#. TRANSLATORS: Error message. In Config. {0} is file path.
+#, csharp-format
+msgid "Config file [{0}] is not found."
+msgstr ""
+
+#. TRANSLATORS: Error message. In BinaryPool. {0} is name(s) of file.
+#, csharp-format
+msgid "Binary file(s) are not found: {0}"
+msgstr ""
+
+#. TRANSLATORS: Error message. In BinaryPool. {0} is file path.
+#, csharp-format
+msgid "Binary file [{0}] is not found."
+msgstr ""
+
+#. TRANSLATORS: Log message. In JintWrapper. {0} is name of Type.
+#, csharp-format
+msgid "Could not set Type [{0}]."
+msgstr ""
+
+#. TRANSLATORS: Log message. In JintWrapper. {0} is name of Function.
+#, csharp-format
+msgid "Could not compile function [{0}]."
+msgstr ""
+
+#. TRANSLATORS: Log message. In JintWrapper. {0} is name of Function.
+#, csharp-format
+msgid "Could not find function [{0}]."
+msgstr ""
+
+#. TRANSLATORS: Log message. In JintWrapper. {0} is name of Function.
+#, csharp-format
+msgid "Could not execute function [{0}]."
+msgstr ""
+
+#. TRANSLATORS: Log message. In SoundPlayer. {0} is error code.
+#, csharp-format
+msgid "Could not play sound. Error: {0}"
+msgstr ""
+
+#. TRANSLATORS: Log message. In SoundPlayer. {0} is error code.
+#, csharp-format
+msgid "Could not stop sound. Error: {0}"
+msgstr ""
+
+#. TRANSLATORS: Log message. In SoundPlayer. {0} is error code.
+#, csharp-format
+msgid "Could not pause sound. Error: {0}"
+msgstr ""
