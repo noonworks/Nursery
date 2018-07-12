@@ -6,6 +6,10 @@
 
 Discordのテキストチャンネルに投稿された文章を[棒読みちゃん](http://chi.usamimi.info/Program/Application/BouyomiChan/)で読み上げ、その音声をボイスチャンネルに流すbotプログラムです。
 
+**現在ベータ版です。**
+
+### 動画
+
 [![Nursery 使用動画](http://img.youtube.com/vi/ZkET1jFBRDA/0.jpg)](http://www.youtube.com/watch?v=ZkET1jFBRDA)
 
 
@@ -47,6 +51,14 @@ Nurseryは以下のような状況に適しています：
 
 * `Sound`：`Sound`コマンドの音声は使用者のPCでしか聞こえません。
 （代わりに、NurseryのSEプラグインを使用することで、ボイスチャンネル上で音声を再生することができます。）
+
+### カスタマイズ可能なプラグイン
+
+* 標準プラグインで「URLを省略するフィルタ」「発言の前に名前を付けくわえるフィルタ」などが実装されています。これらのプラグインは、設定ファイルを書き換えることで有効化／無効化が可能です。
+* `SoundEffectPlugin`を使って、任意の音声ファイルをボイスチャンネルに流すことができます。
+* `UserDefinedFilterPlugin`を使って、さらに細かなフィルタが設定できます。
+
+詳細は[github上のwiki](https://github.com/noonworks/Nursery/wiki)を参照してください。
 
 ### 仮想サウンドデバイスを使用
 
@@ -106,3 +118,9 @@ Nurseryへのリンク、紹介などに使用してください。
 ![Nursery](img/nursery16.png)
 ![Nursery](img/nursery_text_white.png)
 ![Nursery](img/nursery_text_blue.png)
+
+
+## 連絡先
+
+* [Twitter @noonworks](https://twitter.com/noonworks)
+* [githubのIssue](https://github.com/noonworks/Nursery/issues)
