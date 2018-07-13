@@ -1,5 +1,6 @@
 ﻿{
   "plugins": [
+    "Nursery.BasicPlugins.AnnouncementFilter",
     "Nursery.BasicPlugins.IgnoreSelfFilter",
     "Nursery.BasicPlugins.JoinCommand",
     "Nursery.BasicPlugins.LeaveCommand",
