@@ -2,7 +2,7 @@
 using System.Linq;
 
 namespace Nursery.Plugins {
-	public class JSArgument {
+	public class JSArgument : IJSArgument {
 		public IBot Bot { get; }
 		public IMessage Message { get; }
 		public IJSArgumentUser Author { get; }

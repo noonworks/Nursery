@@ -32,6 +32,13 @@ namespace Nursery.Plugins {
 		bool Terminated { get; set; }
 	}
 
+	public interface IJSArgument {
+		IBot Bot { get; }
+		IMessage Message { get; }
+		IJSArgumentUser Author { get; }
+		string[] MentionedUsers { get; }
+	}
+
 	public interface IJSArgumentUser {
 		string Id { get; }
 		string Nickname { get; }
