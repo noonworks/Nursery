@@ -47,7 +47,8 @@ namespace Nursery.SoundEffectPlugin {
 				SoundConfig c;
 				try {
 					c = Config.Instance.LoadConfig<SoundConfig>(json);
-					c.File = Path.Combine(this.config.Dir, c.File);
+					c.ConfigFile = json;
+					c.File = Path.Combine(Path.GetDirectoryName(json), c.File);
 					foreach (var p in c.Patterns) { p.Initialize(); }
 					return c;
 				} catch (Exception) {
