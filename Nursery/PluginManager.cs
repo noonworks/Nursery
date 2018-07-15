@@ -7,6 +7,7 @@ using System.Linq;
 using System.Reflection;
 using Nursery.Options;
 using Nursery.Utility;
+using System.Diagnostics;
 
 namespace Nursery.Plugins {
 	public class TalkOptions : ITalkOptions {
@@ -92,8 +93,15 @@ namespace Nursery.Plugins {
 			IPlugin dummy = null;
 			foreach (var f in dllFiles) {
 				Assembly asm;
+				var file_ver = "UNKNOWN";
+				var prod_ver = "UNKNOWN";
+				var asm_ver = "UNKNOWN";
 				try {
+					var fv = FileVersionInfo.GetVersionInfo(f);
+					file_ver = fv.FileVersion;
+					prod_ver = fv.ProductVersion;
 					asm = Assembly.LoadFrom(f);
+					asm_ver = asm.GetName().Version.ToString();
 				} catch (Exception) {
 					// TRANSLATORS: Log message. In PluginManager. {0} is dll file which could not load.
 					Logger.Log(T._("* Could not load [{0}].", f));
@@ -101,6 +109,8 @@ namespace Nursery.Plugins {
 				}
 				// TRANSLATORS: Log message. In PluginManager. {0} is dll file path.
 				Logger.Log(T._("  - Load [{0}] ...", f));
+				// Log versions
+				Logger.DebugLog("    ProductVersion [" + prod_ver + "] FileVersion [" + file_ver + "] AssemblyVersion [" + asm_ver + "]");
 				foreach (var t in asm.GetTypes()) {
 					if (t.IsInterface) { continue; }
 					dummy = null;
