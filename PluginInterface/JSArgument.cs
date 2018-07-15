@@ -2,21 +2,33 @@
 using System.Linq;
 
 namespace Nursery.Plugins {
-	public class JSArgument {
-		public IBot Bot;
-		public IMessage Message;
-		public IUser Author;
-		public string[] MentionedUsers;
+	public class JSArgument : IJSArgument {
+		public IBot Bot { get; }
+		public IMessage Message { get; }
+		public IJSArgumentUser Author { get; }
+		public string[] MentionedUsers { get; }
+		public string GuildId { get; }
+		public string ChannelId { get; }
 
 		public JSArgument(IBot bot, IMessage message) {
 			this.Bot = bot;
 			this.Message = message;
 			this.Author = new JSArgumentUser(message.Original.Author);
 			this.MentionedUsers = message.Original.MentionedUsers.Select(mu => mu.Id.ToString()).ToArray();
+			this.GuildId = "";
+			this.ChannelId = "";
+			var tc = (message.Original.Channel as SocketTextChannel);
+			if (tc != null) {
+				this.ChannelId = tc.Id.ToString();
+				var g = tc.Guild;
+				if (g != null) {
+					this.GuildId = g.Id.ToString();
+				}
+			}
 		}
 	}
 
-	public class JSArgumentUser : IUser {
+	public class JSArgumentUser : IJSArgumentUser {
 		public string Id { get; }
 		public string Username { get; }
 		public string Nickname { get; } = "";
