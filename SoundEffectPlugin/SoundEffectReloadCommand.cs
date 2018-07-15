@@ -37,13 +37,13 @@ namespace Nursery.SoundEffectPlugin {
 			message.Terminated = true;
 			message.AppliedPlugins.Add(this.Name);
 			if (_plg_se == null || _plg_list == null) {
-				// TRANSLATORS: Bot message. SoundEffectReloadCommand plugin.
-				bot.SendMessageAsync(message.Original.Channel, message.Original.Author.Mention + " " + T._("Sorry, I could not get information."));
+				// TRANSLATORS: Bot message. SoundEffectReloadCommand plugin. If it is longer than DISCORD_MESSAGE_MAX, it will be cut.
+				bot.SendMessageAsync(message.Original.Channel, message.Original.Author, T._("Sorry, I could not get information."), true);
 			} else {
 				_plg_se.Reload();
 				_plg_list.Reload(bot);
-				// TRANSLATORS: Bot message. SoundEffectReloadCommand plugin.
-				bot.SendMessageAsync(message.Original.Channel, message.Original.Author.Mention + " " + T._("Sound data reloaded."));
+				// TRANSLATORS: Bot message. SoundEffectReloadCommand plugin. If it is longer than DISCORD_MESSAGE_MAX, it will be cut.
+				bot.SendMessageAsync(message.Original.Channel, message.Original.Author, T._("Sound data reloaded."), true);
 			}
 			return true;
 		}

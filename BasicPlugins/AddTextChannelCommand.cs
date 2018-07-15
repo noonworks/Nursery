@@ -13,16 +13,16 @@ namespace Nursery.BasicPlugins {
 		protected override bool DoExecute(int keywordIndex, IBot bot, IMessage message) {
 			switch (bot.AddChannel(message)) {
 				case AddChannelResult.AlreadyAdded:
-					// TRANSLATORS: Bot message. AddTextChannelCommand plugin. {0} is mention part. {1} is name of text channel.
-					bot.SendMessageAsync(message.Original.Channel, T._("{0}Text channel [{1}] is already added.", message.Original.Author.Mention + " ", message.Original.Channel.Name));
+					// TRANSLATORS: Bot message. AddTextChannelCommand plugin. {0} is name of text channel. If it is longer than DISCORD_MESSAGE_MAX, it will be cut.
+					bot.SendMessageAsync(message.Original.Channel, message.Original.Author, T._("Text channel [{0}] is already added.", message.Original.Channel.Name), true);
 					break;
 				case AddChannelResult.Succeed:
-					// TRANSLATORS: Bot message. AddTextChannelCommand plugin. {0} is mention part. {1} is name of text channel.
-					bot.SendMessageAsync(message.Original.Channel, T._("{0}Added text channel [{1}].", "", message.Original.Channel.Name));
+					// TRANSLATORS: Bot message. AddTextChannelCommand plugin. {0} is name of text channel. If it is longer than DISCORD_MESSAGE_MAX, it will be cut.
+					bot.SendMessageAsync(message.Original.Channel, T._("Added text channel [{0}].", message.Original.Channel.Name), true);
 					break;
 				case AddChannelResult.NotJoined:
-					// TRANSLATORS: Bot message. AddTextChannelCommand plugin. {0} is mention part.
-					bot.SendMessageAsync(message.Original.Channel, T._("{0}Oh? I'm not in any channels...", message.Original.Author.Mention + " "));
+					// TRANSLATORS: Bot message. AddTextChannelCommand plugin. If it is longer than DISCORD_MESSAGE_MAX, it will be cut.
+					bot.SendMessageAsync(message.Original.Channel, message.Original.Author, T._("Oh? I'm not in any channels..."), true);
 					break;
 			}
 			message.Content = "";

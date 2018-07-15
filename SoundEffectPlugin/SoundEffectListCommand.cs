@@ -9,7 +9,8 @@ namespace Nursery.SoundEffectPlugin {
 		// TRANSLATORS: Bot-Help message. SoundEffectListCommand plugin.
 		public override string HelpText { get; } = T._("Show sound list.") + " ```@voice-bot soundlist\n@voice-bot selist```";
 
-		private string text = "";
+		private string text_se = "";
+		private string text_keywords = "";
 
 		public SoundEffectListCommand() : base(new string[] { "soundlist", "selist" }) { }
 
@@ -22,11 +23,11 @@ namespace Nursery.SoundEffectPlugin {
 			}
 			var sound_configs = p.SoundConfigs;
 			// TRANSLATORS: Bot message. SoundEffectListCommand plugin.
-			this.text = "\n\n" + T._("[`se NAME` or `sound NAME`]") + "\n";
-			this.text += String.Join(", ", sound_configs.Select(s_conf => String.Join(", ", s_conf.Aliases)).Where(s => s.Length > 0).ToArray()) + "\n";
+			this.text_se = "\n\n" + T._("[`se NAME` or `sound NAME`]") + "\n";
+			this.text_se += String.Join(", ", sound_configs.Select(s_conf => String.Join(", ", s_conf.Aliases)).Where(s => s.Length > 0).ToArray());
 			// TRANSLATORS: Bot message. SoundEffectListCommand plugin.
-			this.text += "\n" + T._("[Other keywords]") + "\n";
-			this.text += String.Join("\n", sound_configs.Select(s_conf => {
+			this.text_keywords = "\n\n" + T._("[Other keywords]") + "\n";
+			this.text_keywords += String.Join("\n", sound_configs.Select(s_conf => {
 				return String.Join("\n", s_conf.Patterns.Select(p_conf => {
 					switch (p_conf.Type) {
 						case PatternType.String:
@@ -46,12 +47,17 @@ namespace Nursery.SoundEffectPlugin {
 		public override void Initialize(IPluginManager loader, IPlugin[] plugins) {}
 
 		protected override bool DoExecute(int keywordIndex, IBot bot, IMessage message) {
-			if (text.Length == 0) { Reload(bot); }
-			if (text.Length == 0) {
-				// TRANSLATORS: Bot message. SoundEffectListCommand plugin.
-				bot.SendMessageAsync(message.Original.Channel, message.Original.Author.Mention + " " + T._("Sorry, I could not get information."));
+			if (text_se.Length == 0) { Reload(bot); }
+			if (text_se.Length == 0) {
+				// TRANSLATORS: Bot message. SoundEffectListCommand plugin. If it is longer than DISCORD_MESSAGE_MAX, it will be cut.
+				bot.SendMessageAsync(message.Original.Channel, message.Original.Author, T._("Sorry, I could not get information."), true);
 			} else {
-				bot.SendMessageAsync(message.Original.Channel, message.Original.Author.Mention + this.text);
+				if (this.text_se.Length + this.text_keywords.Length + message.Original.Author.Mention.Length > Common.DISCORD_MAX_MESSAGE_LENGTH - 1) {
+					bot.SendMessageAsync(message.Original.Channel, message.Original.Author, this.text_se, false);
+					bot.SendMessageAsync(message.Original.Channel, message.Original.Author, this.text_keywords, false);
+				} else {
+					bot.SendMessageAsync(message.Original.Channel, message.Original.Author, this.text_se + this.text_keywords, true);
+				}
 			}
 			message.Content = "";
 			message.Terminated = true;

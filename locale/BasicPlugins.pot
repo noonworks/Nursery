@@ -2,7 +2,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Nursery beta1.0\n"
-"POT-Creation-Date: 2018-07-10 22:18+0900\n"
+"POT-Creation-Date: 2018-07-15 16:07+0900\n"
 "PO-Revision-Date: 2018-07-10 20:12+0900\n"
 "Last-Translator: noonworks <noonworks@gmail.com>\n"
 "Language-Team: noonworks https://github.com/noonworks/Nursery\n"
@@ -10,7 +10,7 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Poedit 2.0.8\n"
+"X-Generator: Poedit 2.0.9\n"
 "X-Poedit-Basepath: ../BasicPlugins\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 "X-Poedit-KeywordsList: _;_n:1,2;_p:1c,2;_pn:1c,2,3\n"
@@ -29,21 +29,20 @@ msgstr ""
 msgid "Add voice-bot to text channel."
 msgstr ""
 
-#. TRANSLATORS: Bot message. AddTextChannelCommand plugin. {0} is mention part. {1} is name of text channel.
+#. TRANSLATORS: Bot message. AddTextChannelCommand plugin. {0} is name of text channel. If it is longer than DISCORD_MESSAGE_MAX, it will be cut.
 #, csharp-format
-msgid "{0}Text channel [{1}] is already added."
+msgid "Text channel [{0}] is already added."
 msgstr ""
 
-#. TRANSLATORS: Bot message. AddTextChannelCommand plugin. {0} is mention part. {1} is name of text channel.
+#. TRANSLATORS: Bot message. AddTextChannelCommand plugin. {0} is name of text channel. If it is longer than DISCORD_MESSAGE_MAX, it will be cut.
 #, csharp-format
-msgid "{0}Added text channel [{1}]."
+msgid "Added text channel [{0}]."
 msgstr ""
 
-#. TRANSLATORS: Bot message. AddTextChannelCommand plugin. {0} is mention part.
-#. TRANSLATORS: Bot message. LeaveCommand plugin. {0} is mention part.
-#. TRANSLATORS: Bot message. RemoveTextChannelCommand plugin. {0} is mention part.
-#, csharp-format
-msgid "{0}Oh? I'm not in any channels..."
+#. TRANSLATORS: Bot message. AddTextChannelCommand plugin. If it is longer than DISCORD_MESSAGE_MAX, it will be cut.
+#. TRANSLATORS: Bot message. LeaveCommand plugin. If it is longer than DISCORD_MESSAGE_MAX, it will be cut.
+#. TRANSLATORS: Bot message. RemoveTextChannelCommand plugin. If it is longer than DISCORD_MESSAGE_MAX, it will be cut.
+msgid "Oh? I'm not in any channels..."
 msgstr ""
 
 #. TRANSLATORS: Bot-Help message. AttachmentFilter plugin.
@@ -115,15 +114,13 @@ msgstr ""
 msgid "Join voice-bot to channel."
 msgstr ""
 
-#, csharp-format
 msgid ""
-"{0}Oh? I'm already connected to the channel. Please let me bye, and call me "
+"Oh? I'm already connected to the channel. Please let me bye, and call me "
 "again."
 msgstr ""
 
-#, csharp-format
 msgid ""
-"{0}Where should I go? Please connect to the voice channel, and call me again."
+"Where should I go? Please connect to the voice channel, and call me again."
 msgstr ""
 
 #, csharp-format
@@ -138,7 +135,7 @@ msgstr ""
 msgid "Remove voice-bot from channel."
 msgstr ""
 
-#. TRANSLATORS: Bot message. LeaveCommand plugin.
+#. TRANSLATORS: Bot message. LeaveCommand plugin. If it is longer than DISCORD_MESSAGE_MAX, it will be cut.
 msgid "Bye!"
 msgstr ""
 
@@ -175,23 +172,22 @@ msgstr ""
 msgid "Remove voice-bot from text channel."
 msgstr ""
 
-#. TRANSLATORS: Bot message. RemoveTextChannelCommand plugin. {0} is mention part. {1} is name of text channel.
+#. TRANSLATORS: Bot message. RemoveTextChannelCommand plugin. {0} is name of text channel. If it is longer than DISCORD_MESSAGE_MAX, it will be cut.
 #, csharp-format
-msgid "{0}Text channel [{1}] is not added."
+msgid "Text channel [{0}] is not added."
 msgstr ""
 
-#. TRANSLATORS: Bot message. RemoveTextChannelCommand plugin. {0} is mention part. {1} is name of text channel.
+#. TRANSLATORS: Bot message. RemoveTextChannelCommand plugin. {0} is name of text channel. If it is longer than DISCORD_MESSAGE_MAX, it will be cut.
 #, csharp-format
-msgid "{0}Removed text channel [{1}]."
+msgid "Removed text channel [{0}]."
 msgstr ""
 
 #. TRANSLATORS: Bot-Help message. UnknownMentionFilter plugin.
 msgid "Filter to ignore mentions that voice-bot could not been understood."
 msgstr ""
 
-#. TRANSLATORS: Bot message. UnknownMentionFilter plugin. {0} is mention part.
-#, csharp-format
-msgid "{0}Sorry, I could not understand the command."
+#. TRANSLATORS: Bot message. UnknownMentionFilter plugin. If it is longer than DISCORD_MESSAGE_MAX, it will be cut.
+msgid "Sorry, I could not understand the command."
 msgstr ""
 
 #. TRANSLATORS: Bot-Help message. UrlFilter plugin.
@@ -211,9 +207,8 @@ msgstr ""
 msgid "Show where voice-bot is in."
 msgstr ""
 
-#. TRANSLATORS: Bot message. WhereCommand plugin. {0} is mention part.
-#, csharp-format
-msgid "{0}Sorry, I can not find your server."
+#. TRANSLATORS: Bot message. WhereCommand plugin. If it is longer than DISCORD_MESSAGE_MAX, it will be cut.
+msgid "Sorry, I can not find your server."
 msgstr ""
 
 #. TRANSLATORS: Bot message. WhereCommand plugin.

@@ -7,12 +7,29 @@ using System.Threading.Tasks;
 using Nursery.Options;
 using Nursery.Plugins;
 using Nursery.Utility;
+using System.Linq;
 
 namespace Nursery {
 	class BotState {
 		public bool Joined { get; set; } = false;
 		public List<ulong> TextChannelIds { get; set; } = new List<ulong>();
 		public ulong VoiceChannelId { get; set; } = 0;
+		public SocketGuild Guild { get; private set; } = null;
+		public string Nickname { get; set; } = "";
+		public ulong[] RoleIds { get; set; } = new ulong[] { };
+
+		public void SetGuild(SocketGuild guild, ulong BotId) {
+			this.Guild = guild;
+			this.Nickname = "";
+			this.RoleIds = new ulong[] { };
+			if (guild != null) {
+				var cu = guild.GetUser(BotId);
+				if (cu != null) {
+					this.Nickname = cu.Nickname;
+					this.RoleIds = cu.Roles.Select(r => r.Id).ToArray();
+				}
+			}
+		}
 	}
 
 	class VoiceBot : IDisposable, IBot {
@@ -43,6 +60,7 @@ namespace Nursery {
 				Logger.DebugLog(e.ToString());
 				return null;
 			}
+			Program.ShowVersions();
 			// TRANSLATORS: Log message. Initializing Nursery.
 			Logger.Log(T._("Create VoiceBot ..."));
 			try {
@@ -259,6 +277,13 @@ namespace Nursery {
 			}
 		}
 
+		public string IdString {
+			get {
+				if (this.discord == null || this.discord.CurrentUser == null) { return "0"; }
+				return this.discord.CurrentUser.Id.ToString();
+			}
+		}
+
 		public string Username {
 			get {
 				if (this.discord == null || this.discord.CurrentUser == null) { return ""; }
@@ -266,12 +291,47 @@ namespace Nursery {
 			}
 		}
 
+		public string Nickname {
+			get {
+				if (this.discord == null || this.discord.CurrentUser == null) { return ""; }
+				return this.state.Nickname;
+			}
+		}
+
+		public ulong[] RoleIds {
+			get {
+				if (this.discord == null || this.discord.CurrentUser == null) { return new ulong[] { }; }
+				return this.state.RoleIds;
+			}
+		}
+
+		public string[] RoleIdStrings {
+			get {
+				if (this.discord == null || this.discord.CurrentUser == null) { return new string[] { }; }
+				return this.state.RoleIds.Select(rid => rid.ToString()).ToArray();
+			}
+		}
+
 		public IPlugin GetPlugin(string PluginName) {
 			return PluginManager.Instance.GetPlugin(PluginName);
 		}
 
-		public void SendMessageAsync(ISocketMessageChannel channel, string message) {
-			channel.SendMessageAsync(message);
+		public void SendMessageAsync(ISocketMessageChannel channel, string message, bool CutIfToLong) {
+			SendMessageAsync(channel, null, message, CutIfToLong);
+		}
+
+		public void SendMessageAsync(ISocketMessageChannel channel, SocketUser user, string message, bool CutIfToLong) {
+			var prefix = (user == null ? "" : user.Mention + " ");
+			var msg = message;
+			while (true) {
+				if ((prefix + msg).Length <= Common.DISCORD_MAX_MESSAGE_LENGTH) {
+					channel.SendMessageAsync(prefix + msg);
+					break;
+				}
+				channel.SendMessageAsync(prefix + msg.Substring(0, Common.DISCORD_MAX_MESSAGE_LENGTH - prefix.Length));
+				if (CutIfToLong) { break; }
+				msg = msg.Substring(Common.DISCORD_MAX_MESSAGE_LENGTH - prefix.Length);
+			}
 		}
 
 		public void AddTalk(string message, Plugins.ITalkOptions options) {
@@ -283,7 +343,12 @@ namespace Nursery {
 		}
 
 		public JoinChannelResult JoinChannel(Plugins.IMessage message) {
-			var voicech = (message.Original.Author as SocketGuildUser).VoiceChannel;
+			var gu = message.Original.Author as SocketGuildUser;
+			var gc = (message.Original.Channel as SocketGuildChannel);
+			if (gu == null || gc == null) {
+				return new JoinChannelResult() { State = JoinChannelState.WhereYouAre };
+			}
+			var voicech = gu.VoiceChannel;
 			lock (state_lock_bject) { // LOCK STATE
 				if (this.state.TextChannelIds.Count > 0 || this.state.VoiceChannelId != 0) {
 					return new JoinChannelResult() { State = JoinChannelState.AlreadyJoined };
@@ -294,6 +359,7 @@ namespace Nursery {
 				var t = this.voice.Connect(voicech);
 				this.state.TextChannelIds.Add(message.Original.Channel.Id);
 				this.state.VoiceChannelId = voicech.Id;
+				this.state.SetGuild(gc.Guild, this.discord.CurrentUser.Id);
 				this.state.Joined = true;
 				return new JoinChannelResult() { State = JoinChannelState.Succeed, VoiceChannelName = voicech.Name };
 			}
@@ -305,6 +371,7 @@ namespace Nursery {
 				var ret = this.state.Joined ? LeaveChannelResult.Succeed : LeaveChannelResult.NotJoined;
 				this.state.TextChannelIds = new List<ulong>();
 				this.state.VoiceChannelId = 0;
+				this.state.SetGuild(null, this.discord.CurrentUser.Id);
 				this.state.Joined = false;
 				return ret;
 			}

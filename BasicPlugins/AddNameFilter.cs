@@ -1,6 +1,7 @@
 ﻿using Discord.WebSocket;
 using Newtonsoft.Json;
 using Nursery.Plugins;
+using Nursery.Utility;
 
 namespace Nursery.BasicPlugins {
 	[JsonObject("Nursery.BasicPlugins.AddNameFilterConfig")]
@@ -18,7 +19,15 @@ namespace Nursery.BasicPlugins {
 		private AddNameFilterConfig config = null;
 
 		public void Initialize(IPluginManager loader, IPlugin[] plugins) {
-			this.config = loader.GetPluginSetting<AddNameFilterConfig>(this.Name);
+			try {
+				this.config = loader.GetPluginSetting<AddNameFilterConfig>(this.Name);
+			} catch (System.Exception e) {
+				Logger.DebugLog(e.ToString());
+				this.config = null;
+			}
+			if (this.config == null) {
+				this.config = new AddNameFilterConfig();
+			}
 		}
 
 		public bool Execute(IBot bot, IMessage message) {

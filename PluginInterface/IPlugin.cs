@@ -32,7 +32,16 @@ namespace Nursery.Plugins {
 		bool Terminated { get; set; }
 	}
 
-	public interface IUser {
+	public interface IJSArgument {
+		IBot Bot { get; }
+		IMessage Message { get; }
+		IJSArgumentUser Author { get; }
+		string[] MentionedUsers { get; }
+		string GuildId { get; }
+		string ChannelId { get; }
+	}
+
+	public interface IJSArgumentUser {
 		string Id { get; }
 		string Nickname { get; }
 		string Username { get; }
@@ -41,12 +50,17 @@ namespace Nursery.Plugins {
 
 	public interface IBot {
 		ulong Id { get; }
+		string IdString { get; }
+		string Nickname { get; }
 		string Username { get; }
+		ulong[] RoleIds { get; }
+		string[] RoleIdStrings { get; }
 		JoinChannelResult JoinChannel(IMessage message);
 		LeaveChannelResult LeaveChannel(IMessage message);
 		AddChannelResult AddChannel(IMessage message);
 		RemoveChannelResult RemoveChannel(IMessage message);
-		void SendMessageAsync(ISocketMessageChannel channel, string message);
+		void SendMessageAsync(ISocketMessageChannel channel, string message, bool CutIfToLong);
+		void SendMessageAsync(ISocketMessageChannel channel, SocketUser user, string message, bool CutIfToLong);
 		bool IsJoined { get; }
 		List<ulong> TextChannelIds { get; }
 		ulong VoiceChannelId { get; }

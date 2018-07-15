@@ -135,6 +135,9 @@
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Target Name="AfterBuild">
     <ItemGroup>
+      <READMEFile Include="$(SolutionDir)README.md"/>
+      <READMEFileDest Include="$(TargetDir)\README.txt"/>
+      <LICENSEFile Include="$(SolutionDir)LICENSE"/>
       <LocaleFiles Include="$(SolutionDir)locale\locale\**\*.*"/>
       <BasicPluginsFiles Include="$(SolutionDir)BasicPlugins\$(OutDir)Nursery.BasicPlugins.*"/>
       <SoundEffectPluginFiles Include="$(SolutionDir)SoundEffectPlugin\$(OutDir)Nursery.SoundEffectPlugin.*"/>
@@ -142,6 +145,14 @@
       <SoundsFiles Include="$(SolutionDir)dist_files\sounds\**\*.*"/>
       <FiltersFiles Include="$(SolutionDir)dist_files\filters\**\*.*"/>
     </ItemGroup>
+    <Copy
+      SourceFiles="@(READMEFile)"
+      DestinationFiles="@(READMEFileDest)"
+    />
+    <Copy
+      SourceFiles="@(LICENSEFile)"
+      DestinationFolder="$(TargetDir)"
+    />
     <Copy
       SourceFiles="@(BasicPluginsFiles)"
       DestinationFolder="$(TargetDir)\plugins"
@@ -170,6 +181,12 @@
     <CallTarget Targets="ReleaseAfterBuild" Condition="'$(Configuration)' == 'Release'" />
   </Target>
   <Target Name="AfterClean">
+    <ItemGroup>
+      <RemREADMEFile Include="$(TargetDir)README.txt"/>
+      <RemLICENSEFile Include="$(TargetDir)LICENSE"/>
+    </ItemGroup>
+    <Delete Files="@(RemREADMEFile)" />
+    <Delete Files="@(RemLICENSEFile)" />
     <RemoveDir Directories="$(TargetDir)\plugins" />
     <RemoveDir Directories="$(TargetDir)\locale" />
     <RemoveDir Directories="$(TargetDir)\sounds" />

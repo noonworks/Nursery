@@ -25,6 +25,8 @@ namespace Nursery.SoundEffectPlugin {
 		public List<string> Aliases { get; set; } = new List<string>();
 		[JsonProperty("patterns")]
 		public List<PatternConfig> Patterns { get; set; } = new List<PatternConfig>();
+		[JsonIgnore]
+		public string ConfigFile { get; set; } = "";
 	}
 
 	[JsonObject("Nursery.SoundEffectPlugin.PatternConfig")]

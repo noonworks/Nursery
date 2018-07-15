@@ -12,7 +12,7 @@ namespace Nursery.BasicPlugins {
 		public bool Execute(IBot bot, IMessage message) {
 			if (message.Original.Attachments.Count == 0) { return false; }
 			// TRANSLATORS: Bot message. AttachmentFilter plugin. {0} is number of file(s).
-			message.Content = message.Content + T._n(" (with {0} file)", " (with {0} files)", message.Original.Attachments.Count);
+			message.Content = message.Content + T._n(" (with {0} file)", " (with {0} files)", message.Original.Attachments.Count, message.Original.Attachments.Count);
 			message.AppliedPlugins.Add(this.Name);
 			return true;
 		}
