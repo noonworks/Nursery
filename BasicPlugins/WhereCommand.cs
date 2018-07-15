@@ -17,12 +17,12 @@ namespace Nursery.BasicPlugins {
 			message.AppliedPlugins.Add(this.Name);
 			var user = (message.Original.Author as SocketGuildUser);
 			if (user == null || user.Guild == null) {
-				// TRANSLATORS: Bot message. WhereCommand plugin. {0} is mention part.
-				bot.SendMessageAsync(message.Original.Channel, T._("{0}Sorry, I can not find your server.", message.Original.Author.Mention + " "));
+				// TRANSLATORS: Bot message. WhereCommand plugin. If it is longer than DISCORD_MESSAGE_MAX, it will be cut.
+				bot.SendMessageAsync(message.Original.Channel, message.Original.Author, T._("Sorry, I can not find your server."), true);
 				return true;
 			}
 			// TRANSLATORS: Bot message. WhereCommand plugin.
-			var m = message.Original.Author.Mention + "\n" + T._("Where am I:") + "\n";
+			var m = "\n" + T._("Where am I:") + "\n";
 			var vc = user.Guild.GetVoiceChannel(bot.VoiceChannelId);
 			if (vc == null) {
 				// TRANSLATORS: Bot message. WhereCommand plugin.
@@ -42,7 +42,7 @@ namespace Nursery.BasicPlugins {
 					m += (tc == null ? "" : tc.Name + "\n");
 				}
 			}
-			bot.SendMessageAsync(message.Original.Channel, m);
+			bot.SendMessageAsync(message.Original.Channel, message.Original.Author, m, false);
 			return true;
 		}
 	}

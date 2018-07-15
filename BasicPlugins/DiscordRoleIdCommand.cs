@@ -22,7 +22,7 @@ namespace Nursery.BasicPlugins {
 			}
 			var msg = String.Join("\n", ret);
 			if (msg.Length > 0) {
-				bot.SendMessageAsync(message.Original.Channel, message.Original.Author.Mention + "\n" + msg);
+				bot.SendMessageAsync(message.Original.Channel, message.Original.Author, "\n" + msg, false);
 			}
 			message.Content = "";
 			message.Terminated = true;

@@ -25,12 +25,12 @@ namespace Nursery.SoundEffectPlugin {
 		protected override bool DoExecute(int keywordIndex, IBot bot, IMessage message) {
 			if (_plg == null) { LoadPlugin(bot); }
 			if (_plg == null) {
-				// TRANSLATORS: Bot message. SoundEffectStopCommand plugin.
-				bot.SendMessageAsync(message.Original.Channel, message.Original.Author.Mention + " " + T._("Sorry, I could not get information."));
+				// TRANSLATORS: Bot message. SoundEffectStopCommand plugin. If it is longer than DISCORD_MESSAGE_MAX, it will be cut.
+				bot.SendMessageAsync(message.Original.Channel, message.Original.Author, T._("Sorry, I could not get information."), true);
 			} else {
 				_plg.Stop();
-				// TRANSLATORS: Bot message. SoundEffectStopCommand plugin.
-				bot.SendMessageAsync(message.Original.Channel, message.Original.Author.Mention + " " + T._("All sounds are stopped."));
+				// TRANSLATORS: Bot message. SoundEffectStopCommand plugin. If it is longer than DISCORD_MESSAGE_MAX, it will be cut.
+				bot.SendMessageAsync(message.Original.Channel, message.Original.Author, T._("All sounds are stopped."), true);
 			}
 			message.Content = "";
 			message.Terminated = true;

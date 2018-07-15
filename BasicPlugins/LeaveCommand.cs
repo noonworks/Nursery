@@ -13,12 +13,12 @@ namespace Nursery.BasicPlugins {
 		protected override bool DoExecute(int keywordIndex, IBot bot, IMessage message) {
 			switch (bot.LeaveChannel(message)) {
 				case LeaveChannelResult.NotJoined:
-					// TRANSLATORS: Bot message. LeaveCommand plugin. {0} is mention part.
-					bot.SendMessageAsync(message.Original.Channel, T._("{0}Oh? I'm not in any channels...", message.Original.Author.Mention + " "));
+					// TRANSLATORS: Bot message. LeaveCommand plugin. If it is longer than DISCORD_MESSAGE_MAX, it will be cut.
+					bot.SendMessageAsync(message.Original.Channel, message.Original.Author, T._("Oh? I'm not in any channels..."), true);
 					break;
 				case LeaveChannelResult.Succeed:
-					// TRANSLATORS: Bot message. LeaveCommand plugin.
-					bot.SendMessageAsync(message.Original.Channel, T._("Bye!"));
+					// TRANSLATORS: Bot message. LeaveCommand plugin. If it is longer than DISCORD_MESSAGE_MAX, it will be cut.
+					bot.SendMessageAsync(message.Original.Channel, T._("Bye!"), true);
 					break;
 			}
 			message.Content = "";
