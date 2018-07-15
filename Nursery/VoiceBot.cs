@@ -270,8 +270,22 @@ namespace Nursery {
 			return PluginManager.Instance.GetPlugin(PluginName);
 		}
 
-		public void SendMessageAsync(ISocketMessageChannel channel, string message) {
-			channel.SendMessageAsync(message);
+		public void SendMessageAsync(ISocketMessageChannel channel, string message, bool CutIfToLong) {
+			SendMessageAsync(channel, null, message, CutIfToLong);
+		}
+
+		public void SendMessageAsync(ISocketMessageChannel channel, SocketUser user, string message, bool CutIfToLong) {
+			var prefix = (user == null ? "" : user.Mention + " ");
+			var msg = message;
+			while (true) {
+				if ((prefix + msg).Length <= Common.DISCORD_MAX_MESSAGE_LENGTH) {
+					channel.SendMessageAsync(prefix + msg);
+					break;
+				}
+				channel.SendMessageAsync(prefix + msg.Substring(0, Common.DISCORD_MAX_MESSAGE_LENGTH - prefix.Length));
+				if (CutIfToLong) { break; }
+				msg = msg.Substring(Common.DISCORD_MAX_MESSAGE_LENGTH - prefix.Length);
+			}
 		}
 
 		public void AddTalk(string message, Plugins.ITalkOptions options) {

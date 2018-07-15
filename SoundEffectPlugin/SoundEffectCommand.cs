@@ -238,20 +238,16 @@ namespace Nursery.SoundEffectPlugin {
 			}
 			// 5. error message
 			if (notfound.Count > 0) {
-				bot.SendMessageAsync(message.Original.Channel, message.Original.Author.Mention + " " +
-					// TRANSLATORS: Bot message. SoundEffectCommand plugin.
-					T._n("Sound file is not found!", "Sound files are not found!", notfound.Count) + 
-					" `" + String.Join(", ", notfound.Select(e => e.ToName())) + "`");
-				//bot.SendMessageAsync(message.Original.Channel, message.Original.Author.Mention +
-				//	" 音声ファイルが見つかりません！`" + String.Join(", ", notfound.Select(e => e.ToName())) + "`");
+				bot.SendMessageAsync(message.Original.Channel, message.Original.Author,
+					// TRANSLATORS: Bot message. SoundEffectCommand plugin. If it is longer than DISCORD_MESSAGE_MAX, it will be cut.
+					T._n("Sound file is not found!", "Sound files are not found!", notfound.Count, notfound.Count) + 
+					" `" + String.Join(", ", notfound.Select(e => e.ToName())) + "`", true);
 			}
 			if (cannotplay.Count > 0) {
-				bot.SendMessageAsync(message.Original.Channel, message.Original.Author.Mention + " " +
-					// TRANSLATORS: Bot message. SoundEffectCommand plugin.
-					T._n("Could not play sound file.", "Could not play sound files.", cannotplay.Count) +
-					" `" + String.Join(", ", cannotplay.Select(e => e.ToName())) + "`");
-				//bot.SendMessageAsync(message.Original.Channel, message.Original.Author.Mention +
-				//	" 音声ファイルが再生できませんでした。`" + String.Join(", ", cannotplay.Select(e => e.ToName())) + "`");
+				bot.SendMessageAsync(message.Original.Channel, message.Original.Author,
+					// TRANSLATORS: Bot message. SoundEffectCommand plugin. If it is longer than DISCORD_MESSAGE_MAX, it will be cut.
+					T._n("Could not play sound file.", "Could not play sound files.", cannotplay.Count, notfound.Count) +
+					" `" + String.Join(", ", cannotplay.Select(e => e.ToName())) + "`", true);
 			}
 			// 6. set results
 			message.AppliedPlugins.Add(this.Name);

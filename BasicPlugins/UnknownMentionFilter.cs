@@ -13,9 +13,9 @@ namespace Nursery.BasicPlugins {
 			if (message.Content.Length == 0) { return false; }
 			if (!Nursery.Utility.Messages.IsMentionFor(bot.Id, message.Original)) { return false; }
 			var reply = Utility.Messages.TrimMention(message.Content);
-			// TRANSLATORS: Bot message. UnknownMentionFilter plugin. {0} is mention part.
-			bot.SendMessageAsync(message.Original.Channel, T._("{0}Sorry, I could not understand the command.", message.Original.Author.Mention +" ")
-				+ "\n```\n" + reply.Trimmed + "\n```");
+			// TRANSLATORS: Bot message. UnknownMentionFilter plugin. If it is longer than DISCORD_MESSAGE_MAX, it will be cut.
+			bot.SendMessageAsync(message.Original.Channel, message.Original.Author, T._("Sorry, I could not understand the command.")
+				+ "\n```\n" + reply.Trimmed + "\n```", true);
 			message.Content = "";
 			message.Terminated = true;
 			message.AppliedPlugins.Add(this.Name);

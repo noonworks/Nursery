@@ -13,16 +13,16 @@ namespace Nursery.BasicPlugins {
 		protected override bool DoExecute(int keywordIndex, IBot bot, IMessage message) {
 			switch (bot.RemoveChannel(message)) {
 				case RemoveChannelResult.AlreadyRemoved:
-					// TRANSLATORS: Bot message. RemoveTextChannelCommand plugin. {0} is mention part. {1} is name of text channel.
-					bot.SendMessageAsync(message.Original.Channel, T._("{0}Text channel [{1}] is not added.", message.Original.Author.Mention + " ", message.Original.Channel.Name));
+					// TRANSLATORS: Bot message. RemoveTextChannelCommand plugin. {0} is name of text channel. If it is longer than DISCORD_MESSAGE_MAX, it will be cut.
+					bot.SendMessageAsync(message.Original.Channel, message.Original.Author, T._("Text channel [{0}] is not added.", message.Original.Channel.Name), true);
 					break;
 				case RemoveChannelResult.Succeed:
-					// TRANSLATORS: Bot message. RemoveTextChannelCommand plugin. {0} is mention part. {1} is name of text channel.
-					bot.SendMessageAsync(message.Original.Channel, T._("{0}Removed text channel [{1}].", "", message.Original.Channel.Name));
+					// TRANSLATORS: Bot message. RemoveTextChannelCommand plugin. {0} is name of text channel. If it is longer than DISCORD_MESSAGE_MAX, it will be cut.
+					bot.SendMessageAsync(message.Original.Channel, T._("Removed text channel [{0}].", "", message.Original.Channel.Name), true);
 					break;
 				case RemoveChannelResult.NotJoined:
-					// TRANSLATORS: Bot message. RemoveTextChannelCommand plugin. {0} is mention part.
-					bot.SendMessageAsync(message.Original.Channel, T._("{0}Oh? I'm not in any channels...", message.Original.Author.Mention + " "));
+					// TRANSLATORS: Bot message. RemoveTextChannelCommand plugin. If it is longer than DISCORD_MESSAGE_MAX, it will be cut.
+					bot.SendMessageAsync(message.Original.Channel, message.Original.Author, T._("Oh? I'm not in any channels..."), true);
 					break;
 			}
 			message.Content = "";

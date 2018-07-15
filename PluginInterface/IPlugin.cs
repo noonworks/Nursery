@@ -46,7 +46,8 @@ namespace Nursery.Plugins {
 		LeaveChannelResult LeaveChannel(IMessage message);
 		AddChannelResult AddChannel(IMessage message);
 		RemoveChannelResult RemoveChannel(IMessage message);
-		void SendMessageAsync(ISocketMessageChannel channel, string message);
+		void SendMessageAsync(ISocketMessageChannel channel, string message, bool CutIfToLong);
+		void SendMessageAsync(ISocketMessageChannel channel, SocketUser user, string message, bool CutIfToLong);
 		bool IsJoined { get; }
 		List<ulong> TextChannelIds { get; }
 		ulong VoiceChannelId { get; }

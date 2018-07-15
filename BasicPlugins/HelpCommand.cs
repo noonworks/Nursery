@@ -38,13 +38,13 @@ namespace Nursery.BasicPlugins {
 			}
 			switch (keywordIndex) {
 				case 0:
-					bot.SendMessageAsync(message.Original.Channel, message.Original.Author.Mention + this.command_help);
+					bot.SendMessageAsync(message.Original.Channel, message.Original.Author, this.command_help, false);
 					break;
 				case 1:
-					bot.SendMessageAsync(message.Original.Channel, message.Original.Author.Mention + this.filter_help);
+					bot.SendMessageAsync(message.Original.Channel, message.Original.Author, this.filter_help, false);
 					break;
 				case 2:
-					bot.SendMessageAsync(message.Original.Channel, message.Original.Author.Mention + "\n" + this.HelpText);
+					bot.SendMessageAsync(message.Original.Channel, message.Original.Author, this.HelpText, false);
 					break;
 			}
 			message.Content = "";
