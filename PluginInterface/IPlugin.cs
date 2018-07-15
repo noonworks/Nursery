@@ -32,7 +32,7 @@ namespace Nursery.Plugins {
 		bool Terminated { get; set; }
 	}
 
-	public interface IUser {
+	public interface IJSArgumentUser {
 		string Id { get; }
 		string Nickname { get; }
 		string Username { get; }

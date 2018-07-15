@@ -5,7 +5,7 @@ namespace Nursery.Plugins {
 	public class JSArgument {
 		public IBot Bot;
 		public IMessage Message;
-		public IUser Author;
+		public IJSArgumentUser Author;
 		public string[] MentionedUsers;
 
 		public JSArgument(IBot bot, IMessage message) {
@@ -16,7 +16,7 @@ namespace Nursery.Plugins {
 		}
 	}
 
-	public class JSArgumentUser : IUser {
+	public class JSArgumentUser : IJSArgumentUser {
 		public string Id { get; }
 		public string Username { get; }
 		public string Nickname { get; } = "";
