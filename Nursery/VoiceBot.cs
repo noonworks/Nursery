@@ -18,6 +18,7 @@ namespace Nursery {
 		private BouyomiChanClient bouyomichan = null;
 		private DiscordSocketClient discord = null;
 		private VoiceChat voice = null;
+		private Timer timer = null;
 
 		#region Initialize
 
@@ -119,6 +120,9 @@ namespace Nursery {
 				return null;
 			}
 			// TRANSLATORS: Log message. Initializing Nursery.
+			Logger.Log(T._("Start timer..."));
+			instance.timer.Start();
+			// TRANSLATORS: Log message. Initializing Nursery.
 			Logger.Log(T._("Done!"));
 			Logger.Log("/////////////");
 			Logger.Log("// Nursery //");
@@ -186,6 +190,9 @@ namespace Nursery {
 			Logger.Log(T._("- initialize Discord client ..."));
 			this.discord = CreateDiscordClient();
 			// TRANSLATORS: Log message. Initializing Nursery.
+			Logger.Log(T._("- initialize Timer ..."));
+			this.timer = new Timer(this.TickHandler);
+			// TRANSLATORS: Log message. Initializing Nursery.
 			Logger.Log(T._("- load plugins ..."));
 			PluginManager.Instance.Load(this);
 		}
@@ -196,6 +203,9 @@ namespace Nursery {
 
 		private void Disconnect() {
 			try {
+				// TRANSLATORS: Log message. Disconnect Nursery.
+				Logger.Log(T._("- stop Timer ..."));
+				this.timer.Stop();
 				// TRANSLATORS: Log message. Disconnect Nursery.
 				Logger.Log(T._("- disconnect from Voice channel ..."));
 				if (this.voice != null) {
@@ -463,6 +473,9 @@ namespace Nursery {
 			Logger.DebugLog(T._("* Applied plugins: {0}", String.Join(", ", mes.AppliedPlugins)));
 			if (mes.Content.Length == 0) { return; }
 			await Task.Run((Action)(() => { this.AddTalk(mes.Content, mes.TalkOptions); }));
+		}
+
+		private void TickHandler() {
 		}
 
 		#endregion
