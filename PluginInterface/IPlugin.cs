@@ -37,6 +37,8 @@ namespace Nursery.Plugins {
 		IMessage Message { get; }
 		IJSArgumentUser Author { get; }
 		string[] MentionedUsers { get; }
+		string GuildId { get; }
+		string ChannelId { get; }
 	}
 
 	public interface IJSArgumentUser {
