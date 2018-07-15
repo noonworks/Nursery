@@ -13,6 +13,7 @@ namespace Nursery {
 		public bool Joined { get; set; } = false;
 		public List<ulong> TextChannelIds { get; set; } = new List<ulong>();
 		public ulong VoiceChannelId { get; set; } = 0;
+		public SocketGuild Guild = null;
 	}
 
 	class VoiceBot : IDisposable, IBot {
@@ -297,7 +298,12 @@ namespace Nursery {
 		}
 
 		public JoinChannelResult JoinChannel(Plugins.IMessage message) {
-			var voicech = (message.Original.Author as SocketGuildUser).VoiceChannel;
+			var gu = message.Original.Author as SocketGuildUser;
+			var gc = (message.Original.Channel as SocketGuildChannel);
+			if (gu == null || gc == null) {
+				return new JoinChannelResult() { State = JoinChannelState.WhereYouAre };
+			}
+			var voicech = gu.VoiceChannel;
 			lock (state_lock_bject) { // LOCK STATE
 				if (this.state.TextChannelIds.Count > 0 || this.state.VoiceChannelId != 0) {
 					return new JoinChannelResult() { State = JoinChannelState.AlreadyJoined };
@@ -308,6 +314,7 @@ namespace Nursery {
 				var t = this.voice.Connect(voicech);
 				this.state.TextChannelIds.Add(message.Original.Channel.Id);
 				this.state.VoiceChannelId = voicech.Id;
+				this.state.Guild = gc.Guild; 
 				this.state.Joined = true;
 				return new JoinChannelResult() { State = JoinChannelState.Succeed, VoiceChannelName = voicech.Name };
 			}
@@ -319,6 +326,7 @@ namespace Nursery {
 				var ret = this.state.Joined ? LeaveChannelResult.Succeed : LeaveChannelResult.NotJoined;
 				this.state.TextChannelIds = new List<ulong>();
 				this.state.VoiceChannelId = 0;
+				this.state.Guild = null;
 				this.state.Joined = false;
 				return ret;
 			}
