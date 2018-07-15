@@ -9,7 +9,8 @@ using System.Reflection;
 namespace Nursery {
 	class Program {
 		static void Main(string[] args) {
-			ShowVersions();
+			Logger.Log("Nursery " + Common.PRODUCT_VERSION);
+			Logger.Log("--------------------");
 			Console.CancelKeyPress += (s, e) => {
 				VoiceBot.FreeInstance();
 				Environment.Exit(0);
@@ -39,9 +40,8 @@ namespace Nursery {
 			}
 		}
 
-		static void ShowVersions() {
-			Logger.Log("Nursery");
-			Logger.Log("--------------------");
+		public static void ShowVersions() {
+			Logger.DebugLog("--------------------");
 			Logger.DebugLog("DEBUG MODE");
 			Logger.DebugLog("--------------------");
 			ShowAssemblyVersion(typeof(Program));

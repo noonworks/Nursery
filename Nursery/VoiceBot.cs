@@ -60,6 +60,7 @@ namespace Nursery {
 				Logger.DebugLog(e.ToString());
 				return null;
 			}
+			Program.ShowVersions();
 			// TRANSLATORS: Log message. Initializing Nursery.
 			Logger.Log(T._("Create VoiceBot ..."));
 			try {
