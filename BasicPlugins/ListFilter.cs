@@ -16,7 +16,15 @@ namespace Nursery.BasicPlugins {
 		private BWListConfigs config = null;
 
 		public void Initialize(IPluginManager loader, IPlugin[] plugins) {
-			this.config = loader.GetPluginSetting<BWListConfigs>(this.Name);
+			try {
+				this.config = loader.GetPluginSetting<BWListConfigs>(this.Name);
+			} catch (System.Exception e) {
+				Logger.DebugLog(e.ToString());
+				this.config = null;
+			}
+			if (this.config == null) {
+				this.config = new BWListConfigs();
+			}
 			this.config.Initialize();
 		}
 
