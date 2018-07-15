@@ -276,10 +276,38 @@ namespace Nursery {
 			}
 		}
 
+		public string IdString {
+			get {
+				if (this.discord == null || this.discord.CurrentUser == null) { return "0"; }
+				return this.discord.CurrentUser.Id.ToString();
+			}
+		}
+
 		public string Username {
 			get {
 				if (this.discord == null || this.discord.CurrentUser == null) { return ""; }
 				return this.discord.CurrentUser.Username;
+			}
+		}
+
+		public string Nickname {
+			get {
+				if (this.discord == null || this.discord.CurrentUser == null) { return ""; }
+				return this.state.Nickname;
+			}
+		}
+
+		public ulong[] RoleIds {
+			get {
+				if (this.discord == null || this.discord.CurrentUser == null) { return new ulong[] { }; }
+				return this.state.RoleIds;
+			}
+		}
+
+		public string[] RoleIdStrings {
+			get {
+				if (this.discord == null || this.discord.CurrentUser == null) { return new string[] { }; }
+				return this.state.RoleIds.Select(rid => rid.ToString()).ToArray();
 			}
 		}
 

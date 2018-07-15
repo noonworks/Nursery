@@ -41,7 +41,11 @@ namespace Nursery.Plugins {
 
 	public interface IBot {
 		ulong Id { get; }
+		string IdString { get; }
+		string Nickname { get; }
 		string Username { get; }
+		ulong[] RoleIds { get; }
+		string[] RoleIdStrings { get; }
 		JoinChannelResult JoinChannel(IMessage message);
 		LeaveChannelResult LeaveChannel(IMessage message);
 		AddChannelResult AddChannel(IMessage message);
