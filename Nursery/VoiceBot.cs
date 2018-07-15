@@ -7,13 +7,29 @@ using System.Threading.Tasks;
 using Nursery.Options;
 using Nursery.Plugins;
 using Nursery.Utility;
+using System.Linq;
 
 namespace Nursery {
 	class BotState {
 		public bool Joined { get; set; } = false;
 		public List<ulong> TextChannelIds { get; set; } = new List<ulong>();
 		public ulong VoiceChannelId { get; set; } = 0;
-		public SocketGuild Guild = null;
+		public SocketGuild Guild { get; private set; } = null;
+		public string Nickname { get; set; } = "";
+		public ulong[] RoleIds { get; set; } = new ulong[] { };
+
+		public void SetGuild(SocketGuild guild, ulong BotId) {
+			this.Guild = guild;
+			this.Nickname = "";
+			this.RoleIds = new ulong[] { };
+			if (guild != null) {
+				var cu = guild.GetUser(BotId);
+				if (cu != null) {
+					this.Nickname = cu.Nickname;
+					this.RoleIds = cu.Roles.Select(r => r.Id).ToArray();
+				}
+			}
+		}
 	}
 
 	class VoiceBot : IDisposable, IBot {
@@ -314,7 +330,7 @@ namespace Nursery {
 				var t = this.voice.Connect(voicech);
 				this.state.TextChannelIds.Add(message.Original.Channel.Id);
 				this.state.VoiceChannelId = voicech.Id;
-				this.state.Guild = gc.Guild; 
+				this.state.SetGuild(gc.Guild, this.discord.CurrentUser.Id);
 				this.state.Joined = true;
 				return new JoinChannelResult() { State = JoinChannelState.Succeed, VoiceChannelName = voicech.Name };
 			}
@@ -326,7 +342,7 @@ namespace Nursery {
 				var ret = this.state.Joined ? LeaveChannelResult.Succeed : LeaveChannelResult.NotJoined;
 				this.state.TextChannelIds = new List<ulong>();
 				this.state.VoiceChannelId = 0;
-				this.state.Guild = null;
+				this.state.SetGuild(null, this.discord.CurrentUser.Id);
 				this.state.Joined = false;
 				return ret;
 			}
