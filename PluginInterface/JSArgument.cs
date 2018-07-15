@@ -3,10 +3,10 @@ using System.Linq;
 
 namespace Nursery.Plugins {
 	public class JSArgument {
-		public IBot Bot;
-		public IMessage Message;
-		public IJSArgumentUser Author;
-		public string[] MentionedUsers;
+		public IBot Bot { get; }
+		public IMessage Message { get; }
+		public IJSArgumentUser Author { get; }
+		public string[] MentionedUsers { get; }
 
 		public JSArgument(IBot bot, IMessage message) {
 			this.Bot = bot;
