@@ -13,7 +13,7 @@ namespace Nursery {
 	class VoiceBot : IDisposable, IBot {
 		private static VoiceBot instance = null;
 
-		private object state_lock_bject = new object();
+		private object state_lock_object = new object();
 		private BotState state;
 		private BouyomiChanClient bouyomichan = null;
 		private DiscordSocketClient discord = null;
@@ -294,7 +294,7 @@ namespace Nursery {
 
 		public string Nickname {
 			get {
-				lock (state_lock_bject) { // LOCK STATE
+				lock (state_lock_object) { // LOCK STATE
 					return this.state.Nickname;
 				}
 			}
@@ -309,7 +309,7 @@ namespace Nursery {
 
 		public ulong[] RoleIds {
 			get {
-				lock (state_lock_bject) { // LOCK STATE
+				lock (state_lock_object) { // LOCK STATE
 					return this.state.RoleIds;
 				}
 			}
@@ -323,7 +323,7 @@ namespace Nursery {
 
 		public bool IsJoined {
 			get {
-				lock (state_lock_bject) { // LOCK STATE
+				lock (state_lock_object) { // LOCK STATE
 					return this.state.Joined;
 				}
 			}
@@ -331,7 +331,7 @@ namespace Nursery {
 
 		public ulong[] TextChannelIds {
 			get {
-				lock (state_lock_bject) { // LOCK STATE
+				lock (state_lock_object) { // LOCK STATE
 					return this.state.TextChannelIds.ToArray();
 				}
 			}
@@ -345,7 +345,7 @@ namespace Nursery {
 
 		public ulong VoiceChannelId {
 			get {
-				lock (state_lock_bject) { // LOCK STATE
+				lock (state_lock_object) { // LOCK STATE
 					return this.state.VoiceChannelId;
 				}
 			}
@@ -368,7 +368,7 @@ namespace Nursery {
 				return new JoinChannelResult() { State = JoinChannelState.WhereYouAre };
 			}
 			var voicech = gu.VoiceChannel;
-			lock (state_lock_bject) { // LOCK STATE
+			lock (state_lock_object) { // LOCK STATE
 				if (this.state.TextChannelIds.Count > 0 || this.state.VoiceChannelId != 0) {
 					return new JoinChannelResult() { State = JoinChannelState.AlreadyJoined };
 				}
@@ -385,7 +385,7 @@ namespace Nursery {
 		}
 
 		public LeaveChannelResult LeaveChannel(Plugins.IMessage message) {
-			lock(state_lock_bject) { // LOCK STATE
+			lock(state_lock_object) { // LOCK STATE
 				var t = this.voice.Disconnect();
 				var ret = this.state.Joined ? LeaveChannelResult.Succeed : LeaveChannelResult.NotJoined;
 				this.state.TextChannelIds = new List<ulong>();
@@ -397,7 +397,7 @@ namespace Nursery {
 		}
 
 		public AddChannelResult AddChannel(Plugins.IMessage message) {
-			lock (state_lock_bject) { // LOCK STATE
+			lock (state_lock_object) { // LOCK STATE
 				if (!this.state.Joined) {
 					return AddChannelResult.NotJoined;
 				}
@@ -410,7 +410,7 @@ namespace Nursery {
 		}
 
 		public RemoveChannelResult RemoveChannel(Plugins.IMessage message) {
-			lock (state_lock_bject) { // LOCK STATE
+			lock (state_lock_object) { // LOCK STATE
 				if (!this.state.Joined) {
 					return RemoveChannelResult.NotJoined;
 				}
