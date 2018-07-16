@@ -41,6 +41,8 @@ namespace Nursery {
 		private DiscordSocketClient discord = null;
 		private VoiceChat voice = null;
 
+		#region Initialize
+
 		public static async Task<VoiceBot> CreateInstanceAsync(CommandlineOptions opts) {
 			if (instance != null) {
 				// TRANSLATORS: Log message. Initializing Nursery.
@@ -210,6 +212,10 @@ namespace Nursery {
 			PluginManager.Instance.Load(this);
 		}
 
+		#endregion
+
+		#region Dispose
+
 		private void Disconnect() {
 			try {
 				// TRANSLATORS: Log message. Disconnect Nursery.
@@ -291,6 +297,10 @@ namespace Nursery {
 			Dispose(false);
 		}
 
+		#endregion
+
+		#region IBot Properties
+
 		public ulong Id {
 			get {
 				if (this.discord == null || this.discord.CurrentUser == null) { return 0; }
@@ -300,8 +310,15 @@ namespace Nursery {
 
 		public string IdString {
 			get {
-				if (this.discord == null || this.discord.CurrentUser == null) { return "0"; }
-				return this.discord.CurrentUser.Id.ToString();
+				return this.Id.ToString();
+			}
+		}
+
+		public string Nickname {
+			get {
+				lock (state_lock_bject) { // LOCK STATE
+					return this.state.Nickname;
+				}
 			}
 		}
 
@@ -312,26 +329,57 @@ namespace Nursery {
 			}
 		}
 
-		public string Nickname {
-			get {
-				if (this.discord == null || this.discord.CurrentUser == null) { return ""; }
-				return this.state.Nickname;
-			}
-		}
-
 		public ulong[] RoleIds {
 			get {
-				if (this.discord == null || this.discord.CurrentUser == null) { return new ulong[] { }; }
-				return this.state.RoleIds;
+				lock (state_lock_bject) { // LOCK STATE
+					return this.state.RoleIds;
+				}
 			}
 		}
 
 		public string[] RoleIdStrings {
 			get {
-				if (this.discord == null || this.discord.CurrentUser == null) { return new string[] { }; }
-				return this.state.RoleIds.Select(rid => rid.ToString()).ToArray();
+				return this.RoleIds.Select(rid => rid.ToString()).ToArray();
 			}
 		}
+
+		public bool IsJoined {
+			get {
+				lock (state_lock_bject) { // LOCK STATE
+					return this.state.Joined;
+				}
+			}
+		}
+
+		public ulong[] TextChannelIds {
+			get {
+				lock (state_lock_bject) { // LOCK STATE
+					return this.state.TextChannelIds.ToArray();
+				}
+			}
+		}
+
+		public string[] TextChannelIdStrings {
+			get {
+				return this.TextChannelIds.Select(i => i.ToString()).ToArray();
+			}
+		}
+
+		public ulong VoiceChannelId {
+			get {
+				lock (state_lock_bject) { // LOCK STATE
+					return this.state.VoiceChannelId;
+				}
+			}
+		}
+
+		public string VoiceChannelIdString {
+			get {
+				return this.VoiceChannelId.ToString();
+			}
+		}
+
+		#endregion
 
 		public IPlugin GetPlugin(string PluginName) {
 			return PluginManager.Instance.GetPlugin(PluginName);
@@ -432,30 +480,6 @@ namespace Nursery {
 			Logger.DebugLog(T._("* Applied plugins: {0}", String.Join(", ", mes.AppliedPlugins)));
 			if (mes.Content.Length == 0) { return; }
 			await Task.Run((Action)(() => { this.AddTalk(mes.Content, mes.TalkOptions); }));
-		}
-
-		public bool IsJoined {
-			get {
-				lock (state_lock_bject) { // LOCK STATE
-					return this.state.Joined;
-				}
-			}
-		}
-
-		public List<ulong> TextChannelIds {
-			get {
-				lock (state_lock_bject) { // LOCK STATE
-					return this.state.TextChannelIds;
-				}
-			}
-		}
-		
-		public ulong VoiceChannelId {
-			get {
-				lock (state_lock_bject) { // LOCK STATE
-					return this.state.VoiceChannelId;
-				}
-			}
 		}
 	}
 }

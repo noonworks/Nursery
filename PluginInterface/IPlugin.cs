@@ -55,15 +55,17 @@ namespace Nursery.Plugins {
 		string Username { get; }
 		ulong[] RoleIds { get; }
 		string[] RoleIdStrings { get; }
+		bool IsJoined { get; }
+		ulong[] TextChannelIds { get; }
+		string[] TextChannelIdStrings { get; }
+		ulong VoiceChannelId { get; }
+		string VoiceChannelIdString { get; }
 		JoinChannelResult JoinChannel(IMessage message);
 		LeaveChannelResult LeaveChannel(IMessage message);
 		AddChannelResult AddChannel(IMessage message);
 		RemoveChannelResult RemoveChannel(IMessage message);
 		void SendMessageAsync(ISocketMessageChannel channel, string message, bool CutIfToLong);
 		void SendMessageAsync(ISocketMessageChannel channel, SocketUser user, string message, bool CutIfToLong);
-		bool IsJoined { get; }
-		List<ulong> TextChannelIds { get; }
-		ulong VoiceChannelId { get; }
 		IPlugin GetPlugin(string PluginName);
 	}
 
