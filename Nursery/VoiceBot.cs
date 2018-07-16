@@ -381,35 +381,7 @@ namespace Nursery {
 
 		#endregion
 
-		public IPlugin GetPlugin(string PluginName) {
-			return PluginManager.Instance.GetPlugin(PluginName);
-		}
-
-		public void SendMessageAsync(ISocketMessageChannel channel, string message, bool CutIfToLong) {
-			SendMessageAsync(channel, null, message, CutIfToLong);
-		}
-
-		public void SendMessageAsync(ISocketMessageChannel channel, SocketUser user, string message, bool CutIfToLong) {
-			var prefix = (user == null ? "" : user.Mention + " ");
-			var msg = message;
-			while (true) {
-				if ((prefix + msg).Length <= Common.DISCORD_MAX_MESSAGE_LENGTH) {
-					channel.SendMessageAsync(prefix + msg);
-					break;
-				}
-				channel.SendMessageAsync(prefix + msg.Substring(0, Common.DISCORD_MAX_MESSAGE_LENGTH - prefix.Length));
-				if (CutIfToLong) { break; }
-				msg = msg.Substring(Common.DISCORD_MAX_MESSAGE_LENGTH - prefix.Length);
-			}
-		}
-
-		public void AddTalk(string message, Plugins.ITalkOptions options) {
-			try {
-				this.bouyomichan.AddTalkTask(message, options.Speed, options.Tone, options.Volume, options.Type);
-			} catch (Exception e) {
-				Logger.Log(e.ToString());
-			}
-		}
+		#region IBot Methods
 
 		public JoinChannelResult JoinChannel(Plugins.IMessage message) {
 			var gu = message.Original.Author as SocketGuildUser;
@@ -472,6 +444,40 @@ namespace Nursery {
 			}
 		}
 
+		public void SendMessageAsync(ISocketMessageChannel channel, string message, bool CutIfToLong) {
+			SendMessageAsync(channel, null, message, CutIfToLong);
+		}
+
+		public void SendMessageAsync(ISocketMessageChannel channel, SocketUser user, string message, bool CutIfToLong) {
+			var prefix = (user == null ? "" : user.Mention + " ");
+			var msg = message;
+			while (true) {
+				if ((prefix + msg).Length <= Common.DISCORD_MAX_MESSAGE_LENGTH) {
+					channel.SendMessageAsync(prefix + msg);
+					break;
+				}
+				channel.SendMessageAsync(prefix + msg.Substring(0, Common.DISCORD_MAX_MESSAGE_LENGTH - prefix.Length));
+				if (CutIfToLong) { break; }
+				msg = msg.Substring(Common.DISCORD_MAX_MESSAGE_LENGTH - prefix.Length);
+			}
+		}
+
+		public IPlugin GetPlugin(string PluginName) {
+			return PluginManager.Instance.GetPlugin(PluginName);
+		}
+
+		#endregion
+
+		private void AddTalk(string message, Plugins.ITalkOptions options) {
+			try {
+				this.bouyomichan.AddTalkTask(message, options.Speed, options.Tone, options.Volume, options.Type);
+			} catch (Exception e) {
+				Logger.Log(e.ToString());
+			}
+		}
+
+		#region Events
+
 		async Task Client_MessageReceived(SocketMessage message) {
 			var mes = PluginManager.Instance.ExecutePlugins(this, message);
 			// TRANSLATORS: DebugLog message. {0} is message content.
@@ -481,5 +487,7 @@ namespace Nursery {
 			if (mes.Content.Length == 0) { return; }
 			await Task.Run((Action)(() => { this.AddTalk(mes.Content, mes.TalkOptions); }));
 		}
+
+		#endregion
 	}
 }
