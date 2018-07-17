@@ -369,17 +369,14 @@ namespace Nursery {
 			}
 			var voicech = gu.VoiceChannel;
 			lock (state_lock_object) { // LOCK STATE
-				if (this.state.TextChannelIds.Count > 0 || this.state.VoiceChannelId != 0) {
+				if (this.state.Joined) {
 					return new JoinChannelResult() { State = JoinChannelState.AlreadyJoined };
 				}
 				if (voicech == null) {
 					return new JoinChannelResult() { State = JoinChannelState.WhereYouAre };
 				}
 				var t = this.voice.Connect(voicech);
-				this.state.TextChannelIds.Add(message.Original.Channel.Id);
-				this.state.VoiceChannelId = voicech.Id;
-				this.state.SetGuild(gc.Guild, this.discord.CurrentUser.Id);
-				this.state.Joined = true;
+				this.state.Join(message.Original.Channel, voicech, gc.Guild, this.discord.CurrentUser.Id);
 				return new JoinChannelResult() { State = JoinChannelState.Succeed, VoiceChannelName = voicech.Name };
 			}
 		}
@@ -388,10 +385,7 @@ namespace Nursery {
 			lock(state_lock_object) { // LOCK STATE
 				var t = this.voice.Disconnect();
 				var ret = this.state.Joined ? LeaveChannelResult.Succeed : LeaveChannelResult.NotJoined;
-				this.state.TextChannelIds = new List<ulong>();
-				this.state.VoiceChannelId = 0;
-				this.state.SetGuild(null, this.discord.CurrentUser.Id);
-				this.state.Joined = false;
+				this.state.Leave();
 				return ret;
 			}
 		}
@@ -401,8 +395,7 @@ namespace Nursery {
 				if (!this.state.Joined) {
 					return AddChannelResult.NotJoined;
 				}
-				if (!this.state.TextChannelIds.Contains(message.Original.Channel.Id)) {
-					this.state.TextChannelIds.Add(message.Original.Channel.Id);
+				if (this.state.AddTextChannel(message.Original.Channel)) {
 					return AddChannelResult.Succeed;
 				}
 				return AddChannelResult.AlreadyAdded;
@@ -414,8 +407,7 @@ namespace Nursery {
 				if (!this.state.Joined) {
 					return RemoveChannelResult.NotJoined;
 				}
-				if (this.state.TextChannelIds.Contains(message.Original.Channel.Id)) {
-					this.state.TextChannelIds.Remove(message.Original.Channel.Id);
+				if (this.state.RemoveTextChannel(message.Original.Channel)) {
 					return RemoveChannelResult.Succeed;
 				}
 				return RemoveChannelResult.AlreadyRemoved;
@@ -427,6 +419,13 @@ namespace Nursery {
 		}
 
 		public void SendMessageAsync(ISocketMessageChannel channel, SocketUser user, string message, bool CutIfToLong) {
+			if (channel == null) {
+				channel = this.state.DefaultTextChannel;
+			}
+			if (channel == null) {
+				Logger.DebugLog("No text channel found.");
+				return;
+			}
 			var prefix = (user == null ? "" : user.Mention + " ");
 			var msg = message;
 			while (true) {

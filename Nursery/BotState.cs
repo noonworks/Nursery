@@ -4,14 +4,57 @@ using System.Linq;
 
 namespace Nursery {
 	class BotState {
-		public bool Joined { get; set; } = false;
-		public List<ulong> TextChannelIds { get; set; } = new List<ulong>();
-		public ulong VoiceChannelId { get; set; } = 0;
-		public SocketGuild Guild { get; private set; } = null;
-		public string Nickname { get; set; } = "";
-		public ulong[] RoleIds { get; set; } = new ulong[] { };
+		private SocketVoiceChannel _VoiceChannel= null;
+		private List<ISocketMessageChannel> _TextChannels = new List<ISocketMessageChannel>();
 
-		public void SetGuild(SocketGuild guild, ulong BotId) {
+		public bool Joined { get => this._VoiceChannel != null; }
+		public ulong VoiceChannelId { get => this._VoiceChannel == null ? 0 : this._VoiceChannel.Id; }
+		public ulong[] TextChannelIds { get => _TextChannels.Select(tc => tc.Id).ToArray(); }
+		public ISocketMessageChannel DefaultTextChannel {
+			get {
+				if (this._TextChannels.Count > 0) {
+					return _TextChannels[0];
+				}
+				return null;
+			}
+		}
+		public SocketGuild Guild { get; private set; } = null;
+		public string Nickname { get; private set; } = "";
+		public ulong[] RoleIds { get; private set; } = new ulong[] { };
+
+		public bool Join(ISocketMessageChannel TextChannel, SocketVoiceChannel VoiceChannel, SocketGuild Guild, ulong BotId) {
+			if (this.Joined) { return false; }
+			this.AddTextChannel(TextChannel);
+			this._VoiceChannel = VoiceChannel;
+			this.SetGuild(Guild, BotId);
+			return true;
+		}
+
+		public bool Leave() {
+			if (!this.Joined) { return false; }
+			this._TextChannels.Clear();
+			this._VoiceChannel = null;
+			this.SetGuild(null, 0);
+			return true;
+		}
+
+		public bool AddTextChannel(ISocketMessageChannel channel) {
+			if (this._TextChannels.Contains(channel)) {
+				return false;
+			}
+			this._TextChannels.Add(channel);
+			return true;
+		}
+
+		public bool RemoveTextChannel(ISocketMessageChannel channel) {
+			if (this._TextChannels.Contains(channel)) {
+				this._TextChannels.Remove(channel);
+				return true;
+			}
+			return false;
+		}
+
+		private void SetGuild(SocketGuild guild, ulong BotId) {
 			this.Guild = guild;
 			this.Nickname = "";
 			this.RoleIds = new ulong[] { };
