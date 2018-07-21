@@ -46,6 +46,9 @@
     <Reference Include="Discord.Net.Core">
       <HintPath>..\libs\Discord.Net.Core.dll</HintPath>
     </Reference>
+    <Reference Include="Discord.Net.Providers.WS4Net">
+      <HintPath>..\libs\Discord.Net.Providers.WS4Net.dll</HintPath>
+    </Reference>
     <Reference Include="Discord.Net.Rest">
       <HintPath>..\libs\Discord.Net.Rest.dll</HintPath>
     </Reference>
