@@ -153,6 +153,27 @@ namespace Nursery {
 			instance = null;
 		}
 
+		private static DiscordSocketClient CreateDiscordClient() {
+			// Windows Vista = 6.0
+			// Windows 7 = 6.1
+			// Windows 8 = 6.2
+			// Windows 8.1 = 6.3
+			// Windows 10 = 10.0
+			var os = Environment.OSVersion.Version;
+			if (os.Major == 6 && os.Minor == 1) {
+				Logger.DebugLog("* Windows 7 - Use Discord.Net.Providers.WS4Net.WS4NetProvider");
+				return new DiscordSocketClient(
+					new DiscordSocketConfig() { WebSocketProvider = Discord.Net.Providers.WS4Net.WS4NetProvider.Instance }
+				);
+			}
+			if (os.Major < 6 || (os.Major == 6 && os.Minor < 1)) {
+				// TRANSLATORS: Log message. Initializing Nursery.
+				Logger.Log(T._("Error: This OS is not supported."));
+				return null;
+			}
+			return new DiscordSocketClient();
+		}
+
 		private VoiceBot() {
 			this.state = new BotState();
 			// TRANSLATORS: Log message. Initializing Nursery.
@@ -183,7 +204,7 @@ namespace Nursery {
 			}
 			// TRANSLATORS: Log message. Initializing Nursery.
 			Logger.Log(T._("- initialize Discord client ..."));
-			this.discord = new DiscordSocketClient();
+			this.discord = CreateDiscordClient();
 			// TRANSLATORS: Log message. Initializing Nursery.
 			Logger.Log(T._("- load plugins ..."));
 			PluginManager.Instance.Load(this);
