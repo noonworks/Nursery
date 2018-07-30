@@ -4,7 +4,7 @@ using System.Text.RegularExpressions;
 
 namespace Nursery.Utility {
 	public class Messages {
-		private static Regex mentionregex = new Regex(@"\s*(\<\@[0-9]+\>)\s*");
+		private static Regex mentionregex = new Regex(@"\s*(\<\@!?[0-9]+\>)\s*");
 
 		public static bool IsMentionFor(ulong BotId, SocketMessage Message) {
 			foreach (var user in Message.MentionedUsers) {
