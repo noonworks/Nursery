@@ -19,6 +19,8 @@ namespace Nursery {
 		private DiscordSocketClient discord = null;
 		private VoiceChat voice = null;
 		private Timer timer = null;
+		private List<IScheduledTask> Schedules = new List<IScheduledTask>();
+		private object schedule_lock_object = new object();
 
 		#region Initialize
 
@@ -476,6 +478,19 @@ namespace Nursery {
 		}
 
 		private void TickHandler() {
+			lock (schedule_lock_object) { // LOCK SCHEDULE
+				if (this.Schedules.Count > 0) {
+					var newschedules = new List<IScheduledTask>();
+					foreach (var s in this.Schedules) {
+						var ret = s.Execute(this);
+						if (ret != null && ret.Length > 0) {
+							newschedules.AddRange(ret);
+						}
+					}
+					this.Schedules = this.Schedules.Where(s => !s.Finished).ToList();
+					this.Schedules.AddRange(newschedules);
+				}
+			}
 		}
 
 		#endregion

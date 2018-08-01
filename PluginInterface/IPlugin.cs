@@ -69,6 +69,12 @@ namespace Nursery.Plugins {
 		IPlugin GetPlugin(string PluginName);
 	}
 
+	public interface IScheduledTask {
+		string Name { get; }
+		bool Finished { get; }
+		IScheduledTask[] Execute(IBot bot);
+	}
+
 	public class JoinChannelResult {
 		public string VoiceChannelName;
 		public JoinChannelState State;
