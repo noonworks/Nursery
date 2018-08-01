@@ -455,6 +455,18 @@ namespace Nursery {
 			return PluginManager.Instance.GetPlugin(PluginName);
 		}
 
+		public void AddSchedule(IScheduledTask schedule) {
+			lock (schedule_lock_object) { // LOCK SCHEDULE
+				this.Schedules.Add(schedule);
+			}
+		}
+
+		public void ClearSchedule() {
+			lock (schedule_lock_object) { // LOCK SCHEDULE
+				this.Schedules.Clear();
+			}
+		}
+
 		#endregion
 
 		private void AddTalk(string message, Plugins.ITalkOptions options) {
