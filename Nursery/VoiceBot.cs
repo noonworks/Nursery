@@ -426,6 +426,21 @@ namespace Nursery {
 			}
 		}
 
+		public void SendMessageAsync(string[] TextChannelIds, string messageForFirst, string messageForOthers, bool CutIfTooLong) {
+			if (TextChannelIds == null || TextChannelIds.Length == 0) {
+				SendMessageAsync(this.state.DefaultTextChannel, null, messageForFirst, CutIfTooLong);
+			}
+			var isFirst = true;
+			foreach (var tcid_s in TextChannelIds) {
+				ulong tcid;
+				if (!ulong.TryParse(tcid_s, out tcid)) { continue; }
+				if (this.state.TextChannelIds.Contains(tcid)) {
+					SendMessageAsync(this.state.Guild.GetTextChannel(tcid), null, isFirst ? messageForFirst : messageForOthers, CutIfTooLong);
+					isFirst = false;
+				}
+			}
+		}
+		
 		public void SendMessageAsync(ISocketMessageChannel channel, string message, bool CutIfTooLong) {
 			SendMessageAsync(channel, null, message, CutIfTooLong);
 		}
