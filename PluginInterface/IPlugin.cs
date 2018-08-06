@@ -117,6 +117,7 @@ namespace Nursery.Plugins {
 	public interface IPluginManager {
 		T GetPluginSetting<T>(string PluginName);
 		T LoadConfig<T>(string path);
+		string GetPluginDir();
 		IMessage ExecutePlugins(IBot bot, SocketMessage message);
 		void SetAnnounceLabel(string label);
 		void SetSpeakLabel(string label);

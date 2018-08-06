@@ -57,6 +57,26 @@ namespace Nursery.Plugins {
 		private string SpeakLabel = "";
 		private List<IScheduledTask> Schedules = new List<IScheduledTask>();
 
+		public IPlugin GetPlugin(string PluginName) {
+			var plg = Plugins.FirstOrDefault(p => p.Name.Equals(PluginName));
+			if (plg != null) { return plg; }
+			return null;
+		}
+
+		#region IPluginManager
+
+		public T GetPluginSetting<T>(string PluginName) {
+			return Config.Instance.GetPluginSetting<T>(PluginName);
+		}
+
+		public T LoadConfig<T>(string path) {
+			return Config.Instance.LoadConfig<T>(path);
+		}
+
+		public string GetPluginDir() {
+			return Config.Instance.MainConfig.PluginDir;
+		}
+
 		public IMessage ExecutePlugins(IBot bot, SocketMessage message) {
 			var mes = new Plugins.Message(message);
 			foreach (var p in Plugins) {
@@ -64,20 +84,6 @@ namespace Nursery.Plugins {
 				if (mes.Terminated) { break; }
 			}
 			return mes;
-		}
-
-		public IPlugin GetPlugin(string PluginName) {
-			var plg = Plugins.FirstOrDefault(p => p.Name.Equals(PluginName));
-			if (plg != null) { return plg; }
-			return null;
-		}
-
-		public T LoadConfig<T>(string path) {
-			return Config.Instance.LoadConfig<T>(path);
-		}
-
-		public T GetPluginSetting<T>(string PluginName) {
-			return Config.Instance.GetPluginSetting<T>(PluginName);
 		}
 
 		public void SetAnnounceLabel(string label) {
@@ -91,7 +97,9 @@ namespace Nursery.Plugins {
 		public void AddSchedule(IScheduledTask schedule) {
 			this.Schedules.Add(schedule);
 		}
-		
+
+		#endregion
+
 		public void Load(IBot bot) {
 			if (Loaded) { return; }
 			var pNames = Config.Instance.PluginConfig.PluginNames;
