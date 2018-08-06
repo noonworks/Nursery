@@ -71,6 +71,8 @@ namespace Nursery.Plugins {
 		IPlugin GetPlugin(string PluginName);
 		string AnnounceLabel { get; set; }
 		string SpeakLabel { get; set; }
+		string GetUserName(string UserId);
+		string GetNickName(string UserId);
 		void AddSchedule(IScheduledTask schedule);
 		void ClearSchedule();
 	}

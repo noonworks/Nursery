@@ -481,6 +481,25 @@ namespace Nursery {
 		public string AnnounceLabel { get; set; } = "";
 		public string SpeakLabel { get; set; } = "";
 
+		public string GetUserName(string UserId) {
+			if (this.state.Guild == null) { return ""; }
+			ulong uid;
+			if (!ulong.TryParse(UserId, out uid)) { return ""; }
+			var u = this.state.Guild.GetUser(uid);
+			if (u == null) { return ""; }
+			return u.Username;
+		}
+		
+		public string GetNickName(string UserId) {
+			if (this.state.Guild == null) { return ""; }
+			ulong uid;
+			if (!ulong.TryParse(UserId, out uid)) { return ""; }
+			var u = this.state.Guild.GetUser(uid);
+			if (u == null) { return ""; }
+			if (u.Nickname != null && u.Nickname.Length > 0) { return u.Nickname; }
+			return u.Username;
+		}
+		
 		public void AddSchedule(IScheduledTask schedule) {
 			lock (schedule_lock_object) { // LOCK SCHEDULE
 				this.Schedules.Add(schedule);
