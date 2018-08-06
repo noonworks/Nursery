@@ -67,6 +67,14 @@ namespace Nursery.Plugins {
 		void SendMessageAsync(ISocketMessageChannel channel, string message, bool CutIfToLong);
 		void SendMessageAsync(ISocketMessageChannel channel, SocketUser user, string message, bool CutIfToLong);
 		IPlugin GetPlugin(string PluginName);
+		void AddSchedule(IScheduledTask schedule);
+		void ClearSchedule();
+	}
+
+	public interface IScheduledTask {
+		string Name { get; }
+		bool Finished { get; }
+		IScheduledTask[] Execute(IBot bot);
 	}
 
 	public class JoinChannelResult {
