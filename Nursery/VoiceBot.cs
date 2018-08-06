@@ -451,6 +451,14 @@ namespace Nursery {
 			}
 		}
 
+		public void AddTalk(string message, Plugins.ITalkOptions options) {
+			try {
+				this.bouyomichan.AddTalkTask(message, options.Speed, options.Tone, options.Volume, options.Type);
+			} catch (Exception e) {
+				Logger.Log(e.ToString());
+			}
+		}
+
 		public IPlugin GetPlugin(string PluginName) {
 			return PluginManager.Instance.GetPlugin(PluginName);
 		}
@@ -468,14 +476,6 @@ namespace Nursery {
 		}
 
 		#endregion
-
-		private void AddTalk(string message, Plugins.ITalkOptions options) {
-			try {
-				this.bouyomichan.AddTalkTask(message, options.Speed, options.Tone, options.Volume, options.Type);
-			} catch (Exception e) {
-				Logger.Log(e.ToString());
-			}
-		}
 
 		#region Events
 

@@ -66,6 +66,7 @@ namespace Nursery.Plugins {
 		RemoveChannelResult RemoveChannel(IMessage message);
 		void SendMessageAsync(ISocketMessageChannel channel, string message, bool CutIfToLong);
 		void SendMessageAsync(ISocketMessageChannel channel, SocketUser user, string message, bool CutIfToLong);
+		void AddTalk(string message, ITalkOptions options);
 		IPlugin GetPlugin(string PluginName);
 		void AddSchedule(IScheduledTask schedule);
 		void ClearSchedule();
