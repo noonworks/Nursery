@@ -426,11 +426,11 @@ namespace Nursery {
 			}
 		}
 
-		public void SendMessageAsync(ISocketMessageChannel channel, string message, bool CutIfToLong) {
-			SendMessageAsync(channel, null, message, CutIfToLong);
+		public void SendMessageAsync(ISocketMessageChannel channel, string message, bool CutIfTooLong) {
+			SendMessageAsync(channel, null, message, CutIfTooLong);
 		}
 
-		public void SendMessageAsync(ISocketMessageChannel channel, SocketUser user, string message, bool CutIfToLong) {
+		public void SendMessageAsync(ISocketMessageChannel channel, SocketUser user, string message, bool CutIfTooLong) {
 			if (channel == null) {
 				channel = this.state.DefaultTextChannel;
 			}
@@ -446,7 +446,7 @@ namespace Nursery {
 					break;
 				}
 				channel.SendMessageAsync(prefix + msg.Substring(0, Common.DISCORD_MAX_MESSAGE_LENGTH - prefix.Length));
-				if (CutIfToLong) { break; }
+				if (CutIfTooLong) { break; }
 				msg = msg.Substring(Common.DISCORD_MAX_MESSAGE_LENGTH - prefix.Length);
 			}
 		}
