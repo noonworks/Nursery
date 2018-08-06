@@ -5,7 +5,8 @@ using System.Collections.Generic;
 namespace Nursery.Plugins {
 	public enum Type {
 		Command,
-		Filter
+		Filter,
+		Scheduler,
 	}
 
 	public interface IPlugin {
