@@ -29,9 +29,8 @@ namespace Nursery.BasicPlugins {
 		}
 
 		public bool Execute(IBot bot, IMessage message) {
-			if (this.config.Filters.Length == 0) {
-				return false;
-			}
+			if (this.config.Filters.Length == 0) { return false; }
+			if (message.AppliedPlugins.Contains(AnnouncementFilter.NAME)) { return false; }
 			// [default value]
 			// if first filter is BlackList : default value is "MATCHED"
 			// if first filter is WhiteList : default value is "IGNORED"

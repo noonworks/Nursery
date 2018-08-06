@@ -60,6 +60,7 @@
   <ItemGroup>
     <Compile Include="AddNameFilter.cs" />
     <Compile Include="AddTextChannelCommand.cs" />
+    <Compile Include="AnnouncementFilter.cs" />
     <Compile Include="AttachmentFilter.cs" />
     <Compile Include="ChannelFilter.cs" />
     <Compile Include="DiscordEmojiFilter.cs" />

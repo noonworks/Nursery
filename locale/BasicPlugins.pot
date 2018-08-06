@@ -2,7 +2,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Nursery beta1.0\n"
-"POT-Creation-Date: 2018-07-15 16:07+0900\n"
+"POT-Creation-Date: 2018-07-30 17:45+0900\n"
 "PO-Revision-Date: 2018-07-10 20:12+0900\n"
 "Last-Translator: noonworks <noonworks@gmail.com>\n"
 "Language-Team: noonworks https://github.com/noonworks/Nursery\n"
@@ -43,6 +43,23 @@ msgstr ""
 #. TRANSLATORS: Bot message. LeaveCommand plugin. If it is longer than DISCORD_MESSAGE_MAX, it will be cut.
 #. TRANSLATORS: Bot message. RemoveTextChannelCommand plugin. If it is longer than DISCORD_MESSAGE_MAX, it will be cut.
 msgid "Oh? I'm not in any channels..."
+msgstr ""
+
+#. TRANSLATORS: Bot-Help message. AnnouncementFilter plugin.
+msgid "Filter to read announcement."
+msgstr ""
+
+#. TRANSLATORS: Bot message. AnnouncementFilter plugin.
+msgid "[ANNOUNCE]"
+msgstr ""
+
+#. TRANSLATORS: Bot message. AnnouncementFilter plugin.
+msgid "[SPEAK]"
+msgstr ""
+
+#. TRANSLATORS: Bot message. AnnouncementFilter plugin. {0} is ignore_name_prefix.
+#, csharp-format
+msgid "{0} Announce: "
 msgstr ""
 
 #. TRANSLATORS: Bot-Help message. AttachmentFilter plugin.
