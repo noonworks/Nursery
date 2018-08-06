@@ -28,6 +28,8 @@ namespace Nursery.UserDefinedFilterPlugin {
 		public string StrType { get; set; } = "string";
 		[JsonProperty("replace_to")]
 		public string ReplaceTo { get; set; } = null;
+		[JsonProperty("send_message")]
+		public string SendMessage { get; set; } = null;
 		[JsonProperty("function_name")]
 		public string FunctionName { get; set; } = null;
 
@@ -75,7 +77,7 @@ namespace Nursery.UserDefinedFilterPlugin {
 					FunctionPattern = (JSArgument arg) => {
 						try {
 							var r = JSWrapper.Instance.ExecuteFunction(FunctionName, arg);
-							return r as string;
+							return r;
 						} catch (System.Exception e) {
 							// TRANSLATORS: Log message. UserDefinedFilter plugin.
 							Logger.Log(T._("Could not get JS result."));
@@ -95,7 +97,7 @@ namespace Nursery.UserDefinedFilterPlugin {
 		}
 	}
 
-	public delegate string ReplaceDelegate(JSArgument arg);
+	public delegate object ReplaceDelegate(JSArgument arg);
 
 	public enum FilterType {
 		String,
