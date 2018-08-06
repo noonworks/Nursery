@@ -66,7 +66,7 @@ namespace Nursery.Plugins {
 		}
 
 		public IPlugin GetPlugin(string PluginName) {
-			var plg = Plugins.First(p => p.Name.Equals(PluginName));
+			var plg = Plugins.FirstOrDefault(p => p.Name.Equals(PluginName));
 			if (plg != null) { return plg; }
 			return null;
 		}
