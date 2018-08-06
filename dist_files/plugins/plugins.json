@@ -1,5 +1,6 @@
 ﻿{
   "plugins": [
+    "Nursery.BasicPlugins.AnnouncementFilter",
     "Nursery.BasicPlugins.IgnoreSelfFilter",
     "Nursery.BasicPlugins.JoinCommand",
     "Nursery.BasicPlugins.LeaveCommand",
@@ -25,6 +26,7 @@
     "Nursery.BasicPlugins.LongMessageFilter",
     "Nursery.UserDefinedFilterPlugin.UserDefinedFilter",
     "Nursery.BasicPlugins.BlankFilter",
-    "Nursery.BasicPlugins.AddNameFilter"
+    "Nursery.BasicPlugins.AddNameFilter",
+    "Nursery.BasicPlugins.WelcomeScheduler"
   ]
 }

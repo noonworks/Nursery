@@ -5,7 +5,8 @@ using System.Collections.Generic;
 namespace Nursery.Plugins {
 	public enum Type {
 		Command,
-		Filter
+		Filter,
+		Scheduler,
 	}
 
 	public interface IPlugin {
@@ -55,16 +56,34 @@ namespace Nursery.Plugins {
 		string Username { get; }
 		ulong[] RoleIds { get; }
 		string[] RoleIdStrings { get; }
+		bool IsJoined { get; }
+		ulong[] TextChannelIds { get; }
+		string[] TextChannelIdStrings { get; }
+		ulong VoiceChannelId { get; }
+		string VoiceChannelIdString { get; }
 		JoinChannelResult JoinChannel(IMessage message);
 		LeaveChannelResult LeaveChannel(IMessage message);
 		AddChannelResult AddChannel(IMessage message);
 		RemoveChannelResult RemoveChannel(IMessage message);
-		void SendMessageAsync(ISocketMessageChannel channel, string message, bool CutIfToLong);
-		void SendMessageAsync(ISocketMessageChannel channel, SocketUser user, string message, bool CutIfToLong);
-		bool IsJoined { get; }
-		List<ulong> TextChannelIds { get; }
-		ulong VoiceChannelId { get; }
+		void SendMessageAsync(string[] TextChannelIds, string messageForFirst, string messageForOthers, bool CutIfTooLong);
+		void SendMessageAsync(ISocketMessageChannel channel, string message, bool CutIfTooLong);
+		void SendMessageAsync(ISocketMessageChannel channel, SocketUser user, string message, bool CutIfTooLong);
+		void AddTalk(string message, ITalkOptions options);
 		IPlugin GetPlugin(string PluginName);
+		string AnnounceLabel { get; set; }
+		string SpeakLabel { get; set; }
+		string GetUserName(string UserId);
+		string GetNickName(string UserId);
+		string[] GetUserIdsInVoiceChannel();
+		string[] GetTextChannelIds();
+		void AddSchedule(IScheduledTask schedule);
+		void ClearSchedule();
+	}
+
+	public interface IScheduledTask {
+		string Name { get; }
+		bool Finished { get; }
+		IScheduledTask[] Execute(IBot bot);
 	}
 
 	public class JoinChannelResult {
@@ -98,6 +117,10 @@ namespace Nursery.Plugins {
 	public interface IPluginManager {
 		T GetPluginSetting<T>(string PluginName);
 		T LoadConfig<T>(string path);
+		string GetPluginDir();
 		IMessage ExecutePlugins(IBot bot, SocketMessage message);
+		void SetAnnounceLabel(string label);
+		void SetSpeakLabel(string label);
+		void AddSchedule(IScheduledTask schedule);
 	}
 }

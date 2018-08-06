@@ -1,4 +1,5 @@
-﻿using Nursery.Options;
+﻿using Discord.WebSocket;
+using Nursery.Options;
 using Nursery.Plugins;
 using Nursery.Utility;
 using System;
@@ -106,27 +107,83 @@ namespace Nursery.UserDefinedFilterPlugin {
 			this.filters = l.ToArray();
 		}
 
+		private class SendingMessage {
+			private string text { get; } = "";
+
+			public SendingMessage(FilterConfig config) {
+				if (config.SendMessage == null || config.SendMessage.Length == 0) { return; }
+				this.text = config.SendMessage;
+			}
+
+			public SendingMessage(string text) {
+				this.text = text;
+			}
+
+			public void Send(IBot bot, SocketMessage message) {
+				if (this.text.Length == 0) { return; }
+				var msg = Nursery.Plugins.Utility.ReplaceDiscordValues(this.text, bot, DateTime.Now, message);
+				if (msg.Length == 0) { return; }
+				bot.SendMessageAsync(message.Channel, msg, false);
+			}
+		}
+
+		private enum ResultType {
+			unknown,
+			stringVal,
+			strings,
+		}
+
+		private ResultType CheckResultType(object ret) {
+			if (ret == null) { return ResultType.unknown; }
+			if (ret.GetType() == typeof(string)) { return ResultType.stringVal; }
+			if (ret.GetType().IsArray) {
+				var retarr = (object[])ret;
+				if (retarr.Length != 2) { return ResultType.unknown; }
+				if (retarr[0].GetType() == typeof(string) && retarr[1].GetType() == typeof(string)) {
+					return ResultType.strings;
+				}
+			}
+			return ResultType.unknown;
+		}
+
 		public bool Execute(IBot bot, IMessage message) {
 			if (this.filters == null || this.filters.Length == 0) { return false; }
 			var original_message = "" + message.Content;
+			var sending_messages = new List<SendingMessage>();
 			foreach (var filter in this.filters) {
+				var before = message.Content;
 				switch (filter.Type) {
 					case FilterType.String:
 						message.Content = message.Content.Replace(filter.StringPattern, filter.ReplaceTo);
+						if (before != message.Content) { sending_messages.Add(new SendingMessage(filter)); }
 						break;
 					case FilterType.Regex:
 						message.Content = filter.RegexPattern.Replace(message.Content, filter.ReplaceTo);
+						if (before != message.Content) { sending_messages.Add(new SendingMessage(filter)); }
 						break;
 					case FilterType.Function:
 						var ret = filter.FunctionPattern(new JSArgument(bot, message));
-						if (ret == null) { continue; }
-						message.Content = ret;
+						var rettype = CheckResultType(ret);
+						if (rettype == ResultType.unknown) { continue; }
+						if (rettype == ResultType.stringVal) {
+							message.Content = (string)ret;
+							continue;
+						}
+						if (rettype == ResultType.strings) {
+							var retarr = (object[])ret;
+							message.Content = (string)retarr[0];
+							if (before != message.Content) { sending_messages.Add(new SendingMessage((string)retarr[1])); }
+							continue;
+						}
 						break;
 					default:
 						continue;
 				}
 			}
 			if (!original_message.Equals(message.Content)) {
+				foreach (var sm in sending_messages) {
+					sm.Send(bot, message.Original);
+				}
 				message.AppliedPlugins.Add(this.Name);
 				return true;
 			}

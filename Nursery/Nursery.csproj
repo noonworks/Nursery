@@ -46,6 +46,9 @@
     <Reference Include="Discord.Net.Core">
       <HintPath>..\libs\Discord.Net.Core.dll</HintPath>
     </Reference>
+    <Reference Include="Discord.Net.Providers.WS4Net">
+      <HintPath>..\libs\Discord.Net.Providers.WS4Net.dll</HintPath>
+    </Reference>
     <Reference Include="Discord.Net.Rest">
       <HintPath>..\libs\Discord.Net.Rest.dll</HintPath>
     </Reference>
@@ -81,9 +84,11 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="BassWrapper.cs" />
+    <Compile Include="BotState.cs" />
     <Compile Include="PluginManager.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Timer.cs" />
     <Compile Include="VoiceBot.cs" />
     <Compile Include="VoiceChat.cs" />
   </ItemGroup>

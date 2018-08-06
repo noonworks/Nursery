@@ -10,7 +10,7 @@ namespace Nursery.BasicPlugins {
 		public void Initialize(IPluginManager loader, IPlugin[] plugins) { }
 
 		public bool Execute(IBot bot, IMessage message) {
-			if (bot.Id == message.Original.Author.Id) {
+			if (bot.Id == message.Original.Author.Id && !message.AppliedPlugins.Contains(AnnouncementFilter.NAME)) {
 				message.Content = "";
 				message.Terminated = true;
 				message.AppliedPlugins.Add(this.Name);

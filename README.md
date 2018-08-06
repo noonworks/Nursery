@@ -6,11 +6,14 @@
 
 Discordのテキストチャンネルに投稿された文章を[棒読みちゃん](http://chi.usamimi.info/Program/Application/BouyomiChan/)で読み上げ、その音声をボイスチャンネルに流すbotプログラムです。
 
-**現在ベータ版です。**
+* **現在ベータ版です。**
+* [Nursery 使用動画](http://www.youtube.com/watch?v=ZkET1jFBRDA)
 
-### 動画
 
-[![Nursery 使用動画](http://img.youtube.com/vi/ZkET1jFBRDA/0.jpg)](http://www.youtube.com/watch?v=ZkET1jFBRDA)
+## 動作環境
+
+* Windows 7 以降
+* .NET Framework 4.6.1 およびそれに互換性のあるバージョン
 
 
 ## インストール方法、使い方
@@ -51,6 +54,12 @@ Nurseryは以下のような状況に適しています：
 
 * `Sound`：`Sound`コマンドの音声は使用者のPCでしか聞こえません。
 （代わりに、NurseryのSEプラグインを使用することで、ボイスチャンネル上で音声を再生することができます。）
+
+### VOICEROIDの使用も可能
+
+棒読みちゃんとVOICEROIDを連携させることで、VOICEROIDを使った読み上げも可能です。
+
+* [VOICEROID 使用動画](https://www.youtube.com/watch?v=FC2_KilJL3o)
 
 ### カスタマイズ可能なプラグイン
 

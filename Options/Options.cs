@@ -82,7 +82,7 @@ namespace Nursery.Options {
 			}
 			if (!File.Exists(path)) {
 				// TRANSLATORS: Error message. In Config. {0} is file path.
-				throw new Exception(T._("Config file [{0}] is not found.", path));
+				throw new FileNotFoundException(T._("Config file [{0}] is not found.", path));
 			}
 			using (StreamReader sr = new StreamReader(path, new System.Text.UTF8Encoding(true))) {
 				return JsonConvert.DeserializeObject<TConfig>(sr.ReadToEnd());

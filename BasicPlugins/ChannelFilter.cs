@@ -1,4 +1,5 @@
 ﻿using Nursery.Plugins;
+using System.Linq;
 
 namespace Nursery.BasicPlugins {
 	public class ChannelFilter : IPlugin {

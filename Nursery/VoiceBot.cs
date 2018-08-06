@@ -10,36 +10,19 @@ using Nursery.Utility;
 using System.Linq;
 
 namespace Nursery {
-	class BotState {
-		public bool Joined { get; set; } = false;
-		public List<ulong> TextChannelIds { get; set; } = new List<ulong>();
-		public ulong VoiceChannelId { get; set; } = 0;
-		public SocketGuild Guild { get; private set; } = null;
-		public string Nickname { get; set; } = "";
-		public ulong[] RoleIds { get; set; } = new ulong[] { };
-
-		public void SetGuild(SocketGuild guild, ulong BotId) {
-			this.Guild = guild;
-			this.Nickname = "";
-			this.RoleIds = new ulong[] { };
-			if (guild != null) {
-				var cu = guild.GetUser(BotId);
-				if (cu != null) {
-					this.Nickname = cu.Nickname;
-					this.RoleIds = cu.Roles.Select(r => r.Id).ToArray();
-				}
-			}
-		}
-	}
-
 	class VoiceBot : IDisposable, IBot {
 		private static VoiceBot instance = null;
 
-		private object state_lock_bject = new object();
+		private object state_lock_object = new object();
 		private BotState state;
 		private BouyomiChanClient bouyomichan = null;
 		private DiscordSocketClient discord = null;
 		private VoiceChat voice = null;
+		private Timer timer = null;
+		private List<IScheduledTask> Schedules = new List<IScheduledTask>();
+		private object schedule_lock_object = new object();
+
+		#region Initialize
 
 		public static async Task<VoiceBot> CreateInstanceAsync(CommandlineOptions opts) {
 			if (instance != null) {
@@ -139,6 +122,9 @@ namespace Nursery {
 				return null;
 			}
 			// TRANSLATORS: Log message. Initializing Nursery.
+			Logger.Log(T._("Start timer..."));
+			instance.timer.Start();
+			// TRANSLATORS: Log message. Initializing Nursery.
 			Logger.Log(T._("Done!"));
 			Logger.Log("/////////////");
 			Logger.Log("// Nursery //");
@@ -151,6 +137,27 @@ namespace Nursery {
 			instance.Disconnect();
 			instance.Dispose();
 			instance = null;
+		}
+
+		private static DiscordSocketClient CreateDiscordClient() {
+			// Windows Vista = 6.0
+			// Windows 7 = 6.1
+			// Windows 8 = 6.2
+			// Windows 8.1 = 6.3
+			// Windows 10 = 10.0
+			var os = Environment.OSVersion.Version;
+			if (os.Major == 6 && os.Minor == 1) {
+				Logger.DebugLog("* Windows 7 - Use Discord.Net.Providers.WS4Net.WS4NetProvider");
+				return new DiscordSocketClient(
+					new DiscordSocketConfig() { WebSocketProvider = Discord.Net.Providers.WS4Net.WS4NetProvider.Instance }
+				);
+			}
+			if (os.Major < 6 || (os.Major == 6 && os.Minor < 1)) {
+				// TRANSLATORS: Log message. Initializing Nursery.
+				Logger.Log(T._("Error: This OS is not supported."));
+				return null;
+			}
+			return new DiscordSocketClient();
 		}
 
 		private VoiceBot() {
@@ -183,14 +190,24 @@ namespace Nursery {
 			}
 			// TRANSLATORS: Log message. Initializing Nursery.
 			Logger.Log(T._("- initialize Discord client ..."));
-			this.discord = new DiscordSocketClient();
+			this.discord = CreateDiscordClient();
+			// TRANSLATORS: Log message. Initializing Nursery.
+			Logger.Log(T._("- initialize Timer ..."));
+			this.timer = new Timer(this.TickHandler);
 			// TRANSLATORS: Log message. Initializing Nursery.
 			Logger.Log(T._("- load plugins ..."));
 			PluginManager.Instance.Load(this);
 		}
 
+		#endregion
+
+		#region Dispose
+
 		private void Disconnect() {
 			try {
+				// TRANSLATORS: Log message. Disconnect Nursery.
+				Logger.Log(T._("- stop Timer ..."));
+				this.timer.Stop();
 				// TRANSLATORS: Log message. Disconnect Nursery.
 				Logger.Log(T._("- disconnect from Voice channel ..."));
 				if (this.voice != null) {
@@ -270,6 +287,10 @@ namespace Nursery {
 			Dispose(false);
 		}
 
+		#endregion
+
+		#region IBot Properties
+
 		public ulong Id {
 			get {
 				if (this.discord == null || this.discord.CurrentUser == null) { return 0; }
@@ -279,8 +300,15 @@ namespace Nursery {
 
 		public string IdString {
 			get {
-				if (this.discord == null || this.discord.CurrentUser == null) { return "0"; }
-				return this.discord.CurrentUser.Id.ToString();
+				return this.Id.ToString();
+			}
+		}
+
+		public string Nickname {
+			get {
+				lock (state_lock_object) { // LOCK STATE
+					return this.state.Nickname;
+				}
 			}
 		}
 
@@ -291,36 +319,140 @@ namespace Nursery {
 			}
 		}
 
-		public string Nickname {
-			get {
-				if (this.discord == null || this.discord.CurrentUser == null) { return ""; }
-				return this.state.Nickname;
-			}
-		}
-
 		public ulong[] RoleIds {
 			get {
-				if (this.discord == null || this.discord.CurrentUser == null) { return new ulong[] { }; }
-				return this.state.RoleIds;
+				lock (state_lock_object) { // LOCK STATE
+					return this.state.RoleIds;
+				}
 			}
 		}
 
 		public string[] RoleIdStrings {
 			get {
-				if (this.discord == null || this.discord.CurrentUser == null) { return new string[] { }; }
-				return this.state.RoleIds.Select(rid => rid.ToString()).ToArray();
+				return this.RoleIds.Select(rid => rid.ToString()).ToArray();
 			}
 		}
 
-		public IPlugin GetPlugin(string PluginName) {
-			return PluginManager.Instance.GetPlugin(PluginName);
+		public bool IsJoined {
+			get {
+				lock (state_lock_object) { // LOCK STATE
+					return this.state.Joined;
+				}
+			}
 		}
 
-		public void SendMessageAsync(ISocketMessageChannel channel, string message, bool CutIfToLong) {
-			SendMessageAsync(channel, null, message, CutIfToLong);
+		public ulong[] TextChannelIds {
+			get {
+				lock (state_lock_object) { // LOCK STATE
+					return this.state.TextChannelIds.ToArray();
+				}
+			}
 		}
 
-		public void SendMessageAsync(ISocketMessageChannel channel, SocketUser user, string message, bool CutIfToLong) {
+		public string[] TextChannelIdStrings {
+			get {
+				return this.TextChannelIds.Select(i => i.ToString()).ToArray();
+			}
+		}
+
+		public ulong VoiceChannelId {
+			get {
+				lock (state_lock_object) { // LOCK STATE
+					return this.state.VoiceChannelId;
+				}
+			}
+		}
+
+		public string VoiceChannelIdString {
+			get {
+				return this.VoiceChannelId.ToString();
+			}
+		}
+
+		#endregion
+
+		#region IBot Methods
+
+		public JoinChannelResult JoinChannel(Plugins.IMessage message) {
+			var gu = message.Original.Author as SocketGuildUser;
+			var gc = (message.Original.Channel as SocketGuildChannel);
+			if (gu == null || gc == null) {
+				return new JoinChannelResult() { State = JoinChannelState.WhereYouAre };
+			}
+			var voicech = gu.VoiceChannel;
+			lock (state_lock_object) { // LOCK STATE
+				if (this.state.Joined) {
+					return new JoinChannelResult() { State = JoinChannelState.AlreadyJoined };
+				}
+				if (voicech == null) {
+					return new JoinChannelResult() { State = JoinChannelState.WhereYouAre };
+				}
+				var t = this.voice.Connect(voicech);
+				this.state.Join(message.Original.Channel, voicech, gc.Guild, this.discord.CurrentUser.Id);
+				return new JoinChannelResult() { State = JoinChannelState.Succeed, VoiceChannelName = voicech.Name };
+			}
+		}
+
+		public LeaveChannelResult LeaveChannel(Plugins.IMessage message) {
+			lock(state_lock_object) { // LOCK STATE
+				var t = this.voice.Disconnect();
+				var ret = this.state.Joined ? LeaveChannelResult.Succeed : LeaveChannelResult.NotJoined;
+				this.state.Leave();
+				return ret;
+			}
+		}
+
+		public AddChannelResult AddChannel(Plugins.IMessage message) {
+			lock (state_lock_object) { // LOCK STATE
+				if (!this.state.Joined) {
+					return AddChannelResult.NotJoined;
+				}
+				if (this.state.AddTextChannel(message.Original.Channel)) {
+					return AddChannelResult.Succeed;
+				}
+				return AddChannelResult.AlreadyAdded;
+			}
+		}
+
+		public RemoveChannelResult RemoveChannel(Plugins.IMessage message) {
+			lock (state_lock_object) { // LOCK STATE
+				if (!this.state.Joined) {
+					return RemoveChannelResult.NotJoined;
+				}
+				if (this.state.RemoveTextChannel(message.Original.Channel)) {
+					return RemoveChannelResult.Succeed;
+				}
+				return RemoveChannelResult.AlreadyRemoved;
+			}
+		}
+
+		public void SendMessageAsync(string[] TextChannelIds, string messageForFirst, string messageForOthers, bool CutIfTooLong) {
+			if (TextChannelIds == null || TextChannelIds.Length == 0) {
+				SendMessageAsync(this.state.DefaultTextChannel, null, messageForFirst, CutIfTooLong);
+			}
+			var isFirst = true;
+			foreach (var tcid_s in TextChannelIds) {
+				ulong tcid;
+				if (!ulong.TryParse(tcid_s, out tcid)) { continue; }
+				if (this.state.TextChannelIds.Contains(tcid)) {
+					SendMessageAsync(this.state.Guild.GetTextChannel(tcid), null, isFirst ? messageForFirst : messageForOthers, CutIfTooLong);
+					isFirst = false;
+				}
+			}
+		}
+		
+		public void SendMessageAsync(ISocketMessageChannel channel, string message, bool CutIfTooLong) {
+			SendMessageAsync(channel, null, message, CutIfTooLong);
+		}
+
+		public void SendMessageAsync(ISocketMessageChannel channel, SocketUser user, string message, bool CutIfTooLong) {
+			if (channel == null) {
+				channel = this.state.DefaultTextChannel;
+			}
+			if (channel == null) {
+				Logger.DebugLog("No text channel found.");
+				return;
+			}
 			var prefix = (user == null ? "" : user.Mention + " ");
 			var msg = message;
 			while (true) {
@@ -329,7 +461,7 @@ namespace Nursery {
 					break;
 				}
 				channel.SendMessageAsync(prefix + msg.Substring(0, Common.DISCORD_MAX_MESSAGE_LENGTH - prefix.Length));
-				if (CutIfToLong) { break; }
+				if (CutIfTooLong) { break; }
 				msg = msg.Substring(Common.DISCORD_MAX_MESSAGE_LENGTH - prefix.Length);
 			}
 		}
@@ -342,66 +474,58 @@ namespace Nursery {
 			}
 		}
 
-		public JoinChannelResult JoinChannel(Plugins.IMessage message) {
-			var gu = message.Original.Author as SocketGuildUser;
-			var gc = (message.Original.Channel as SocketGuildChannel);
-			if (gu == null || gc == null) {
-				return new JoinChannelResult() { State = JoinChannelState.WhereYouAre };
-			}
-			var voicech = gu.VoiceChannel;
-			lock (state_lock_bject) { // LOCK STATE
-				if (this.state.TextChannelIds.Count > 0 || this.state.VoiceChannelId != 0) {
-					return new JoinChannelResult() { State = JoinChannelState.AlreadyJoined };
-				}
-				if (voicech == null) {
-					return new JoinChannelResult() { State = JoinChannelState.WhereYouAre };
-				}
-				var t = this.voice.Connect(voicech);
-				this.state.TextChannelIds.Add(message.Original.Channel.Id);
-				this.state.VoiceChannelId = voicech.Id;
-				this.state.SetGuild(gc.Guild, this.discord.CurrentUser.Id);
-				this.state.Joined = true;
-				return new JoinChannelResult() { State = JoinChannelState.Succeed, VoiceChannelName = voicech.Name };
+		public IPlugin GetPlugin(string PluginName) {
+			return PluginManager.Instance.GetPlugin(PluginName);
+		}
+
+		public string AnnounceLabel { get; set; } = "";
+		public string SpeakLabel { get; set; } = "";
+
+		public string GetUserName(string UserId) {
+			if (this.state.Guild == null) { return ""; }
+			ulong uid;
+			if (!ulong.TryParse(UserId, out uid)) { return ""; }
+			var u = this.state.Guild.GetUser(uid);
+			if (u == null) { return ""; }
+			return u.Username;
+		}
+		
+		public string GetNickName(string UserId) {
+			if (this.state.Guild == null) { return ""; }
+			ulong uid;
+			if (!ulong.TryParse(UserId, out uid)) { return ""; }
+			var u = this.state.Guild.GetUser(uid);
+			if (u == null) { return ""; }
+			if (u.Nickname != null && u.Nickname.Length > 0) { return u.Nickname; }
+			return u.Username;
+		}
+
+		public string[] GetUserIdsInVoiceChannel() {
+			if (!this.state.Joined || this.state.Guild == null || this.state.VoiceChannelId < 0) { return new string[] { }; }
+			var vc = this.state.Guild.GetVoiceChannel(this.state.VoiceChannelId);
+			if (vc == null) { return new string[] { }; }
+			return vc.Users.Select(u => u.Id.ToString()).Distinct().OrderBy(s => s).ToArray();
+		}
+		
+		public string[] GetTextChannelIds() {
+			return this.state.TextChannelIds.Select(id => id.ToString()).ToArray();
+		}
+		
+		public void AddSchedule(IScheduledTask schedule) {
+			lock (schedule_lock_object) { // LOCK SCHEDULE
+				this.Schedules.Add(schedule);
 			}
 		}
 
-		public LeaveChannelResult LeaveChannel(Plugins.IMessage message) {
-			lock(state_lock_bject) { // LOCK STATE
-				var t = this.voice.Disconnect();
-				var ret = this.state.Joined ? LeaveChannelResult.Succeed : LeaveChannelResult.NotJoined;
-				this.state.TextChannelIds = new List<ulong>();
-				this.state.VoiceChannelId = 0;
-				this.state.SetGuild(null, this.discord.CurrentUser.Id);
-				this.state.Joined = false;
-				return ret;
+		public void ClearSchedule() {
+			lock (schedule_lock_object) { // LOCK SCHEDULE
+				this.Schedules.Clear();
 			}
 		}
 
-		public AddChannelResult AddChannel(Plugins.IMessage message) {
-			lock (state_lock_bject) { // LOCK STATE
-				if (!this.state.Joined) {
-					return AddChannelResult.NotJoined;
-				}
-				if (!this.state.TextChannelIds.Contains(message.Original.Channel.Id)) {
-					this.state.TextChannelIds.Add(message.Original.Channel.Id);
-					return AddChannelResult.Succeed;
-				}
-				return AddChannelResult.AlreadyAdded;
-			}
-		}
+		#endregion
 
-		public RemoveChannelResult RemoveChannel(Plugins.IMessage message) {
-			lock (state_lock_bject) { // LOCK STATE
-				if (!this.state.Joined) {
-					return RemoveChannelResult.NotJoined;
-				}
-				if (this.state.TextChannelIds.Contains(message.Original.Channel.Id)) {
-					this.state.TextChannelIds.Remove(message.Original.Channel.Id);
-					return RemoveChannelResult.Succeed;
-				}
-				return RemoveChannelResult.AlreadyRemoved;
-			}
-		}
+		#region Events
 
 		async Task Client_MessageReceived(SocketMessage message) {
 			var mes = PluginManager.Instance.ExecutePlugins(this, message);
@@ -413,28 +537,22 @@ namespace Nursery {
 			await Task.Run((Action)(() => { this.AddTalk(mes.Content, mes.TalkOptions); }));
 		}
 
-		public bool IsJoined {
-			get {
-				lock (state_lock_bject) { // LOCK STATE
-					return this.state.Joined;
+		private void TickHandler() {
+			lock (schedule_lock_object) { // LOCK SCHEDULE
+				if (this.Schedules.Count > 0) {
+					var newschedules = new List<IScheduledTask>();
+					foreach (var s in this.Schedules) {
+						var ret = s.Execute(this);
+						if (ret != null && ret.Length > 0) {
+							newschedules.AddRange(ret);
+						}
+					}
+					this.Schedules = this.Schedules.Where(s => !s.Finished).ToList();
+					this.Schedules.AddRange(newschedules);
 				}
 			}
 		}
 
-		public List<ulong> TextChannelIds {
-			get {
-				lock (state_lock_bject) { // LOCK STATE
-					return this.state.TextChannelIds;
-				}
-			}
-		}
-		
-		public ulong VoiceChannelId {
-			get {
-				lock (state_lock_bject) { // LOCK STATE
-					return this.state.VoiceChannelId;
-				}
-			}
-		}
+		#endregion
 	}
 }

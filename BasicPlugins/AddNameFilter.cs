@@ -11,12 +11,15 @@ namespace Nursery.BasicPlugins {
 	}
 
 	public class AddNameFilter : IPlugin {
-		public string Name { get; } = "Nursery.BasicPlugins.AddNameFilter";
+		public const string NAME = "Nursery.BasicPlugins.AddNameFilter";
+		public string Name { get; } = NAME;
 		// TRANSLATORS: Bot-Help message. AddNameFilter plugin.
 		public string HelpText { get; } = T._("Filter to add Nickname or Username to messages.");
 		Plugins.Type IPlugin.Type => Plugins.Type.Filter;
 
 		private AddNameFilterConfig config = null;
+
+		public AddNameFilterConfig Config { get => config; }
 
 		public void Initialize(IPluginManager loader, IPlugin[] plugins) {
 			try {

@@ -31,12 +31,12 @@ namespace Nursery.BasicPlugins {
 				// TRANSLATORS: Bot message. WhereCommand plugin.
 				m += T._("[Voice channel]") + "\n" + vc.Name + "\n";
 			}
-			if (bot.TextChannelIds.Count == 0) {
+			if (bot.TextChannelIds.Length == 0) {
 				// TRANSLATORS: Bot message. WhereCommand plugin.
 				m += T._("[I'm not joining any text channel.]") + "\n";
 			} else {
 				// TRANSLATORS: Bot message. WhereCommand plugin.
-				m += T._n("[Text Channel]", "[Text Channels]", bot.TextChannelIds.Count) + "\n";
+				m += T._n("[Text Channel]", "[Text Channels]", bot.TextChannelIds.Length) + "\n";
 				foreach (var tcid in bot.TextChannelIds) {
 					var tc = user.Guild.GetTextChannel(tcid);
 					m += (tc == null ? "" : tc.Name + "\n");
