@@ -1,8 +1,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Nursery beta1.0\n"
-"POT-Creation-Date: 2018-07-30 17:45+0900\n"
-"PO-Revision-Date: 2018-07-30 17:49+0900\n"
+"POT-Creation-Date: 2018-08-07 02:03+0900\n"
+"PO-Revision-Date: 2018-08-07 02:06+0900\n"
 "Last-Translator: noonworks <noonworks@gmail.com>\n"
 "Language-Team: noonworks https://github.com/noonworks/Nursery\n"
 "Language: ja_JP\n"
@@ -121,6 +121,10 @@ msgstr "【コマンド一覧】"
 msgid "[FILTERS]"
 msgstr "【フィルタ一覧】"
 
+#. TRANSLATORS: Bot message. HelpText plugin.
+msgid "[SCHEDULERS]"
+msgstr "【スケジュール】"
+
 #. TRANSLATORS: Bot-Help message. IgnoreSelfFilter plugin.
 msgid "Filter to ignore voice-bot's self message."
 msgstr "voice-bot自身の発言を無視するフィルタ。"
@@ -223,6 +227,18 @@ msgstr "ドット"
 #, csharp-format
 msgid " URL {0} "
 msgstr " {0} のURL "
+
+#. TRANSLATORS: Bot-Help message. WelcomeScheduler plugin.
+msgid "Scheduler to add welcome messages."
+msgstr "入退室メッセージを表示するスケジュール。"
+
+#. TRANSLATORS: Bot message. WelcomeScheduler plugin. ${nickname} is nickname of joined user.
+msgid "${announce} ${nickname} is joined!"
+msgstr "${announce} ${nickname} が参加しました。"
+
+#. TRANSLATORS: Bot message. WelcomeScheduler plugin. ${nickname} is nickname of joined user.
+msgid "${announce} ${nickname} left."
+msgstr "${announce} ${nickname} が退室しました。"
 
 #. TRANSLATORS: Bot-Help message. WhereCommand plugin.
 msgid "Show where voice-bot is in."

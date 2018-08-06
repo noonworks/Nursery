@@ -11,9 +11,10 @@ namespace Nursery.BasicPlugins {
 		private string help_text = T._("Show command and filter help.") + " ```@voice-bot help\n@voice-bot help-command\n@voice-bot help-filter```";
 		private string command_help = "";
 		private string filter_help = "";
+		private string scheduler_help = "";
 		private bool replaced = false;
 
-		public HelpCommand() : base(new string[] { "help-command", "help-filter", "help" }) { }
+		public HelpCommand() : base(new string[] { "help-command", "help-filter", "help-scheduler", "help" }) { }
 
 		public override void Initialize(IPluginManager loader, IPlugin[] plugins) {
 			// TRANSLATORS: Bot message. HelpText plugin.
@@ -24,6 +25,10 @@ namespace Nursery.BasicPlugins {
 			filter_help = "\n" + T._("[FILTERS]") + "\n" + String.Join("\n", plugins.Where(p => p.Type == Plugins.Type.Filter).Select(p => {
 				return "* " + p.HelpText;
 			}).ToArray());
+			// TRANSLATORS: Bot message. HelpText plugin.
+			scheduler_help = "\n" + T._("[SCHEDULERS]") + "\n" + String.Join("\n", plugins.Where(p => p.Type == Plugins.Type.Scheduler).Select(p => {
+				return "* " + p.HelpText;
+			}).ToArray());
 		}
 
 		protected override bool DoExecute(int keywordIndex, IBot bot, IMessage message) {
@@ -32,6 +37,7 @@ namespace Nursery.BasicPlugins {
 				if (mn.Length > 0) {
 					this.command_help = this.command_help.Replace("voice-bot", mn);
 					this.filter_help = this.filter_help.Replace("voice-bot", mn);
+					this.scheduler_help = this.scheduler_help.Replace("voice-bot", mn);
 					this.help_text = this.help_text.Replace("voice-bot", mn);
 					this.replaced = true;
 				}
@@ -44,6 +50,9 @@ namespace Nursery.BasicPlugins {
 					bot.SendMessageAsync(message.Original.Channel, message.Original.Author, this.filter_help, false);
 					break;
 				case 2:
+					bot.SendMessageAsync(message.Original.Channel, message.Original.Author, this.scheduler_help, false);
+					break;
+				case 3:
 					bot.SendMessageAsync(message.Original.Channel, message.Original.Author, this.HelpText, false);
 					break;
 			}

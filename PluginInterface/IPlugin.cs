@@ -5,7 +5,8 @@ using System.Collections.Generic;
 namespace Nursery.Plugins {
 	public enum Type {
 		Command,
-		Filter
+		Filter,
+		Scheduler,
 	}
 
 	public interface IPlugin {
@@ -73,6 +74,8 @@ namespace Nursery.Plugins {
 		string SpeakLabel { get; set; }
 		string GetUserName(string UserId);
 		string GetNickName(string UserId);
+		string[] GetUserIdsInVoiceChannel();
+		string[] GetTextChannelIds();
 		void AddSchedule(IScheduledTask schedule);
 		void ClearSchedule();
 	}

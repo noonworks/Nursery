@@ -26,6 +26,7 @@
     "Nursery.BasicPlugins.LongMessageFilter",
     "Nursery.UserDefinedFilterPlugin.UserDefinedFilter",
     "Nursery.BasicPlugins.BlankFilter",
-    "Nursery.BasicPlugins.AddNameFilter"
+    "Nursery.BasicPlugins.AddNameFilter",
+    "Nursery.BasicPlugins.WelcomeScheduler"
   ]
 }
