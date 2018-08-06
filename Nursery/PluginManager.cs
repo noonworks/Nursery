@@ -10,13 +10,6 @@ using Nursery.Utility;
 using System.Diagnostics;
 
 namespace Nursery.Plugins {
-	public class TalkOptions : ITalkOptions {
-		public int Speed { get; set; } = -1;
-		public int Tone { get; set; } = -1;
-		public int Volume { get; set; } = 50;
-		public VoiceType Type { get; set; } = VoiceType.Default;
-	}
-
 	public class Message : IMessage {
 		public SocketMessage Original { get; }
 		public string Content { get; set; }
@@ -60,6 +53,8 @@ namespace Nursery.Plugins {
 
 		private IPlugin[] Plugins = new IPlugin[] { };
 		private bool Loaded = false;
+		private string AnnounceLabel = "";
+		private string SpeakLabel = "";
 
 		public IMessage ExecutePlugins(IBot bot, SocketMessage message) {
 			var mes = new Plugins.Message(message);
@@ -82,6 +77,14 @@ namespace Nursery.Plugins {
 
 		public T GetPluginSetting<T>(string PluginName) {
 			return Config.Instance.GetPluginSetting<T>(PluginName);
+		}
+
+		public void SetAnnounceLabel(string label) {
+			this.AnnounceLabel = label;
+		}
+
+		public void SetSpeakLabel(string label) {
+			this.SpeakLabel = label;
 		}
 
 		public void Load(IBot bot) {
@@ -132,6 +135,8 @@ namespace Nursery.Plugins {
 			}
 			var ret = foundPlugins.Where(i => i != null).ToArray();
 			this.Plugins = ret.Select(p => { p.Initialize(this, ret); return p; }).ToArray();
+			bot.AnnounceLabel = this.AnnounceLabel;
+			bot.SpeakLabel = this.SpeakLabel;
 			Loaded = true;
 		}
 	}

@@ -64,9 +64,15 @@ namespace Nursery.Plugins {
 		LeaveChannelResult LeaveChannel(IMessage message);
 		AddChannelResult AddChannel(IMessage message);
 		RemoveChannelResult RemoveChannel(IMessage message);
-		void SendMessageAsync(ISocketMessageChannel channel, string message, bool CutIfToLong);
-		void SendMessageAsync(ISocketMessageChannel channel, SocketUser user, string message, bool CutIfToLong);
+		void SendMessageAsync(string[] TextChannelIds, string messageForFirst, string messageForOthers, bool CutIfTooLong);
+		void SendMessageAsync(ISocketMessageChannel channel, string message, bool CutIfTooLong);
+		void SendMessageAsync(ISocketMessageChannel channel, SocketUser user, string message, bool CutIfTooLong);
+		void AddTalk(string message, ITalkOptions options);
 		IPlugin GetPlugin(string PluginName);
+		string AnnounceLabel { get; set; }
+		string SpeakLabel { get; set; }
+		string GetUserName(string UserId);
+		string GetNickName(string UserId);
 		void AddSchedule(IScheduledTask schedule);
 		void ClearSchedule();
 	}
@@ -109,5 +115,7 @@ namespace Nursery.Plugins {
 		T GetPluginSetting<T>(string PluginName);
 		T LoadConfig<T>(string path);
 		IMessage ExecutePlugins(IBot bot, SocketMessage message);
+		void SetAnnounceLabel(string label);
+		void SetSpeakLabel(string label);
 	}
 }

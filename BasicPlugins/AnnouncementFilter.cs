@@ -17,23 +17,14 @@ namespace Nursery.BasicPlugins {
 		private static readonly string SpeakLabel = T._("[SPEAK]");
 		private static readonly Regex SpeakLabelRegex = new Regex(Regex.Escape(SpeakLabel));
 
-		public static string GetAnnounceLabel(IBot bot) {
-			var p = bot.GetPlugin(NAME);
-			if (p == null) { return ""; }
-			return AnnounceLabel;
-		}
-
-		public static string GetSpeakLabel(IBot bot) {
-			var p = bot.GetPlugin(NAME);
-			if (p == null) { return ""; }
-			return SpeakLabel;
-		}
-
 		private static readonly Regex TrimRegex = new Regex("^\\s*");
 		private string AnnounceLabelPrefix = null;
 		private string SpeakLabelPrefix = null;
 
-		public void Initialize(IPluginManager loader, IPlugin[] plugins) { }
+		public void Initialize(IPluginManager loader, IPlugin[] plugins) {
+			loader.SetAnnounceLabel(AnnounceLabel);
+			loader.SetSpeakLabel(SpeakLabel);
+		}
 
 		private void LoadLabelReplacer(IBot bot) {
 			var ignore_name_prefix = "";

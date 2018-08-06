@@ -1,6 +1,14 @@
-﻿using System.Text.RegularExpressions;
+﻿using FNF.Utility;
+using System.Text.RegularExpressions;
 
 namespace Nursery.Plugins {
+	public class TalkOptions : ITalkOptions {
+		public int Speed { get; set; } = -1;
+		public int Tone { get; set; } = -1;
+		public int Volume { get; set; } = 50;
+		public VoiceType Type { get; set; } = VoiceType.Default;
+	}
+	
 	public abstract class AbstractKeywordCommand : IPlugin {
 		protected string[] keywords;
 		protected Regex[] regexs;

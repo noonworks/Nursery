@@ -426,11 +426,26 @@ namespace Nursery {
 			}
 		}
 
-		public void SendMessageAsync(ISocketMessageChannel channel, string message, bool CutIfToLong) {
-			SendMessageAsync(channel, null, message, CutIfToLong);
+		public void SendMessageAsync(string[] TextChannelIds, string messageForFirst, string messageForOthers, bool CutIfTooLong) {
+			if (TextChannelIds == null || TextChannelIds.Length == 0) {
+				SendMessageAsync(this.state.DefaultTextChannel, null, messageForFirst, CutIfTooLong);
+			}
+			var isFirst = true;
+			foreach (var tcid_s in TextChannelIds) {
+				ulong tcid;
+				if (!ulong.TryParse(tcid_s, out tcid)) { continue; }
+				if (this.state.TextChannelIds.Contains(tcid)) {
+					SendMessageAsync(this.state.Guild.GetTextChannel(tcid), null, isFirst ? messageForFirst : messageForOthers, CutIfTooLong);
+					isFirst = false;
+				}
+			}
+		}
+		
+		public void SendMessageAsync(ISocketMessageChannel channel, string message, bool CutIfTooLong) {
+			SendMessageAsync(channel, null, message, CutIfTooLong);
 		}
 
-		public void SendMessageAsync(ISocketMessageChannel channel, SocketUser user, string message, bool CutIfToLong) {
+		public void SendMessageAsync(ISocketMessageChannel channel, SocketUser user, string message, bool CutIfTooLong) {
 			if (channel == null) {
 				channel = this.state.DefaultTextChannel;
 			}
@@ -446,8 +461,16 @@ namespace Nursery {
 					break;
 				}
 				channel.SendMessageAsync(prefix + msg.Substring(0, Common.DISCORD_MAX_MESSAGE_LENGTH - prefix.Length));
-				if (CutIfToLong) { break; }
+				if (CutIfTooLong) { break; }
 				msg = msg.Substring(Common.DISCORD_MAX_MESSAGE_LENGTH - prefix.Length);
+			}
+		}
+
+		public void AddTalk(string message, Plugins.ITalkOptions options) {
+			try {
+				this.bouyomichan.AddTalkTask(message, options.Speed, options.Tone, options.Volume, options.Type);
+			} catch (Exception e) {
+				Logger.Log(e.ToString());
 			}
 		}
 
@@ -455,6 +478,28 @@ namespace Nursery {
 			return PluginManager.Instance.GetPlugin(PluginName);
 		}
 
+		public string AnnounceLabel { get; set; } = "";
+		public string SpeakLabel { get; set; } = "";
+
+		public string GetUserName(string UserId) {
+			if (this.state.Guild == null) { return ""; }
+			ulong uid;
+			if (!ulong.TryParse(UserId, out uid)) { return ""; }
+			var u = this.state.Guild.GetUser(uid);
+			if (u == null) { return ""; }
+			return u.Username;
+		}
+		
+		public string GetNickName(string UserId) {
+			if (this.state.Guild == null) { return ""; }
+			ulong uid;
+			if (!ulong.TryParse(UserId, out uid)) { return ""; }
+			var u = this.state.Guild.GetUser(uid);
+			if (u == null) { return ""; }
+			if (u.Nickname != null && u.Nickname.Length > 0) { return u.Nickname; }
+			return u.Username;
+		}
+		
 		public void AddSchedule(IScheduledTask schedule) {
 			lock (schedule_lock_object) { // LOCK SCHEDULE
 				this.Schedules.Add(schedule);
@@ -468,14 +513,6 @@ namespace Nursery {
 		}
 
 		#endregion
-
-		private void AddTalk(string message, Plugins.ITalkOptions options) {
-			try {
-				this.bouyomichan.AddTalkTask(message, options.Speed, options.Tone, options.Volume, options.Type);
-			} catch (Exception e) {
-				Logger.Log(e.ToString());
-			}
-		}
 
 		#region Events
 
