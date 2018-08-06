@@ -478,6 +478,9 @@ namespace Nursery {
 			return PluginManager.Instance.GetPlugin(PluginName);
 		}
 
+		public string AnnounceLabel { get; set; } = "";
+		public string SpeakLabel { get; set; } = "";
+
 		public void AddSchedule(IScheduledTask schedule) {
 			lock (schedule_lock_object) { // LOCK SCHEDULE
 				this.Schedules.Add(schedule);

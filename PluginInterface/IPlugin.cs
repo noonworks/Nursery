@@ -69,6 +69,8 @@ namespace Nursery.Plugins {
 		void SendMessageAsync(ISocketMessageChannel channel, SocketUser user, string message, bool CutIfTooLong);
 		void AddTalk(string message, ITalkOptions options);
 		IPlugin GetPlugin(string PluginName);
+		string AnnounceLabel { get; set; }
+		string SpeakLabel { get; set; }
 		void AddSchedule(IScheduledTask schedule);
 		void ClearSchedule();
 	}
@@ -111,5 +113,7 @@ namespace Nursery.Plugins {
 		T GetPluginSetting<T>(string PluginName);
 		T LoadConfig<T>(string path);
 		IMessage ExecutePlugins(IBot bot, SocketMessage message);
+		void SetAnnounceLabel(string label);
+		void SetSpeakLabel(string label);
 	}
 }
