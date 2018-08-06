@@ -2,7 +2,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Nursery beta1.0\n"
-"POT-Creation-Date: 2018-07-15 16:07+0900\n"
+"POT-Creation-Date: 2018-08-07 02:03+0900\n"
 "PO-Revision-Date: 2018-07-10 16:52+0900\n"
 "Last-Translator: noonworks <noonworks@gmail.com>\n"
 "Language-Team: noonworks https://github.com/noonworks/Nursery\n"
@@ -155,7 +155,15 @@ msgid "Could not login to Discord. Login challange was timeouted."
 msgstr ""
 
 #. TRANSLATORS: Log message. Initializing Nursery.
+msgid "Start timer..."
+msgstr ""
+
+#. TRANSLATORS: Log message. Initializing Nursery.
 msgid "Done!"
+msgstr ""
+
+#. TRANSLATORS: Log message. Initializing Nursery.
+msgid "Error: This OS is not supported."
 msgstr ""
 
 #. TRANSLATORS: Log message. Initializing Nursery.
@@ -187,7 +195,15 @@ msgid "- initialize Discord client ..."
 msgstr ""
 
 #. TRANSLATORS: Log message. Initializing Nursery.
+msgid "- initialize Timer ..."
+msgstr ""
+
+#. TRANSLATORS: Log message. Initializing Nursery.
 msgid "- load plugins ..."
+msgstr ""
+
+#. TRANSLATORS: Log message. Disconnect Nursery.
+msgid "- stop Timer ..."
 msgstr ""
 
 #. TRANSLATORS: Log message. Disconnect Nursery.
