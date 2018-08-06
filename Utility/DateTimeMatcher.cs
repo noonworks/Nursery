@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Linq;
 using System.Text.RegularExpressions;
 
 namespace Nursery.Utility {
@@ -25,11 +24,38 @@ namespace Nursery.Utility {
 			return ret;
 		}
 
+		public string Pattern { get; } = "";
 		public bool Valid { get; } = false;
 		private static readonly int MatchersCount = 7;
 		private NumberMatcher[] Matchers = new NumberMatcher[MatchersCount];
+		private string MatchedPostfix = "";
+		private string Previous = "";
 
-		public bool IsMatch(DateTime dt) {
+		public void ResetPrevious() {
+			this.Previous = "";
+		}
+
+		public void SetPrevious(DateTime dt) {
+			this.Previous = ToMatchedString(dt);
+			Logger.DebugLog("[DateTimeMatcher] Set Previous [" + this.Previous + "]");
+		}
+
+		public bool IsMatch(DateTime dt, bool UsePrevious = true) {
+			var now = ToMatchedString(dt);
+			if (UsePrevious && now == this.Previous) { return false; }
+			if (DoIsMatch(dt)) {
+				this.SetPrevious(dt);
+				return true;
+			}
+			return false;
+		}
+
+		public string ToMatchedString(DateTime dt) {
+			var ret = string.Join("", Split(dt));
+			return ret.Substring(0, ret.Length - this.MatchedPostfix.Length) + this.MatchedPostfix;
+		}
+
+		private bool DoIsMatch(DateTime dt) {
 			if (!this.Valid) { return false; }
 			string[] Values = Split(dt);
 			for (int i = 0; i < MatchersCount; i++) {
@@ -75,6 +101,7 @@ namespace Nursery.Utility {
 		}
 
 		public DateTimeMatcher(string Pattern) {
+			this.Pattern = Pattern;
 			if (!FormatRegex.IsMatch(Pattern)) { return; }
 			// create matchers
 			var mt = FormatRegex.Match(Pattern);
@@ -100,6 +127,13 @@ namespace Nursery.Utility {
 				if (!m.Valid) { this.Valid = false; }
 			}
 			if (allwild) { this.Valid = false; }
+			// create matched postfix
+			if (this.Valid) {
+				for (var i = MatchersCount - 1; i >= 0; i--) {
+					if (this.Matchers[i].MatcherType != NumberMatcherType.AllWildcard) { break; }
+					this.MatchedPostfix = "****".Substring(0, mt.Groups[i + 1].Value.Length) + this.MatchedPostfix;
+				}
+			}
 		}
 
 		private enum NumberMatcherType {
