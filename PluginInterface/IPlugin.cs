@@ -117,5 +117,6 @@ namespace Nursery.Plugins {
 		IMessage ExecutePlugins(IBot bot, SocketMessage message);
 		void SetAnnounceLabel(string label);
 		void SetSpeakLabel(string label);
+		void AddSchedule(IScheduledTask schedule);
 	}
 }

@@ -55,6 +55,7 @@ namespace Nursery.Plugins {
 		private bool Loaded = false;
 		private string AnnounceLabel = "";
 		private string SpeakLabel = "";
+		private List<IScheduledTask> Schedules = new List<IScheduledTask>();
 
 		public IMessage ExecutePlugins(IBot bot, SocketMessage message) {
 			var mes = new Plugins.Message(message);
@@ -87,6 +88,10 @@ namespace Nursery.Plugins {
 			this.SpeakLabel = label;
 		}
 
+		public void AddSchedule(IScheduledTask schedule) {
+			this.Schedules.Add(schedule);
+		}
+		
 		public void Load(IBot bot) {
 			if (Loaded) { return; }
 			var pNames = Config.Instance.PluginConfig.PluginNames;
@@ -137,6 +142,9 @@ namespace Nursery.Plugins {
 			this.Plugins = ret.Select(p => { p.Initialize(this, ret); return p; }).ToArray();
 			bot.AnnounceLabel = this.AnnounceLabel;
 			bot.SpeakLabel = this.SpeakLabel;
+			foreach (var s in this.Schedules) {
+				bot.AddSchedule(s);
+			}
 			Loaded = true;
 		}
 	}
