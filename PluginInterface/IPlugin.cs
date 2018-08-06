@@ -73,6 +73,7 @@ namespace Nursery.Plugins {
 		string SpeakLabel { get; set; }
 		string GetUserName(string UserId);
 		string GetNickName(string UserId);
+		string[] GetUserIdsInVoiceChannel();
 		void AddSchedule(IScheduledTask schedule);
 		void ClearSchedule();
 	}
