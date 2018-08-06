@@ -1,4 +1,5 @@
-﻿using FNF.Utility;
+﻿using Discord.WebSocket;
+using FNF.Utility;
 using System;
 using System.Text.RegularExpressions;
 
@@ -6,8 +7,12 @@ namespace Nursery.Plugins {
 	public class Utility {
 		private const string UserNameRegex = @"\${username([0-9]+)}";
 		private const string NickNameRegex = @"\${nickname([0-9]+)}";
-		public static string ReplaceDiscordValues(string text, IBot bot, DateTime dt) {
+		public static string ReplaceDiscordValues(string text, IBot bot, DateTime dt, SocketMessage Original = null) {
 			text = Nursery.Utility.Messages.ReplaceGeneralValues(text, dt);
+			// replace reply
+			if (Original != null) {
+				text = text.Replace("${reply}", Original.Author.Mention);
+			}
 			// replace username and nickname
 			text = Regex.Replace(text, UserNameRegex, m => bot.GetUserName(m.Groups[1].Value));
 			text = Regex.Replace(text, NickNameRegex, m => bot.GetNickName(m.Groups[1].Value));
