@@ -18,6 +18,9 @@ namespace Nursery {
 		private BouyomiChanClient bouyomichan = null;
 		private DiscordSocketClient discord = null;
 		private VoiceChat voice = null;
+		private Timer timer = null;
+		private List<IScheduledTask> Schedules = new List<IScheduledTask>();
+		private object schedule_lock_object = new object();
 
 		#region Initialize
 
@@ -119,6 +122,9 @@ namespace Nursery {
 				return null;
 			}
 			// TRANSLATORS: Log message. Initializing Nursery.
+			Logger.Log(T._("Start timer..."));
+			instance.timer.Start();
+			// TRANSLATORS: Log message. Initializing Nursery.
 			Logger.Log(T._("Done!"));
 			Logger.Log("/////////////");
 			Logger.Log("// Nursery //");
@@ -186,6 +192,9 @@ namespace Nursery {
 			Logger.Log(T._("- initialize Discord client ..."));
 			this.discord = CreateDiscordClient();
 			// TRANSLATORS: Log message. Initializing Nursery.
+			Logger.Log(T._("- initialize Timer ..."));
+			this.timer = new Timer(this.TickHandler);
+			// TRANSLATORS: Log message. Initializing Nursery.
 			Logger.Log(T._("- load plugins ..."));
 			PluginManager.Instance.Load(this);
 		}
@@ -196,6 +205,9 @@ namespace Nursery {
 
 		private void Disconnect() {
 			try {
+				// TRANSLATORS: Log message. Disconnect Nursery.
+				Logger.Log(T._("- stop Timer ..."));
+				this.timer.Stop();
 				// TRANSLATORS: Log message. Disconnect Nursery.
 				Logger.Log(T._("- disconnect from Voice channel ..."));
 				if (this.voice != null) {
@@ -414,11 +426,26 @@ namespace Nursery {
 			}
 		}
 
-		public void SendMessageAsync(ISocketMessageChannel channel, string message, bool CutIfToLong) {
-			SendMessageAsync(channel, null, message, CutIfToLong);
+		public void SendMessageAsync(string[] TextChannelIds, string messageForFirst, string messageForOthers, bool CutIfTooLong) {
+			if (TextChannelIds == null || TextChannelIds.Length == 0) {
+				SendMessageAsync(this.state.DefaultTextChannel, null, messageForFirst, CutIfTooLong);
+			}
+			var isFirst = true;
+			foreach (var tcid_s in TextChannelIds) {
+				ulong tcid;
+				if (!ulong.TryParse(tcid_s, out tcid)) { continue; }
+				if (this.state.TextChannelIds.Contains(tcid)) {
+					SendMessageAsync(this.state.Guild.GetTextChannel(tcid), null, isFirst ? messageForFirst : messageForOthers, CutIfTooLong);
+					isFirst = false;
+				}
+			}
+		}
+		
+		public void SendMessageAsync(ISocketMessageChannel channel, string message, bool CutIfTooLong) {
+			SendMessageAsync(channel, null, message, CutIfTooLong);
 		}
 
-		public void SendMessageAsync(ISocketMessageChannel channel, SocketUser user, string message, bool CutIfToLong) {
+		public void SendMessageAsync(ISocketMessageChannel channel, SocketUser user, string message, bool CutIfTooLong) {
 			if (channel == null) {
 				channel = this.state.DefaultTextChannel;
 			}
@@ -434,8 +461,16 @@ namespace Nursery {
 					break;
 				}
 				channel.SendMessageAsync(prefix + msg.Substring(0, Common.DISCORD_MAX_MESSAGE_LENGTH - prefix.Length));
-				if (CutIfToLong) { break; }
+				if (CutIfTooLong) { break; }
 				msg = msg.Substring(Common.DISCORD_MAX_MESSAGE_LENGTH - prefix.Length);
+			}
+		}
+
+		public void AddTalk(string message, Plugins.ITalkOptions options) {
+			try {
+				this.bouyomichan.AddTalkTask(message, options.Speed, options.Tone, options.Volume, options.Type);
+			} catch (Exception e) {
+				Logger.Log(e.ToString());
 			}
 		}
 
@@ -443,15 +478,41 @@ namespace Nursery {
 			return PluginManager.Instance.GetPlugin(PluginName);
 		}
 
-		#endregion
+		public string AnnounceLabel { get; set; } = "";
+		public string SpeakLabel { get; set; } = "";
 
-		private void AddTalk(string message, Plugins.ITalkOptions options) {
-			try {
-				this.bouyomichan.AddTalkTask(message, options.Speed, options.Tone, options.Volume, options.Type);
-			} catch (Exception e) {
-				Logger.Log(e.ToString());
+		public string GetUserName(string UserId) {
+			if (this.state.Guild == null) { return ""; }
+			ulong uid;
+			if (!ulong.TryParse(UserId, out uid)) { return ""; }
+			var u = this.state.Guild.GetUser(uid);
+			if (u == null) { return ""; }
+			return u.Username;
+		}
+		
+		public string GetNickName(string UserId) {
+			if (this.state.Guild == null) { return ""; }
+			ulong uid;
+			if (!ulong.TryParse(UserId, out uid)) { return ""; }
+			var u = this.state.Guild.GetUser(uid);
+			if (u == null) { return ""; }
+			if (u.Nickname != null && u.Nickname.Length > 0) { return u.Nickname; }
+			return u.Username;
+		}
+		
+		public void AddSchedule(IScheduledTask schedule) {
+			lock (schedule_lock_object) { // LOCK SCHEDULE
+				this.Schedules.Add(schedule);
 			}
 		}
+
+		public void ClearSchedule() {
+			lock (schedule_lock_object) { // LOCK SCHEDULE
+				this.Schedules.Clear();
+			}
+		}
+
+		#endregion
 
 		#region Events
 
@@ -463,6 +524,22 @@ namespace Nursery {
 			Logger.DebugLog(T._("* Applied plugins: {0}", String.Join(", ", mes.AppliedPlugins)));
 			if (mes.Content.Length == 0) { return; }
 			await Task.Run((Action)(() => { this.AddTalk(mes.Content, mes.TalkOptions); }));
+		}
+
+		private void TickHandler() {
+			lock (schedule_lock_object) { // LOCK SCHEDULE
+				if (this.Schedules.Count > 0) {
+					var newschedules = new List<IScheduledTask>();
+					foreach (var s in this.Schedules) {
+						var ret = s.Execute(this);
+						if (ret != null && ret.Length > 0) {
+							newschedules.AddRange(ret);
+						}
+					}
+					this.Schedules = this.Schedules.Where(s => !s.Finished).ToList();
+					this.Schedules.AddRange(newschedules);
+				}
+			}
 		}
 
 		#endregion

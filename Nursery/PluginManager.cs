@@ -10,13 +10,6 @@ using Nursery.Utility;
 using System.Diagnostics;
 
 namespace Nursery.Plugins {
-	public class TalkOptions : ITalkOptions {
-		public int Speed { get; set; } = -1;
-		public int Tone { get; set; } = -1;
-		public int Volume { get; set; } = 50;
-		public VoiceType Type { get; set; } = VoiceType.Default;
-	}
-
 	public class Message : IMessage {
 		public SocketMessage Original { get; }
 		public string Content { get; set; }
@@ -60,6 +53,9 @@ namespace Nursery.Plugins {
 
 		private IPlugin[] Plugins = new IPlugin[] { };
 		private bool Loaded = false;
+		private string AnnounceLabel = "";
+		private string SpeakLabel = "";
+		private List<IScheduledTask> Schedules = new List<IScheduledTask>();
 
 		public IMessage ExecutePlugins(IBot bot, SocketMessage message) {
 			var mes = new Plugins.Message(message);
@@ -71,7 +67,7 @@ namespace Nursery.Plugins {
 		}
 
 		public IPlugin GetPlugin(string PluginName) {
-			var plg = Plugins.First(p => p.Name.Equals(PluginName));
+			var plg = Plugins.FirstOrDefault(p => p.Name.Equals(PluginName));
 			if (plg != null) { return plg; }
 			return null;
 		}
@@ -84,6 +80,18 @@ namespace Nursery.Plugins {
 			return Config.Instance.GetPluginSetting<T>(PluginName);
 		}
 
+		public void SetAnnounceLabel(string label) {
+			this.AnnounceLabel = label;
+		}
+
+		public void SetSpeakLabel(string label) {
+			this.SpeakLabel = label;
+		}
+
+		public void AddSchedule(IScheduledTask schedule) {
+			this.Schedules.Add(schedule);
+		}
+		
 		public void Load(IBot bot) {
 			if (Loaded) { return; }
 			var pNames = Config.Instance.PluginConfig.PluginNames;
@@ -132,6 +140,11 @@ namespace Nursery.Plugins {
 			}
 			var ret = foundPlugins.Where(i => i != null).ToArray();
 			this.Plugins = ret.Select(p => { p.Initialize(this, ret); return p; }).ToArray();
+			bot.AnnounceLabel = this.AnnounceLabel;
+			bot.SpeakLabel = this.SpeakLabel;
+			foreach (var s in this.Schedules) {
+				bot.AddSchedule(s);
+			}
 			Loaded = true;
 		}
 	}
