@@ -3,6 +3,8 @@ using Nursery.Plugins;
 using Nursery.Plugins.Schedules;
 using Nursery.Utility;
 using System;
+using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 
 namespace Nursery.BasicPlugins {
@@ -87,6 +89,33 @@ namespace Nursery.BasicPlugins {
 			return false;
 		}
 
+		private static string[] GetAdditionalConfigFiles(IPluginManager loader) {
+			var dir = Path.Combine(loader.GetPluginDir(), NAME);
+			if (!Directory.Exists(dir)) { return new string[] { }; }
+			return Directory.GetFiles(dir, "*.json", SearchOption.AllDirectories);
+		}
+
+		private static void LoadAdditionalConfig(IPluginManager loader, WelcomeSchedulerConfig config) {
+			var files = GetAdditionalConfigFiles(loader);
+			if (files.Length == 0) { return; }
+			var pairs = new List<WelcomeSchedulerConfigIdTextPair>();
+			pairs.AddRange(config.IdTextPairs);
+			foreach (var f in files) {
+				try {
+					var c = loader.LoadConfig<WelcomeSchedulerConfigIdTextPair>(f);
+					if (c != null) { pairs.Add(c); }
+				} catch (Exception e) {
+					Logger.DebugLog(e.ToString());
+				}
+			}
+			var checkedPairs = new List<WelcomeSchedulerConfigIdTextPair>();
+			foreach (var pair in pairs) {
+				checkedPairs.RemoveAll(p => p.UserId == pair.UserId);
+				checkedPairs.Add(pair);
+			}
+			config.IdTextPairs = checkedPairs.ToArray();
+		}
+
 		private static WelcomeSchedulerConfig LoadCofig(IPluginManager loader) {
 			WelcomeSchedulerConfig config;
 			try {
@@ -100,6 +129,7 @@ namespace Nursery.BasicPlugins {
 			if (config == null) {
 				config = new WelcomeSchedulerConfig();
 			}
+			LoadAdditionalConfig(loader, config);
 			config.Init();
 			return config;
 		}
