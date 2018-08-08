@@ -507,10 +507,6 @@ namespace Nursery {
 			return vc.Users.Select(u => u.Id.ToString()).Distinct().OrderBy(s => s).ToArray();
 		}
 		
-		public string[] GetTextChannelIds() {
-			return this.state.TextChannelIds.Select(id => id.ToString()).ToArray();
-		}
-		
 		public void AddSchedule(IScheduledTask schedule) {
 			lock (schedule_lock_object) { // LOCK SCHEDULE
 				this.Schedules.Add(schedule);
