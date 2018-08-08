@@ -151,25 +151,25 @@ namespace Nursery.BasicPlugins {
 			this.Config = config;
 		}
 
-		protected override ScheduleCheckResult DoCheck(IBot bot) {
+		protected override bool DoCheck(IBot bot) {
 			if (!bot.IsJoined) {
 				this.LastMembers = null;
-				return new ScheduleCheckResult();
+				return false;
 			}
 			var members = bot.GetUserIdsInVoiceChannel();
 			if (this.LastMembers == null) {
 				this.LastMembers = members;
-				return new ScheduleCheckResult();
+				return false;
 			}
 			var self = new string[] { bot.IdString };
 			this.Leaved = this.LastMembers.Except(members).Except(self).ToArray();
 			this.Joined = members.Except(this.LastMembers).Except(self).ToArray();
 			if (this.Leaved.Length == 0 && this.Joined.Length == 0) {
-				return new ScheduleCheckResult();
+				return false;
 			}
 			this.LastMembers = members;
 			Logger.DebugLog("[WelcomeTask] Member changed: " + this.Leaved.Length + " user(s) left and " + this.Joined.Length + " user(s) joined.");
-			return new ScheduleCheckResult() { Established = true };
+			return true;
 		}
 
 		private ScheduledMessage CreateMessage(string user_id, string[] channels, bool isJoined) {

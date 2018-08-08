@@ -1,13 +1,7 @@
 ﻿using Nursery.Utility;
 using System;
-using System.Text.RegularExpressions;
 
 namespace Nursery.Plugins.Schedules {
-	public class ScheduleCheckResult {
-		public bool Established = false;
-		public string AdditionalData = null;
-	}
-
 	public enum ScheduledMessageType {
 		DoNothing,
 		SendMessage,
@@ -30,20 +24,16 @@ namespace Nursery.Plugins.Schedules {
 			this.Name = Name;
 		}
 		#endregion
-
-		protected string AdditionalData { get; set; } = null;
+		
 		protected DateTime CheckedAt { get; set; }
-		abstract protected ScheduleCheckResult DoCheck(IBot bot);
+		abstract protected bool DoCheck(IBot bot);
 		abstract protected IScheduledTask[] DoExecute(IBot bot);
 
 		protected bool Check(DateTime checkedAt, IBot bot) {
 			this.CheckedAt = checkedAt;
 			var r = this.DoCheck(bot);
-			if (r.AdditionalData != null) {
-				this.AdditionalData = r.AdditionalData;
-			}
-			if (r.Established) { Logger.DebugLog("[SCHEDULE] " + this.Name + " going to be executed."); }
-			return r.Established;
+			if (r) { Logger.DebugLog("[SCHEDULE] " + this.Name + " going to be executed."); }
+			return r;
 		}
 
 		public IScheduledTask[] Execute(IBot bot) {
