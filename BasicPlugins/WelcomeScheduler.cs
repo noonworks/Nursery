@@ -192,7 +192,7 @@ namespace Nursery.BasicPlugins {
 			string[] channels = new string[] { };
 			switch (this.Config.SendToType) {
 				case SendToType.allChannels:
-					channels = bot.GetTextChannelIds();
+					channels = bot.TextChannelIdStrings;
 					break;
 				case SendToType.specifiedChannels:
 					channels = this.Config.SendTo;
