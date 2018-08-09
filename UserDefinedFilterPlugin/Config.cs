@@ -111,15 +111,23 @@ namespace Nursery.UserDefinedFilterPlugin {
 			return ret;
 		}
 
+		private string ReplaceGroups(Match match, string text) {
+			for (var i = 0; i < match.Groups.Count; i++) {
+				text = Regex.Replace(text, @"(?<!\$)\$" + i + "(?![0-9])", match.Groups[i].Value);
+			}
+			return text;
+		}
+
 		private FilterResult DoFilterRegex(string content) {
 			if (this.RegexPattern == null) { return new FilterResult(); }
 			var ret = new FilterResult();
-			if (!this.RegexPattern.IsMatch(content)) { return ret; }
+			Match match = this.RegexPattern.Match(content);
+			if (match == null || !match.Success) { return ret; }
 			if (this.ReplaceTo != null) {
 				ret.Content = this.RegexPattern.Replace(content, this.ReplaceTo);
 			}
 			if (this.SendMessage != null) {
-				ret.SendMessage = this.SendMessage;
+				ret.SendMessage = ReplaceGroups(match, this.SendMessage);
 			}
 			return ret;
 		}
