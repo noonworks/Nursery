@@ -111,13 +111,6 @@ namespace Nursery.UserDefinedFilterPlugin {
 			return ret;
 		}
 
-		private string ReplaceGroups(Match match, string text) {
-			for (var i = 0; i < match.Groups.Count; i++) {
-				text = Regex.Replace(text, @"(?<!\$)\$" + i + "(?![0-9])", match.Groups[i].Value);
-			}
-			return text;
-		}
-
 		private FilterResult DoFilterRegex(string content) {
 			if (this.RegexPattern == null) { return new FilterResult(); }
 			var ret = new FilterResult();
@@ -127,7 +120,7 @@ namespace Nursery.UserDefinedFilterPlugin {
 				ret.Content = this.RegexPattern.Replace(content, this.ReplaceTo);
 			}
 			if (this.SendMessage != null) {
-				ret.SendMessage = ReplaceGroups(match, this.SendMessage);
+				ret.SendMessage = match.Result(this.SendMessage);
 			}
 			return ret;
 		}
