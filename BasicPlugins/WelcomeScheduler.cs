@@ -146,30 +146,70 @@ namespace Nursery.BasicPlugins {
 		private string[] LastMembers = null;
 		private string[] Leaved = null;
 		private string[] Joined = null;
+		private int DebounceCount = -1;
+		private const int DebounceMax = 15; // 1500 msec
+		private string[] MembersDebounceStart = null;
 
 		public WelcomeTask(WelcomeSchedulerConfig config): base(NAME) {
 			this.Config = config;
 		}
 
 		protected override bool DoCheck(IBot bot) {
+			// bot leaved
 			if (!bot.IsJoined) {
+				this.MembersDebounceStart = null;
 				this.LastMembers = null;
+				this.DebounceCount = -1;
 				return false;
 			}
-			var members = bot.GetUserIdsInVoiceChannel();
+			// bot joined
 			if (this.LastMembers == null) {
-				this.LastMembers = members;
+				this.LastMembers = bot.GetUserIdsInVoiceChannel();
 				return false;
 			}
+			// check members
+			var members = bot.GetUserIdsInVoiceChannel();
 			var self = new string[] { bot.IdString };
-			this.Leaved = this.LastMembers.Except(members).Except(self).ToArray();
-			this.Joined = members.Except(this.LastMembers).Except(self).ToArray();
-			if (this.Leaved.Length == 0 && this.Joined.Length == 0) {
+			var leaved = this.LastMembers.Except(members).Except(self).ToArray();
+			var joined = members.Except(this.LastMembers).Except(self).ToArray();
+			var original_last = this.LastMembers;
+			this.LastMembers = members;
+			// members are changed
+			if (leaved.Length > 0 || joined.Length > 0) {
+				if (this.DebounceCount < 0) {
+					// start debouncing
+					Logger.DebugLog("[WelcomeTask] Start member cheking...");
+					this.MembersDebounceStart = original_last;
+				} else {
+					// reset debouncing
+					Logger.DebugLog("[WelcomeTask] Reset member cheking...");
+				}
+				this.DebounceCount = 0;
 				return false;
 			}
-			this.LastMembers = members;
-			Logger.DebugLog("[WelcomeTask] Member changed: " + this.Leaved.Length + " user(s) left and " + this.Joined.Length + " user(s) joined.");
-			return true;
+			// members are not changed and not in debouncing - do nothing
+			if (this.DebounceCount < 0) {
+				return false;
+			}
+			// members are not changed and in debouncing - only increment debounce count
+			if (this.DebounceCount >= 0 && this.DebounceCount <= DebounceMax) {
+				this.DebounceCount++;
+				return false;
+			}
+			// members are not changed and over debouncing - end debouncing
+			if (this.DebounceCount > DebounceMax) {
+				Logger.DebugLog("[WelcomeTask] End member cheking.");
+				this.DebounceCount = -1;
+				// get changed members from MembersDebounceStart
+				this.Leaved = this.MembersDebounceStart.Except(members).Except(self).ToArray();
+				this.Joined = members.Except(this.MembersDebounceStart).Except(self).ToArray();
+				// execute if members changed
+				if (this.Leaved.Length > 0 || this.Joined.Length > 0) {
+					Logger.DebugLog("[WelcomeTask] Member changed: " + this.Leaved.Length + " user(s) left and " + this.Joined.Length + " user(s) joined.");
+					return true;
+				}
+			}
+			return false;
 		}
 
 		private ScheduledMessage CreateMessage(string user_id, string[] channels, bool isJoined) {
