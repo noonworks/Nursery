@@ -83,6 +83,17 @@ namespace Nursery.BasicPlugins {
 		[JsonProperty("name_bye")]
 		public string NameBye { get; set; } = "";
 
+		public WelcomeSchedulerSingleUserConfig() { }
+
+		public WelcomeSchedulerSingleUserConfig(string userid, WelcomeSchedulerConfig config) {
+			this.UserId = userid;
+			this.Welcome = "${default}";
+			this.Bye = "${default}";
+			this.NameWelcome = "${default}";
+			this.NameBye = "${default}";
+			this.Init(config);
+		}
+
 		private void SetText(WelcomeSchedulerConfig config) {
 			this.Welcome = this.Welcome.Replace("${default}", config.DefaultWelcome);
 			this.Bye = this.Bye.Replace("${default}", config.DefaultBye);
@@ -97,6 +108,75 @@ namespace Nursery.BasicPlugins {
 		public string ToString(bool isJoined) {
 			var text = isJoined ? this.Welcome : this.Bye;
 			return text.Replace("${username}", "${username" + this.UserId + "}").Replace("${nickname}", "${nickname" + this.UserId + "}");
+		}
+
+		public string ToNameString(bool isJoined) {
+			var text = isJoined ? this.NameWelcome : this.NameBye;
+			return text.Replace("${username}", "${username" + this.UserId + "}").Replace("${nickname}", "${nickname" + this.UserId + "}");
+		}
+
+		public ScheduledMessage ToMessage(bool isJoined, string[] channels) {
+			return new ScheduledMessage() {
+				Type = ScheduledMessageType.SendMessage,
+				TextChannelIds = channels,
+				Content = this.ToString(isJoined),
+				CutIfTooLong = true
+			};
+		}
+	}
+
+	class MessageBuilder {
+		private WelcomeSchedulerConfig Config = null;
+
+		public MessageBuilder(WelcomeSchedulerConfig config) {
+			this.Config = config;
+		}
+
+		private ScheduledMessage CreateSummarizedMessage(bool isJoined, WelcomeSchedulerSingleUserConfig[] userConfigs, string[] channels) {
+			var names = userConfigs.Select(c => c.ToNameString(isJoined)).ToList();
+			var separators = this.Config.Separators.Length > 0 ? this.Config.Separators : new string[] { "" };
+			for (int i = separators.Length - 1; i > 0; i--) {
+				if (names.Count <= 1) { break; }
+				names[names.Count - 2] = names[names.Count - 2] + separators[i] + names[names.Count - 1];
+				names.RemoveAt(names.Count - 1);
+			}
+			var names_str = string.Join(separators[0], names);
+			// create message
+			var text = isJoined ? this.Config.DefaultWelcome : this.Config.DefaultBye;
+			text = text.Replace("${username}", names_str).Replace("${nickname}", names_str);
+			return new ScheduledMessage() {
+				Type = ScheduledMessageType.SendMessage,
+				TextChannelIds = channels,
+				Content = text,
+				CutIfTooLong = true
+			};
+		}
+
+		public ScheduledMessage[] GetMessages(bool isJoined, string[] ids, string[] channels) {
+			var ret = new List<ScheduledMessage>();
+			var configs = ids.Select(id => {
+				var user_conf = this.Config.IdTextPairs.FirstOrDefault(itp => itp.UserId == id);
+				if (user_conf == null) {
+					return new WelcomeSchedulerSingleUserConfig(id, this.Config);
+				} else {
+					return user_conf;
+				}
+			});
+			// not summarize
+			if (!this.Config.Summarize) {
+				return configs.Select(c => c.ToMessage(isJoined, channels)).ToArray();
+			}
+			// summarize
+			// check users who can not summarize
+			var notSummarizeUsers = configs.Where(c => !c.Summarize).ToArray();
+			var summarizeUsers = configs.Except(notSummarizeUsers).ToArray();
+			// create messages for users who can not summarize
+			foreach (var userConfig in notSummarizeUsers) {
+				ret.Add(userConfig.ToMessage(isJoined, channels));
+			}
+			// create summarized message
+			ret.Add(CreateSummarizedMessage(isJoined, summarizeUsers, channels));
+			return ret.ToArray();
 		}
 	}
 
@@ -176,6 +256,7 @@ namespace Nursery.BasicPlugins {
 	public class WelcomeTask : ScheduledTaskBase {
 		private const string NAME = "Nursery.BasicPlugins.WelcomeTask";
 		private WelcomeSchedulerConfig Config;
+		private MessageBuilder Builder;
 		private string[] LastMembers = null;
 		private string[] Leaved = null;
 		private string[] Joined = null;
@@ -184,6 +265,7 @@ namespace Nursery.BasicPlugins {
 
 		public WelcomeTask(WelcomeSchedulerConfig config): base(NAME) {
 			this.Config = config;
+			this.Builder = new MessageBuilder(this.Config);
 		}
 
 		protected override bool DoCheck(IBot bot) {
@@ -244,22 +326,6 @@ namespace Nursery.BasicPlugins {
 			return false;
 		}
 
-		private ScheduledMessage CreateMessage(string user_id, string[] channels, bool isJoined) {
-			var msg = new ScheduledMessage() {
-				Type = ScheduledMessageType.SendMessage,
-				TextChannelIds = channels,
-				CutIfTooLong = true
-			};
-			var user_text = this.Config.IdTextPairs.FirstOrDefault(itp => itp.UserId == user_id);
-			if (user_text == null) {
-				msg.Content = isJoined ? this.Config.DefaultWelcome : this.Config.DefaultBye;
-			} else {
-				msg.Content = isJoined ? user_text.Welcome : user_text.Bye;
-			}
-			msg.Content = msg.Content.Replace("${username}", "${username" + user_id + "}").Replace("${nickname}", "${nickname" + user_id + "}");
-			return msg;
-		}
-
 		protected override IScheduledTask[] DoExecute(IBot bot) {
 			string[] channels = new string[] { };
 			switch (this.Config.SendToType) {
@@ -275,11 +341,11 @@ namespace Nursery.BasicPlugins {
 					break;
 			}
 			if (this.Config.UseBye && this.Leaved.Length > 0) {
-				var msgs = this.Leaved.Select(uid => CreateMessage(uid, channels, false)).ToArray();
+				var msgs = this.Builder.GetMessages(false, this.Leaved, channels);
 				Send(msgs, bot);
 			}
 			if (this.Config.UseWelcome && this.Joined.Length > 0) {
-				var msgs = this.Joined.Select(uid => CreateMessage(uid, channels, true)).ToArray();
+				var msgs = this.Builder.GetMessages(true, this.Joined, channels);
 				Send(msgs, bot);
 			}
 			return null;
