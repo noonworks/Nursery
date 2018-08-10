@@ -8,7 +8,7 @@ namespace Nursery.BasicPlugins {
 		public override string HelpText { get => this.help_text; }
 
 		// TRANSLATORS: Bot-Help message. HelpText plugin.
-		private string help_text = T._("Show command and filter help.") + " ```@voice-bot help\n@voice-bot help-command\n@voice-bot help-filter```";
+		private string help_text = T._("Show command and filter help.") + " ```@voice-bot help\n@voice-bot help-command\n@voice-bot help-filter\n@voice-bot help-scheduler```";
 		private string command_help = "";
 		private string filter_help = "";
 		private string scheduler_help = "";
