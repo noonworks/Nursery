@@ -147,6 +147,7 @@
       <BasicPluginsFiles Include="$(SolutionDir)BasicPlugins\$(OutDir)Nursery.BasicPlugins.*"/>
       <SoundEffectPluginFiles Include="$(SolutionDir)SoundEffectPlugin\$(OutDir)Nursery.SoundEffectPlugin.*"/>
       <UserDefinedFilterPluginFiles Include="$(SolutionDir)UserDefinedFilterPlugin\$(OutDir)Nursery.UserDefinedFilterPlugin.*"/>
+      <UserDefinedSchedulerPluginFiles Include="$(SolutionDir)UserDefinedSchedulerPlugin\$(OutDir)Nursery.UserDefinedSchedulerPlugin.*"/>
       <SoundsFiles Include="$(SolutionDir)dist_files\sounds\**\*.*"/>
       <FiltersFiles Include="$(SolutionDir)dist_files\filters\**\*.*"/>
     </ItemGroup>
@@ -168,6 +169,10 @@
     />
     <Copy
       SourceFiles="@(UserDefinedFilterPluginFiles)"
+      DestinationFolder="$(TargetDir)\plugins"
+    />
+    <Copy
+      SourceFiles="@(UserDefinedSchedulerPluginFiles)"
       DestinationFolder="$(TargetDir)\plugins"
     />
     <Copy
