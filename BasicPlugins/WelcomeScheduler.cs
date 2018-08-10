@@ -24,6 +24,8 @@ namespace Nursery.BasicPlugins {
 		public bool UseBye { get; set; } = true;
 		[JsonProperty("default_bye")]
 		public string DefaultBye { get; set; } = WelcomeScheduler.DEFAULT_BYE;
+		[JsonProperty("debounce_tick")]
+		public int DebounceTick { get; set; } = 15;
 		[JsonProperty("send_to_type")]
 		public string SendToTypeStr { get; set; } = "default";
 		[JsonIgnore]
@@ -147,7 +149,6 @@ namespace Nursery.BasicPlugins {
 		private string[] Leaved = null;
 		private string[] Joined = null;
 		private int DebounceCount = -1;
-		private const int DebounceMax = 15; // 1500 msec
 		private string[] MembersDebounceStart = null;
 
 		public WelcomeTask(WelcomeSchedulerConfig config): base(NAME) {
@@ -192,12 +193,12 @@ namespace Nursery.BasicPlugins {
 				return false;
 			}
 			// members are not changed and in debouncing - only increment debounce count
-			if (this.DebounceCount >= 0 && this.DebounceCount <= DebounceMax) {
+			if (this.DebounceCount >= 0 && this.DebounceCount <= this.Config.DebounceTick) {
 				this.DebounceCount++;
 				return false;
 			}
 			// members are not changed and over debouncing - end debouncing
-			if (this.DebounceCount > DebounceMax) {
+			if (this.DebounceCount > this.Config.DebounceTick) {
 				Logger.DebugLog("[WelcomeTask] End member cheking.");
 				this.DebounceCount = -1;
 				// get changed members from MembersDebounceStart
