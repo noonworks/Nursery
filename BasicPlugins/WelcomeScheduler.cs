@@ -41,7 +41,7 @@ namespace Nursery.BasicPlugins {
 		[JsonProperty("separators")]
 		public string[] Separators { get; set; } = new string[] { WelcomeScheduler.DEFAULT_SEPARATOR_1, WelcomeScheduler.DEFAULT_SEPARATOR_2 };
 		[JsonProperty("id_text_pairs")]
-		public WelcomeSchedulerConfigIdTextPair[] IdTextPairs { get; set; } = new WelcomeSchedulerConfigIdTextPair[] { };
+		public WelcomeSchedulerSingleUserConfig[] IdTextPairs { get; set; } = new WelcomeSchedulerSingleUserConfig[] { };
 
 		private void SetSendType() {
 			switch (this.SendToTypeStr) {
@@ -60,21 +60,16 @@ namespace Nursery.BasicPlugins {
 			}
 		}
 
-		private void SetText() {
-			foreach (var itp in this.IdTextPairs) {
-				itp.Welcome = itp.Welcome.Replace("${default}", this.DefaultWelcome);
-				itp.Bye = itp.Bye.Replace("${default}", this.DefaultBye);
-			}
-		}
-
 		public void Init() {
 			SetSendType();
-			SetText();
+			foreach (var itp in this.IdTextPairs) {
+				itp.Init(this);
+			}
 		}
 	}
 
-	[JsonObject("Nursery.BasicPlugins.WelcomeSchedulerConfigIdTextPair")]
-	public class WelcomeSchedulerConfigIdTextPair {
+	[JsonObject("Nursery.BasicPlugins.WelcomeSchedulerSingleUserConfig")]
+	public class WelcomeSchedulerSingleUserConfig {
 		[JsonProperty("user_id")]
 		public string UserId { get; set; } = "";
 		[JsonProperty("welcome")]
@@ -87,6 +82,22 @@ namespace Nursery.BasicPlugins {
 		public string NameWelcome { get; set; } = "";
 		[JsonProperty("name_bye")]
 		public string NameBye { get; set; } = "";
+
+		private void SetText(WelcomeSchedulerConfig config) {
+			this.Welcome = this.Welcome.Replace("${default}", config.DefaultWelcome);
+			this.Bye = this.Bye.Replace("${default}", config.DefaultBye);
+			this.NameWelcome = this.NameWelcome.Replace("${default}", config.DefaultNameWelcome);
+			this.NameBye = this.NameBye.Replace("${default}", config.DefaultNameBye);
+		}
+
+		public void Init(WelcomeSchedulerConfig config) {
+			SetText(config);
+		}
+
+		public string ToString(bool isJoined) {
+			var text = isJoined ? this.Welcome : this.Bye;
+			return text.Replace("${username}", "${username" + this.UserId + "}").Replace("${nickname}", "${nickname" + this.UserId + "}");
+		}
 	}
 
 	public class WelcomeScheduler : IPlugin {
@@ -120,17 +131,17 @@ namespace Nursery.BasicPlugins {
 		private static void LoadAdditionalConfig(IPluginManager loader, WelcomeSchedulerConfig config) {
 			var files = GetAdditionalConfigFiles(loader);
 			if (files.Length == 0) { return; }
-			var pairs = new List<WelcomeSchedulerConfigIdTextPair>();
+			var pairs = new List<WelcomeSchedulerSingleUserConfig>();
 			pairs.AddRange(config.IdTextPairs);
 			foreach (var f in files) {
 				try {
-					var c = loader.LoadConfig<WelcomeSchedulerConfigIdTextPair>(f);
+					var c = loader.LoadConfig<WelcomeSchedulerSingleUserConfig>(f);
 					if (c != null) { pairs.Add(c); }
 				} catch (Exception e) {
 					Logger.DebugLog(e.ToString());
 				}
 			}
-			var checkedPairs = new List<WelcomeSchedulerConfigIdTextPair>();
+			var checkedPairs = new List<WelcomeSchedulerSingleUserConfig>();
 			foreach (var pair in pairs) {
 				checkedPairs.RemoveAll(p => p.UserId == pair.UserId);
 				checkedPairs.Add(pair);
