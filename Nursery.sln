@@ -41,6 +41,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "plugins", "plugins", "{BDB5
 		dist_files\plugins\Nursery.BasicPlugins.LongMessageFilter.json = dist_files\plugins\Nursery.BasicPlugins.LongMessageFilter.json
 		dist_files\plugins\Nursery.SoundEffectPlugin.SoundEffectCommand.json = dist_files\plugins\Nursery.SoundEffectPlugin.SoundEffectCommand.json
 		dist_files\plugins\Nursery.UserDefinedFilterPlugin.UserDefinedFilter.json = dist_files\plugins\Nursery.UserDefinedFilterPlugin.UserDefinedFilter.json
+		dist_files\plugins\Nursery.UserDefinedSchedulerPlugin.UserDefinedScheduler.json = dist_files\plugins\Nursery.UserDefinedSchedulerPlugin.UserDefinedScheduler.json
 		dist_files\plugins\plugins.json = dist_files\plugins\plugins.json
 	EndProjectSection
 EndProject

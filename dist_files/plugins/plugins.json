@@ -27,6 +27,7 @@
     "Nursery.UserDefinedFilterPlugin.UserDefinedFilter",
     "Nursery.BasicPlugins.BlankFilter",
     "Nursery.BasicPlugins.AddNameFilter",
-    "Nursery.BasicPlugins.WelcomeScheduler"
+    "Nursery.BasicPlugins.WelcomeScheduler",
+    "Nursery.UserDefinedSchedulerPlugin.UserDefinedScheduler"
   ]
 }
