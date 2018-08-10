@@ -32,6 +32,14 @@ namespace Nursery.BasicPlugins {
 		public SendToType SendToType { get; set; } = SendToType.defaultChannel;
 		[JsonProperty("send_to")]
 		public string[] SendTo { get; set; } = new string[] { };
+		[JsonProperty("summarize")]
+		public bool Summarize { get; set; } = true;
+		[JsonProperty("default_name_welcome")]
+		public string DefaultNameWelcome { get; set; } = WelcomeScheduler.DEFAULT_SINGLE_USER_NAME;
+		[JsonProperty("default_name_bye")]
+		public string DefaultNameBye { get; set; } = WelcomeScheduler.DEFAULT_SINGLE_USER_NAME;
+		[JsonProperty("separators")]
+		public string[] Separators { get; set; } = new string[] { WelcomeScheduler.DEFAULT_SEPARATOR_1, WelcomeScheduler.DEFAULT_SEPARATOR_2 };
 		[JsonProperty("id_text_pairs")]
 		public WelcomeSchedulerConfigIdTextPair[] IdTextPairs { get; set; } = new WelcomeSchedulerConfigIdTextPair[] { };
 
@@ -73,6 +81,12 @@ namespace Nursery.BasicPlugins {
 		public string Welcome { get; set; } = "";
 		[JsonProperty("bye")]
 		public string Bye { get; set; } = "";
+		[JsonProperty("summarize")]
+		public bool Summarize { get; set; } = true;
+		[JsonProperty("name_welcome")]
+		public string NameWelcome { get; set; } = "";
+		[JsonProperty("name_bye")]
+		public string NameBye { get; set; } = "";
 	}
 
 	public class WelcomeScheduler : IPlugin {
@@ -81,10 +95,16 @@ namespace Nursery.BasicPlugins {
 		// TRANSLATORS: Bot-Help message. WelcomeScheduler plugin.
 		public string HelpText { get; } = T._("Scheduler to add welcome messages.");
 		Plugins.Type IPlugin.Type => Plugins.Type.Scheduler;
-		// TRANSLATORS: Bot message. WelcomeScheduler plugin. ${nickname} is nickname of joined user.
+		// TRANSLATORS: Bot message. WelcomeScheduler plugin.
 		public static readonly string DEFAULT_WELCOME = T._("${announce} ${nickname} is joined!");
-		// TRANSLATORS: Bot message. WelcomeScheduler plugin. ${nickname} is nickname of joined user.
+		// TRANSLATORS: Bot message. WelcomeScheduler plugin.
 		public static readonly string DEFAULT_BYE = T._("${announce} ${nickname} left.");
+		// TRANSLATORS: Bot message. WelcomeScheduler plugin.
+		public static readonly string DEFAULT_SINGLE_USER_NAME = T._("${nickname}");
+		// TRANSLATORS: Bot message. WelcomeScheduler plugin.
+		public static readonly string DEFAULT_SEPARATOR_1 = T._(", ");
+		// TRANSLATORS: Bot message. WelcomeScheduler plugin.
+		public static readonly string DEFAULT_SEPARATOR_2 = T._(" and ");
 
 		public bool Execute(IBot bot, IMessage message) {
 			// do nothing.
