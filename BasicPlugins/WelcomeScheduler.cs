@@ -116,10 +116,12 @@ namespace Nursery.BasicPlugins {
 		}
 
 		public ScheduledMessage ToMessage(bool isJoined, string[] channels) {
+			var text = this.ToString(isJoined);
+			if (text.Length == 0) { return null; }
 			return new ScheduledMessage() {
 				Type = ScheduledMessageType.SendMessage,
 				TextChannelIds = channels,
-				Content = this.ToString(isJoined),
+				Content = text,
 				CutIfTooLong = true
 			};
 		}
@@ -133,7 +135,7 @@ namespace Nursery.BasicPlugins {
 		}
 
 		private ScheduledMessage CreateSummarizedMessage(bool isJoined, WelcomeSchedulerSingleUserConfig[] userConfigs, string[] channels) {
-			var names = userConfigs.Select(c => c.ToNameString(isJoined)).ToList();
+			var names = userConfigs.Select(c => c.ToNameString(isJoined)).Where(s => s.Length > 0).ToList();
 			var separators = this.Config.Separators.Length > 0 ? this.Config.Separators : new string[] { "" };
 			for (int i = separators.Length - 1; i > 0; i--) {
 				if (names.Count <= 1) { break; }
@@ -164,7 +166,7 @@ namespace Nursery.BasicPlugins {
 			});
 			// not summarize
 			if (!this.Config.Summarize) {
-				return configs.Select(c => c.ToMessage(isJoined, channels)).ToArray();
+				return configs.Select(c => c.ToMessage(isJoined, channels)).Where(m => m != null).ToArray();
 			}
 			// summarize
 			// check users who can not summarize
@@ -176,7 +178,7 @@ namespace Nursery.BasicPlugins {
 			}
 			// create summarized message
 			ret.Add(CreateSummarizedMessage(isJoined, summarizeUsers, channels));
-			return ret.ToArray();
+			return ret.Where(m => m != null).ToArray();
 		}
 	}
 

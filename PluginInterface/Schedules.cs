@@ -52,6 +52,7 @@ namespace Nursery.Plugins.Schedules {
 		protected void Send(ScheduledMessage[] Messages, IBot bot) {
 			var now = DateTime.Now;
 			foreach (var message in Messages) {
+				if (message == null) { continue; }
 				if (message.Type == ScheduledMessageType.DoNothing) { continue; }
 				if (message.Content.Length == 0) { continue; }
 				var text = ReplaceContent(message.Content, bot, now);
