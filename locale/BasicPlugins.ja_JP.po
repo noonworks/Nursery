@@ -1,15 +1,15 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Nursery beta1.0\n"
-"POT-Creation-Date: 2018-08-07 02:03+0900\n"
-"PO-Revision-Date: 2018-08-07 02:06+0900\n"
+"POT-Creation-Date: 2018-08-10 16:50+0900\n"
+"PO-Revision-Date: 2018-08-10 16:52+0900\n"
 "Last-Translator: noonworks <noonworks@gmail.com>\n"
 "Language-Team: noonworks https://github.com/noonworks/Nursery\n"
 "Language: ja_JP\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Poedit 2.0.9\n"
+"X-Generator: Poedit 2.1.1\n"
 "X-Poedit-Basepath: ../BasicPlugins\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
 "X-Poedit-KeywordsList: _;_n:1,2;_p:1c,2;_pn:1c,2,3\n"
@@ -232,13 +232,25 @@ msgstr " {0} のURL "
 msgid "Scheduler to add welcome messages."
 msgstr "入退室メッセージを表示するスケジュール。"
 
-#. TRANSLATORS: Bot message. WelcomeScheduler plugin. ${nickname} is nickname of joined user.
+#. TRANSLATORS: Bot message. WelcomeScheduler plugin.
 msgid "${announce} ${nickname} is joined!"
-msgstr "${announce} ${nickname} が参加しました。"
+msgstr "${announce} ${nickname}が参加しました。"
 
-#. TRANSLATORS: Bot message. WelcomeScheduler plugin. ${nickname} is nickname of joined user.
+#. TRANSLATORS: Bot message. WelcomeScheduler plugin.
 msgid "${announce} ${nickname} left."
-msgstr "${announce} ${nickname} が退室しました。"
+msgstr "${announce} ${nickname}が退室しました。"
+
+#. TRANSLATORS: Bot message. WelcomeScheduler plugin.
+msgid "${nickname}"
+msgstr "${nickname}さん"
+
+#. TRANSLATORS: Bot message. WelcomeScheduler plugin.
+msgid ", "
+msgstr "、"
+
+#. TRANSLATORS: Bot message. WelcomeScheduler plugin.
+msgid " and "
+msgstr "、"
 
 #. TRANSLATORS: Bot-Help message. WhereCommand plugin.
 msgid "Show where voice-bot is in."
