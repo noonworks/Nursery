@@ -177,7 +177,11 @@ namespace Nursery.BasicPlugins {
 				ret.Add(userConfig.ToMessage(isJoined, channels));
 			}
 			// create summarized message
-			ret.Add(CreateSummarizedMessage(isJoined, summarizeUsers, channels));
+			if (summarizeUsers.Length == 1) {
+				ret.Add(summarizeUsers[0].ToMessage(isJoined, channels));
+			} else if (summarizeUsers.Length > 0) {
+				ret.Add(CreateSummarizedMessage(isJoined, summarizeUsers, channels));
+			}
 			return ret.Where(m => m != null).ToArray();
 		}
 	}
