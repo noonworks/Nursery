@@ -57,8 +57,89 @@ namespace Nursery.UserDefinedSchedulerPlugin {
 		public JSScheduleConditionFunction Function { get; private set; } = null;
 		#endregion
 
-		public void Init() {
+		private void SetType() {
+			switch (this.TypeStr.ToLower()) {
+				case "date_time":
+					this.Type = ConditionType.DateTime;
+					break;
+				case "interval":
+					this.Type = ConditionType.Interval;
+					break;
+				case "function":
+					this.Type = ConditionType.Function;
+					break;
+				default:
+					this.Type = ConditionType.Unknown;
+					break;
+			}
+		}
 
+		private bool SetupDateTime() {
+			this.DateTimeMatcher = new DateTimeMatcher(this.DateTimePattern);
+			return this.DateTimeMatcher.Valid;
+		}
+
+		private bool SetupInterval() {
+			switch (this.IntervalStartOptionStr.ToLower()) {
+				case "run_next":
+					this.IntervalStartOption = IntervalConditionStartOption.RunNext;
+					break;
+				case "run_on_join":
+					this.IntervalStartOption = IntervalConditionStartOption.RunOnJoin;
+					break;
+				case "start_at":
+					this.IntervalStartOption = IntervalConditionStartOption.StartAt;
+					this.IntervalStartAt = DateTimeMatcher.ParseDateTimeString(this.IntervalStartAtStr);
+					break;
+				case "not_start":
+				default:
+					this.IntervalStartOption = IntervalConditionStartOption.NotStart;
+					break;
+			}
+			if (this.IntervalStartOption == IntervalConditionStartOption.StartAt && this.IntervalStartAt == null) {
+				return false;
+			}
+			return true;
+		}
+
+		private bool SetupFunction() {
+			if (this.FunctionName.Length == 0 || this.FunctionStr.Length == 0) {
+				return false;
+			}
+			JSWrapper.Instance.SetFunction(this.FunctionName, this.FunctionStr);
+			this.Function = (JSScheduleArgument arg) => {
+				try {
+					var r = JSWrapper.Instance.ExecuteFunction(FunctionName, arg);
+					if (r == null) { return false; }
+					if (r.GetType() == typeof(bool)) { return (bool)r; }
+					return false;
+				} catch (System.Exception e) {
+					// TRANSLATORS: Log message. UserDefinedScheduler plugin.
+					Logger.Log(T._("Could not get JS result."));
+					Logger.DebugLog(e.ToString());
+					return false;
+				}
+			};
+			return true;
+		}
+
+		public void Init() {
+			SetType();
+			switch (this.Type) {
+				case ConditionType.DateTime:
+					this.Valid = SetupDateTime();
+					break;
+				case ConditionType.Interval:
+					this.Valid = SetupInterval();
+					break;
+				case ConditionType.Function:
+					this.Valid = SetupFunction();
+					break;
+				case ConditionType.Unknown:
+				default:
+					this.Valid = false;
+					break;
+			}
 		}
 	}
 

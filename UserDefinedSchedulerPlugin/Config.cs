@@ -1,6 +1,7 @@
 ﻿using Newtonsoft.Json;
 using Nursery.Plugins;
 using System;
+using System.Linq;
 
 namespace Nursery.UserDefinedSchedulerPlugin {
 	[JsonObject("Nursery.UserDefinedSchedulerPlugin.UserDefinedSchedulerConfig")]
@@ -24,6 +25,8 @@ namespace Nursery.UserDefinedSchedulerPlugin {
 
 		public void Init(string path) {
 			this.Path = path;
+			this.Conditions = this.Conditions.Where(c => { c.Init(); return c.Valid; }).ToArray();
+			this.Processes = this.Processes.Where(c => { c.Init(); return c.Valid; }).ToArray();
 			this.Valid = (this.Conditions.Length > 0 && this.Processes.Length > 0);
 		}
 	}

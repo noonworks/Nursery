@@ -46,6 +46,7 @@
   <ItemGroup>
     <Compile Include="Condition.cs" />
     <Compile Include="Config.cs" />
+    <Compile Include="JSWrapper.cs" />
     <Compile Include="Process.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="T.cs" />
