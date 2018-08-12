@@ -29,15 +29,15 @@ namespace Nursery.Plugins.Schedules {
 		abstract protected bool DoCheck(IBot bot);
 		abstract protected IScheduledTask[] DoExecute(IBot bot);
 
-		protected bool Check(DateTime checkedAt, IBot bot) {
-			this.CheckedAt = checkedAt;
+		protected bool Check(IBot bot) {
 			var r = this.DoCheck(bot);
 			if (r) { Logger.DebugLog("[SCHEDULE] " + this.Name + " going to be executed."); }
 			return r;
 		}
 
 		public IScheduledTask[] Execute(IBot bot) {
-			if (! this.Check(this.CheckedAt, bot)) {
+			this.CheckedAt = DateTime.Now;
+			if (! this.Check(bot)) {
 				return new IScheduledTask[] { };
 			}
 			return this.DoExecute(bot);
