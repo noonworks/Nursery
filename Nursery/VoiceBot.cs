@@ -513,16 +513,30 @@ namespace Nursery {
 			return vc.Users.Select(u => u.Id.ToString()).Distinct().OrderBy(s => s).ToArray();
 		}
 		
-		public void AddSchedule(IScheduledTask schedule) {
+		public void AddSchedules(IScheduledTask[] schedules) {
+			this.timer.Stop();
 			lock (schedule_lock_object) { // LOCK SCHEDULE
-				this.Schedules.Add(schedule);
+				this.Schedules.AddRange(schedules);
 			}
+			this.timer.Start();
+		}
+
+		public void RemoveSchedules(IScheduledTask[] schedules) {
+			this.timer.Stop();
+			lock (schedule_lock_object) { // LOCK SCHEDULE
+				foreach (var s in schedules) {
+					this.Schedules.Remove(s);
+				}
+			}
+			this.timer.Start();
 		}
 
 		public void ClearSchedule() {
+			this.timer.Stop();
 			lock (schedule_lock_object) { // LOCK SCHEDULE
 				this.Schedules.Clear();
 			}
+			this.timer.Start();
 		}
 
 		#endregion
