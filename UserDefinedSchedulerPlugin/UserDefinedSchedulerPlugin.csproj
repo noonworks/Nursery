@@ -49,6 +49,7 @@
     <Compile Include="JSWrapper.cs" />
     <Compile Include="Process.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Schedules.cs" />
     <Compile Include="T.cs" />
     <Compile Include="UserDefinedScheduler.cs" />
   </ItemGroup>
