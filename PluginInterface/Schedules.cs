@@ -62,7 +62,15 @@ namespace Nursery.Plugins.Schedules {
 					continue;
 				}
 				if (message.Type == ScheduledMessageType.SendMessage) {
-					bot.SendMessageAsync(message.TextChannelIds, text[0], text[1], message.CutIfTooLong);
+					var channels = message.TextChannelIds;
+					if (channels.Length == 1) {
+						if (channels[0] == "default") {
+							channels = null;
+						} else if (channels[0] == "all") {
+							channels = bot.TextChannelIdStrings;
+						}
+					}
+					bot.SendMessageAsync(channels, text[0], text[1], message.CutIfTooLong);
 					continue;
 				}
 			}
