@@ -7,9 +7,28 @@ namespace Nursery.Utility {
 	//   D = day of week (int)
 	public class DateTimeMatcher {
 		private static readonly Regex FormatRegex = new Regex(@"^([0-9\*]{4})\.([0-9\*]{2})\.([0-9\*]{2})\-([0-9\*])([0-9\*])\-([0-9\*]{2}):([0-9\*]{2})$");
+		private static readonly Regex ShortFormatRegex = new Regex(@"^([0-9\*]{4})\.([0-9\*]{2})\.([0-9\*]{2})\-([0-9\*]{2}):([0-9\*]{2})$");
 
 		public static string ToMatcherString(DateTime dt) {
 			return dt.ToString("yyyy.MM.dd-") + dt.GetNumberOfDayOfWeek() + "" + (int)dt.DayOfWeek + dt.ToString("-HH:mm");
+		}
+
+		public static DateTime? ParseDateTimeString(string dtstr) {
+			if (ShortFormatRegex.IsMatch(dtstr)) {
+				DateTime dt;
+				if (DateTime.TryParse(dtstr.Replace(".", "/").Replace("-", " "), out dt)) {
+					return dt;
+				}
+			}
+			var lm = FormatRegex.Match(dtstr);
+			if (lm != null && lm.Success) {
+				var str = lm.Groups[1].Value + "/" + lm.Groups[2].Value + "/" + lm.Groups[3].Value + " " + lm.Groups[6].Value + ":" + lm.Groups[7].Value;
+				DateTime dt;
+				if (DateTime.TryParse(str, out dt)) {
+					return dt;
+				}
+			}
+			return null;
 		}
 
 		private static string[] Split(DateTime dt) {
