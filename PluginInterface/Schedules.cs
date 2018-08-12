@@ -25,7 +25,7 @@ namespace Nursery.Plugins.Schedules {
 		}
 		#endregion
 		
-		protected DateTime CheckedAt { get; set; }
+		public DateTime CheckedAt { get; protected set; }
 		abstract protected bool DoCheck(IBot bot);
 		abstract protected IScheduledTask[] DoExecute(IBot bot);
 
