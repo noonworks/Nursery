@@ -13,6 +13,15 @@ namespace Nursery.Plugins.Schedules {
 		public string Content = "";
 		public string[] TextChannelIds = new string[] { };
 		public bool CutIfTooLong = true;
+
+		public ScheduledMessage Clone() {
+			return new ScheduledMessage() {
+				Type = this.Type,
+				Content = this.Content,
+				TextChannelIds = this.TextChannelIds,
+				CutIfTooLong = this.CutIfTooLong
+			};
+		}
 	}
 
 	public abstract class ScheduledTaskBase : IScheduledTask {
