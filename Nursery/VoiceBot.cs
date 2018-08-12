@@ -429,6 +429,7 @@ namespace Nursery {
 		public void SendMessageAsync(string[] TextChannelIds, string messageForFirst, string messageForOthers, bool CutIfTooLong) {
 			if (TextChannelIds == null || TextChannelIds.Length == 0) {
 				SendMessageAsync(this.state.DefaultTextChannel, null, messageForFirst, CutIfTooLong);
+				return;
 			}
 			var isFirst = true;
 			foreach (var tcid_s in TextChannelIds) {
