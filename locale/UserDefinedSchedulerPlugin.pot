@@ -1,0 +1,55 @@
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: Nursery beta1.0\n"
+"POT-Creation-Date: 2018-08-13 16:24+0900\n"
+"PO-Revision-Date: 2018-07-10 20:12+0900\n"
+"Last-Translator: noonworks <noonworks@gmail.com>\n"
+"Language-Team: noonworks https://github.com/noonworks/Nursery\n"
+"Language: en_US\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: Poedit 2.1.1\n"
+"X-Poedit-Basepath: ../UserDefinedSchedulerPlugin\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"X-Poedit-KeywordsList: _;_n:1,2;_p:1c,2;_pn:1c,2,3\n"
+"X-Poedit-SearchPath-0: .\n"
+
+#. TRANSLATORS: Log message. UserDefinedScheduler plugin.
+msgid "Could not get JS result."
+msgstr ""
+
+#. TRANSLATORS: Bot-Help message. UserDefinedScheduler plugin.
+msgid "Scheduler manages user-defined schedule tasks."
+msgstr ""
+
+#. TRANSLATORS: Log message. UserDefinedScheduler plugin.
+msgid "Can not load schedulers directory."
+msgstr ""
+
+#. TRANSLATORS: Log message. UserDefinedScheduler plugin. {0} is directory.
+#, csharp-format
+msgid "Schedulers directory [{0}] is not found."
+msgstr ""
+
+#. TRANSLATORS: Log message. UserDefinedScheduler plugin. {0} is file path.
+#, csharp-format
+msgid "Could not load scheduler [{0}]."
+msgstr ""
+
+#. TRANSLATORS: Bot-Help message. UserDefinedSchedulerReloadCommand plugin.
+msgid "Reload user-defined schedules."
+msgstr ""
+
+#. TRANSLATORS: Log message. UserDefinedSchedulerReloadCommand plugin.
+msgid "Could not find UserDefinedScheduler."
+msgstr ""
+
+#. TRANSLATORS: Bot message. UserDefinedSchedulerReloadCommand plugin. If it is longer than DISCORD_MESSAGE_MAX, it will be cut.
+msgid "Sorry, I could not get information."
+msgstr ""
+
+#. TRANSLATORS: Bot message. UserDefinedSchedulerReloadCommand plugin. If it is longer than DISCORD_MESSAGE_MAX, it will be cut.
+msgid "User-defined schedules are reloaded."
+msgstr ""
