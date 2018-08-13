@@ -6,8 +6,8 @@ namespace Nursery.Utility {
 	//   N = number of day of week in this month
 	//   D = day of week (int)
 	public class DateTimeMatcher {
-		private static readonly Regex FormatRegex = new Regex(@"^([0-9\*]{4})\.([0-9\*]{2})\.([0-9\*]{2})\-([0-9\*])([0-9\*])\-([0-9\*]{2}):([0-9\*]{2})$");
-		private static readonly Regex ShortFormatRegex = new Regex(@"^([0-9\*]{4})\.([0-9\*]{2})\.([0-9\*]{2})\-([0-9\*]{2}):([0-9\*]{2})$");
+		private static readonly Regex FormatRegex = new Regex(@"^([0-9\*]{4})\.([0-9\*]{2})\.((?:[0-9\*]{2})|(?:LL))\-([0-9\*L])([0-9\*])\-([0-9\*]{2}):([0-9\*]{2})$");
+		private static readonly Regex ShortFormatRegex = new Regex(@"^([0-9\*]{4})\.([0-9\*]{2})\.((?:[0-9\*]{2})|(?:LL))\-([0-9\*]{2}):([0-9\*]{2})$");
 
 		public static string ToMatcherString(DateTime dt) {
 			return dt.ToString("yyyy.MM.dd-") + dt.GetNumberOfDayOfWeek() + "" + (int)dt.DayOfWeek + dt.ToString("-HH:mm");
