@@ -13,6 +13,7 @@
     "Nursery.SoundEffectPlugin.SoundEffectReloadCommand",
     "Nursery.SoundEffectPlugin.SoundEffectStopCommand",
     "Nursery.UserDefinedFilterPlugin.UserDefinedFilterReloadCommand",
+    "Nursery.UserDefinedSchedulerPlugin.UserDefinedSchedulerReloadCommand",
     "Nursery.BasicPlugins.HelpCommand",
     "Nursery.BasicPlugins.UnknownMentionFilter",
     "Nursery.BasicPlugins.ListFilter",
