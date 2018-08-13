@@ -65,6 +65,7 @@ namespace Nursery.UserDefinedSchedulerPlugin {
 			JSWrapper.Instance.Reset();
 			// * set types to JS engine before init schedule configs.
 			JSWrapper.Instance.SetType("JSScheduleArgument", typeof(JSScheduleArgument));
+			JSWrapper.Instance.SetType("ScheduledMessageType", typeof(ScheduledMessageType));
 			JSWrapper.Instance.SetType("ScheduledMessage", typeof(ScheduledMessage));
 		}
 
