@@ -8,12 +8,14 @@ using System.Linq;
 namespace Nursery.UserDefinedSchedulerPlugin {
 	#region Conditions
 	abstract class ConditionBase {
+		public ConditionType Type { get; protected set; }
 		protected Condition Config { get; }
 		public bool Valid { get; protected set; } = true;
 		public DateTime LastExecute = DateTime.MinValue;
 
 		public ConditionBase(Condition condition) {
 			this.Config = condition;
+			this.Type = this.Config.Type;
 		}
 
 		abstract public bool Check(IBot bot, UserDefinedScheduledTask schedule);
@@ -21,6 +23,7 @@ namespace Nursery.UserDefinedSchedulerPlugin {
 
 	class IntervalCondition : ConditionBase {
 		public DateTime StartAt = DateTime.MinValue;
+		public long Interval { get => this.Config.IntervalMinutes; }
 
 		public IntervalCondition(Condition condition) : base(condition) {
 			if (this.Config.Type != ConditionType.Interval) {
@@ -199,13 +202,13 @@ namespace Nursery.UserDefinedSchedulerPlugin {
 		private bool Joined = false;
 
 		#region IJSScheduler
-
 		public bool Valid { get; private set; } = true;
 		// DateTime CheckedAt { get; } in base class
 		public string AdditionalData { get; set; } = null;
 		public DateTime LastExecute { get; protected set; } = DateTime.MinValue;
 		public long TotalCount { get; protected set; } = 0;
 		public long Count { get; protected set; } = 0;
+		public long Interval { get; protected set; } = 0;
 		#endregion
 
 		public UserDefinedScheduledTask(ScheduleConfig config) : base("dummy") {
@@ -248,6 +251,11 @@ namespace Nursery.UserDefinedSchedulerPlugin {
 						return null;
 				}
 			}).Where(c => c != null && c.Valid).ToArray();
+			// check interval
+			var intervals = this.Conditions.Where(c => c.Type == ConditionType.Interval).ToArray();
+			if (intervals.Length == 1) {
+				this.Interval = ((IntervalCondition)intervals[0]).Interval;
+			}
 		}
 
 		protected override bool DoCheck(IBot bot) {
@@ -296,6 +304,11 @@ namespace Nursery.UserDefinedSchedulerPlugin {
 			if (messages.Count > 0) {
 				var arr = messages.Select(m => {
 					m.Content = m.Content.Replace("${total_count}", this.TotalCount.ToString()).Replace("${count}", this.Count.ToString());
+					if (Interval > 0) {
+						m.Content = m.Content.Replace("${interval}", Interval.ToString())
+							.Replace("${total_count_x_interval}", (this.TotalCount * Interval).ToString())
+							.Replace("${count_x_interval}", (this.Count * Interval).ToString());
+					}
 					return m;
 				}).ToArray();
 				Send(arr, bot);
