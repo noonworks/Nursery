@@ -100,6 +100,27 @@ namespace Nursery.UserDefinedSchedulerPlugin {
 			return this.Config.Function(new JSScheduleArgument(bot, schedule));
 		}
 	}
+
+	class TimeRangeCondition : ConditionBase {
+		private DateTime PreviousBase = DateTime.MinValue;
+
+		public TimeRangeCondition(Condition condition) : base(condition) {
+			if (this.Config.Type != ConditionType.TimeRange) {
+				this.Valid = false;
+				return;
+			}
+			this.Valid = this.Config.TimeRangeMatcher.Valid;
+		}
+
+		public override bool Check(IBot bot, UserDefinedScheduledTask schedule) {
+			var result = this.Config.TimeRangeMatcher.Match(schedule.CheckedAt);
+			if (result.Success) {
+				if (PreviousBase == result.BaseDate) { return false; }
+				PreviousBase = result.BaseDate.Date;
+			}
+			return result.Success;
+		}
+	}
 	#endregion
 
 	#region Processes
@@ -207,6 +228,8 @@ namespace Nursery.UserDefinedSchedulerPlugin {
 						return new IntervalCondition(condition);
 					case ConditionType.Function:
 						return new FunctionCondition(condition);
+					case ConditionType.TimeRange:
+						return new TimeRangeCondition(condition);
 					case ConditionType.Unknown:
 					default:
 						return null;

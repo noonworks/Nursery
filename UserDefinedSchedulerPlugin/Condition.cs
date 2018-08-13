@@ -8,6 +8,7 @@ namespace Nursery.UserDefinedSchedulerPlugin {
 		DateTime,
 		Interval,
 		Function,
+		TimeRange,
 	}
 
 	public enum IntervalConditionStartOption {
@@ -55,6 +56,19 @@ namespace Nursery.UserDefinedSchedulerPlugin {
 		public JSScheduleConditionFunction Function { get; private set; } = null;
 		#endregion
 
+		#region Range
+		[JsonProperty("time_range_date_pattern")]
+		public string TimeRangeDatePattern { get; set; } = "";
+		[JsonProperty("time_range_start")]
+		public int TimeRangeStart { get; set; } = -1;
+		[JsonProperty("time_range_end")]
+		public int TimeRangeEnd { get; set; } = -1;
+		[JsonProperty("time_range_use_previous_day")]
+		public bool TimeRangeUsePreviousDay { get; set; } = false;
+		[JsonIgnore]
+		public DateTimeRangeMatcher TimeRangeMatcher { get; private set; } = null;
+		#endregion
+
 		private void SetType() {
 			switch (this.TypeStr.ToLower()) {
 				case "date_time":
@@ -65,6 +79,9 @@ namespace Nursery.UserDefinedSchedulerPlugin {
 					break;
 				case "function":
 					this.Type = ConditionType.Function;
+					break;
+				case "time_range":
+					this.Type = ConditionType.TimeRange;
 					break;
 				default:
 					this.Type = ConditionType.Unknown;
@@ -121,6 +138,11 @@ namespace Nursery.UserDefinedSchedulerPlugin {
 			return true;
 		}
 
+		private bool SetupRange() {
+			this.TimeRangeMatcher = new DateTimeRangeMatcher(this.TimeRangeStart, this.TimeRangeEnd, this.TimeRangeDatePattern, this.TimeRangeUsePreviousDay);
+			return this.TimeRangeMatcher.Valid;
+		}
+
 		public void Init() {
 			SetType();
 			switch (this.Type) {
@@ -132,6 +154,9 @@ namespace Nursery.UserDefinedSchedulerPlugin {
 					break;
 				case ConditionType.Function:
 					this.Valid = SetupFunction();
+					break;
+				case ConditionType.TimeRange:
+					this.Valid = SetupRange();
 					break;
 				case ConditionType.Unknown:
 				default:
