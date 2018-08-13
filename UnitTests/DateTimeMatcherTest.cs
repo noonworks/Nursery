@@ -12,7 +12,7 @@ namespace Nursery.UnitTests {
 		}
 
 		private static void AssertMatcher(DateTimeMatcher matcher, DateTime dt, bool expect) {
-			Assert.AreEqual(expect, matcher.IsMatch(dt), matcher.Pattern + " / " + dt.ToShortTimeString());
+			Assert.AreEqual(expect, matcher.IsMatch(dt), matcher.Pattern + " / " + dt.ToString());
 		}
 
 		[TestMethod]
@@ -203,6 +203,116 @@ namespace Nursery.UnitTests {
 			for (var i = 0; i < 60 * 24 + 1; i++) {
 				Assert.IsTrue(matchers.Any(m => m.IsMatch(dt)));
 				dt = dt.AddMinutes(1);
+			}
+		}
+
+		[TestMethod]
+		public void Tuesday() {
+			var m = new DateTimeMatcher("****.**.**-*2-21:05");
+			Assert.IsTrue(m.Valid);
+			var tue = new DateTime(2018, 8, 14, 21, 5, 0);
+			for (var i = 0; i < 200; i++) {
+				if (i % 7 == 0) {
+					// tuesday
+					Assert.IsTrue(m.IsMatch(tue.AddDays(i)));
+					Assert.IsFalse(m.IsMatch(tue.AddDays(i).AddSeconds(30)));
+					Assert.IsFalse(m.IsMatch(tue.AddDays(i).AddSeconds(630)));
+				} else {
+					// other
+					Assert.IsFalse(m.IsMatch(tue.AddDays(i)));
+				}
+			}
+		}
+
+		[TestMethod]
+		public void ThirdThursday() {
+			var m = new DateTimeMatcher("****.**.**-34-21:05");
+			Assert.IsTrue(m.Valid);
+			var first = new DateTime(2018, 1, 1, 21, 5, 0);
+			for (var i = 0; i < 380; i++) {
+				var dt = first.AddDays(i);
+				var isThirdThursday = dt.DayOfWeek == DayOfWeek.Thursday && dt.GetNumberOfDayOfWeek() == 3;
+				if (isThirdThursday) {
+					Assert.IsTrue(m.IsMatch(dt));
+					Assert.IsFalse(m.IsMatch(dt.AddSeconds(30)));
+					Assert.IsFalse(m.IsMatch(dt.AddSeconds(630)));
+				} else {
+					// other
+					Assert.IsFalse(m.IsMatch(dt));
+				}
+			}
+		}
+
+		[TestMethod]
+		public void Every1st() {
+			var m = new DateTimeMatcher("****.**.01-**-00:00");
+			Assert.IsTrue(m.Valid);
+			var first = new DateTime(2018, 1, 1, 0, 0, 0);
+			for (var i = 0; i < 380; i++) {
+				var dt = first.AddDays(i);
+				if (dt.Day == 1) {
+					Assert.IsTrue(m.IsMatch(dt));
+					Assert.IsFalse(m.IsMatch(dt.AddSeconds(30)));
+					Assert.IsFalse(m.IsMatch(dt.AddSeconds(630)));
+				} else {
+					// other
+					Assert.IsFalse(m.IsMatch(dt));
+				}
+			}
+		}
+
+		[TestMethod]
+		public void EveryLast() {
+			var m = new DateTimeMatcher("****.**.LL-**-00:00");
+			Assert.IsTrue(m.Valid);
+			var first = new DateTime(2018, 1, 1, 0, 0, 0);
+			for (var i = 0; i < 380; i++) {
+				var dt = first.AddDays(i);
+				if (dt.IsLastDayInMonth()) {
+					Assert.IsTrue(m.IsMatch(dt));
+					Assert.IsFalse(m.IsMatch(dt.AddSeconds(30)));
+					Assert.IsFalse(m.IsMatch(dt.AddSeconds(630)));
+				} else {
+					// other
+					Assert.IsFalse(m.IsMatch(dt));
+				}
+			}
+		}
+
+		[TestMethod]
+		public void EveryMD() {
+			var m = new DateTimeMatcher("****.08.14-**-00:00");
+			Assert.IsTrue(m.Valid);
+			var first = new DateTime(2018, 1, 1, 0, 0, 0);
+			for (var i = 0; i < 366 * 10; i++) {
+				var dt = first.AddDays(i);
+				if (dt.Month == 8 && dt.Day == 14) {
+					Assert.IsTrue(m.IsMatch(dt));
+					Assert.IsFalse(m.IsMatch(dt.AddSeconds(30)));
+					Assert.IsFalse(m.IsMatch(dt.AddSeconds(630)));
+				} else {
+					// other
+					Assert.IsFalse(m.IsMatch(dt));
+				}
+			}
+		}
+
+		[TestMethod]
+		public void EveryLastThursday() {
+			var m = new DateTimeMatcher("****.**.**-L4-00:00");
+			Assert.IsTrue(m.Valid);
+			var first = new DateTime(2018, 1, 1, 0, 0, 0);
+			for (var i = 0; i < 366 * 10; i++) {
+				var dt = first.AddDays(i);
+				var isLastThursday = dt.DayOfWeek == DayOfWeek.Thursday && dt.AddDays(7).Month != dt.Month;
+				if (isLastThursday) {
+					Assert.IsTrue(m.IsMatch(dt));
+					Assert.IsFalse(m.IsMatch(dt.AddSeconds(30)));
+					Assert.IsFalse(m.IsMatch(dt.AddSeconds(630)));
+				} else {
+					// other
+					Assert.IsFalse(m.IsMatch(dt));
+				}
 			}
 		}
 	}
