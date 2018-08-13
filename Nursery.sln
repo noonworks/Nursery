@@ -59,6 +59,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "filters", "filters", "{0B74
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UserDefinedSchedulerPlugin", "UserDefinedSchedulerPlugin\UserDefinedSchedulerPlugin.csproj", "{319B7E8E-EE9F-47F8-AABB-F6EF50020022}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UnitTests", "UnitTests\UnitTests.csproj", "{2B7A01A3-495E-4174-B7A0-334E9C10FFB8}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -101,6 +103,10 @@ Global
 		{319B7E8E-EE9F-47F8-AABB-F6EF50020022}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{319B7E8E-EE9F-47F8-AABB-F6EF50020022}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{319B7E8E-EE9F-47F8-AABB-F6EF50020022}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2B7A01A3-495E-4174-B7A0-334E9C10FFB8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2B7A01A3-495E-4174-B7A0-334E9C10FFB8}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2B7A01A3-495E-4174-B7A0-334E9C10FFB8}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2B7A01A3-495E-4174-B7A0-334E9C10FFB8}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
