@@ -31,8 +31,6 @@ namespace Nursery.UserDefinedSchedulerPlugin {
 		public string DateTimePattern { get; set; } = "";
 		[JsonIgnore]
 		public DateTimeMatcher DateTimeMatcher { get; private set; } = null;
-		[JsonProperty("date_time_run_on_start")]
-		public bool DateTimeRunOnStart { get; set; } = false;
 		#endregion
 
 		#region Interval condition
