@@ -195,7 +195,7 @@ namespace Nursery.Utility {
 					if (Int32.TryParse(Pattern, out i)) {
 						this.MatcherType = NumberMatcherType.ConstInt;
 						this.IntValue = i;
-						this.RegexValue = new Regex("^" + i + "$");
+						this.RegexValue = new Regex("^" + i.ToString("D" + Pattern.Length) + "$");
 						this.Valid = (Max < 0 || i <= Max) && (Min < 0 || i >= Min);
 					}
 					return;
