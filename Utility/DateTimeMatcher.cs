@@ -119,6 +119,7 @@ namespace Nursery.Utility {
 			return 31;
 		}
 
+		private readonly Regex PostfixRegex = new Regex(@"^.*?(\**)$");
 		public DateTimeMatcher(string Pattern) {
 			this.Pattern = Pattern;
 			if (!FormatRegex.IsMatch(Pattern)) { return; }
@@ -148,10 +149,9 @@ namespace Nursery.Utility {
 			if (allwild) { this.Valid = false; }
 			// create matched postfix
 			if (this.Valid) {
-				for (var i = MatchersCount - 1; i >= 0; i--) {
-					if (this.Matchers[i].MatcherType != NumberMatcherType.AllWildcard) { break; }
-					this.MatchedPostfix = "****".Substring(0, mt.Groups[i + 1].Value.Length) + this.MatchedPostfix;
-				}
+				var pat = mt.Groups[1].Value + mt.Groups[2].Value + mt.Groups[3].Value + mt.Groups[6].Value + mt.Groups[7].Value;
+				this.MatchedPostfix = PostfixRegex.Replace(pat, "$1");
+				Logger.DebugLog("[DateTimeMatcher] MatchedPostfix of [" + this.Pattern + "] is [" + this.MatchedPostfix + "]");
 			}
 		}
 
