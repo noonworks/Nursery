@@ -55,6 +55,8 @@
   <ItemGroup>
     <Compile Include="BinaryPool.cs" />
     <Compile Include="Common.cs" />
+    <Compile Include="DateTimeExtension.cs" />
+    <Compile Include="DateTimeMatcher.cs" />
     <Compile Include="IJSWrapper.cs" />
     <Compile Include="JintWrapper.cs" />
     <Compile Include="Logger.cs" />
