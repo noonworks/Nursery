@@ -56,7 +56,6 @@ namespace Nursery.Utility {
 
 		public void SetPrevious(DateTime dt) {
 			this.Previous = ToMatchedString(dt);
-			Logger.DebugLog("[DateTimeMatcher] Set Previous [" + this.Previous + "]");
 		}
 
 		public bool IsMatch(DateTime dt, bool UsePrevious = true) {
@@ -151,7 +150,6 @@ namespace Nursery.Utility {
 			if (this.Valid) {
 				var pat = mt.Groups[1].Value + mt.Groups[2].Value + mt.Groups[3].Value + mt.Groups[6].Value + mt.Groups[7].Value;
 				this.MatchedPostfix = PostfixRegex.Replace(pat, "$1");
-				Logger.DebugLog("[DateTimeMatcher] MatchedPostfix of [" + this.Pattern + "] is [" + this.MatchedPostfix + "]");
 			}
 		}
 
