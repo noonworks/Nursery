@@ -6,8 +6,8 @@ namespace Nursery.Utility {
 	//   N = number of day of week in this month
 	//   D = day of week (int)
 	public class DateTimeMatcher {
-		private static readonly Regex FormatRegex = new Regex(@"^([0-9\*]{4})\.([0-9\*]{2})\.([0-9\*]{2})\-([0-9\*])([0-9\*])\-([0-9\*]{2}):([0-9\*]{2})$");
-		private static readonly Regex ShortFormatRegex = new Regex(@"^([0-9\*]{4})\.([0-9\*]{2})\.([0-9\*]{2})\-([0-9\*]{2}):([0-9\*]{2})$");
+		private static readonly Regex FormatRegex = new Regex(@"^([0-9\*]{4})\.([0-9\*]{2})\.((?:[0-9\*]{2})|(?:LL))\-([0-9\*L])([0-9\*])\-([0-9\*]{2}):([0-9\*]{2})$");
+		private static readonly Regex ShortFormatRegex = new Regex(@"^([0-9\*]{4})\.([0-9\*]{2})\.((?:[0-9\*]{2})|(?:LL))\-([0-9\*]{2}):([0-9\*]{2})$");
 
 		public static string ToMatcherString(DateTime dt) {
 			return dt.ToString("yyyy.MM.dd-") + dt.GetNumberOfDayOfWeek() + "" + (int)dt.DayOfWeek + dt.ToString("-HH:mm");
@@ -56,7 +56,6 @@ namespace Nursery.Utility {
 
 		public void SetPrevious(DateTime dt) {
 			this.Previous = ToMatchedString(dt);
-			Logger.DebugLog("[DateTimeMatcher] Set Previous [" + this.Previous + "]");
 		}
 
 		public bool IsMatch(DateTime dt, bool UsePrevious = true) {
@@ -119,6 +118,7 @@ namespace Nursery.Utility {
 			return 31;
 		}
 
+		private readonly Regex PostfixRegex = new Regex(@"^.*?(\**)$");
 		public DateTimeMatcher(string Pattern) {
 			this.Pattern = Pattern;
 			if (!FormatRegex.IsMatch(Pattern)) { return; }
@@ -148,10 +148,8 @@ namespace Nursery.Utility {
 			if (allwild) { this.Valid = false; }
 			// create matched postfix
 			if (this.Valid) {
-				for (var i = MatchersCount - 1; i >= 0; i--) {
-					if (this.Matchers[i].MatcherType != NumberMatcherType.AllWildcard) { break; }
-					this.MatchedPostfix = "****".Substring(0, mt.Groups[i + 1].Value.Length) + this.MatchedPostfix;
-				}
+				var pat = mt.Groups[1].Value + mt.Groups[2].Value + mt.Groups[3].Value + mt.Groups[6].Value + mt.Groups[7].Value;
+				this.MatchedPostfix = PostfixRegex.Replace(pat, "$1");
 			}
 		}
 
@@ -195,7 +193,7 @@ namespace Nursery.Utility {
 					if (Int32.TryParse(Pattern, out i)) {
 						this.MatcherType = NumberMatcherType.ConstInt;
 						this.IntValue = i;
-						this.RegexValue = new Regex("^" + i + "$");
+						this.RegexValue = new Regex("^" + i.ToString("D" + Pattern.Length) + "$");
 						this.Valid = (Max < 0 || i <= Max) && (Min < 0 || i >= Min);
 					}
 					return;

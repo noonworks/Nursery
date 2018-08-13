@@ -84,13 +84,6 @@ namespace Nursery.UserDefinedSchedulerPlugin {
 		}
 
 		public override bool Check(IBot bot, UserDefinedScheduledTask schedule) {
-			// first time
-			if (this.LastExecute == DateTime.MinValue) {
-				this.Config.DateTimeMatcher.SetPrevious(schedule.CheckedAt);
-				this.LastExecute = schedule.CheckedAt;
-				return this.Config.DateTimeRunOnStart;
-			}
-			// other than first time
 			return this.Config.DateTimeMatcher.IsMatch(schedule.CheckedAt, true);
 		}
 	}
