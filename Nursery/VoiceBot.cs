@@ -433,11 +433,17 @@ namespace Nursery {
 			var isFirst = true;
 			foreach (var tcid_s in TextChannelIds) {
 				ulong tcid;
-				if (!ulong.TryParse(tcid_s, out tcid)) { continue; }
-				if (this.state.TextChannelIds.Contains(tcid)) {
-					SendMessageAsync(this.state.Guild.GetTextChannel(tcid), null, isFirst ? messageForFirst : messageForOthers, CutIfTooLong);
-					isFirst = false;
+				SocketTextChannel tc = null;
+				if (ulong.TryParse(tcid_s, out tcid) && this.state.Guild != null) {
+					tc = this.state.Guild.GetTextChannel(tcid);
 				}
+				if (tc == null) {
+					// TRANSLATORS: Log message. SendMessageAsync. {0} is id of text channel.
+					Logger.Log(T._("Could not find text channel id [{0}].", tcid_s));
+					continue;
+				}
+				SendMessageAsync(tc, null, isFirst ? messageForFirst : messageForOthers, CutIfTooLong);
+				isFirst = false;
 			}
 		}
 		

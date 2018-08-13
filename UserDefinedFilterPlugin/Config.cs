@@ -182,7 +182,6 @@ namespace Nursery.UserDefinedFilterPlugin {
 					this.StringArrayValue = new string[] { (string)arr[0], (string)arr[1] };
 				}
 			}
-
 		}
 	}
 
