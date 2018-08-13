@@ -48,5 +48,6 @@ namespace Nursery.UserDefinedSchedulerPlugin {
 		DateTime LastExecute { get; }
 		long TotalCount { get; }
 		long Count { get; }
+		long Interval { get; }
 	}
 }
