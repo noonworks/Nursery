@@ -44,14 +44,14 @@ namespace Nursery.Utility {
 	public class DateTimeRangeMatcher {
 		public bool Valid { get; private set; } = false;
 		private DateTimeMatcher BaseDateMatcher;
-		private TimeRange BeforeRange = null;
+		private TimeRange PreviousRange = null;
 		private TimeRange BaseRange = null;
-		private TimeRange AfterRange = null;
+		private TimeRange NextRange = null;
 		private const int START_OF_DAY = 0;
 		private const int END_OF_DAY = 2359;
 		private const string BASEDATE_STR = "****.**.**-**-**:**";
 
-		public DateTimeRangeMatcher(int StartTime, int EndTime, string BaseDate = "", bool Before = false) {
+		public DateTimeRangeMatcher(int StartTime, int EndTime, string BaseDate = "", bool UsePreviousDay = false) {
 			if (StartTime < 0 || EndTime < 0 || StartTime >= 2400 || EndTime >= 2400 || StartTime == EndTime) {
 				return;
 			}
@@ -70,12 +70,12 @@ namespace Nursery.Utility {
 			if (StartTime <= EndTime) {
 				this.BaseRange = new TimeRange(StartTime, EndTime);
 			} else {
-				if (Before) {
-					this.BeforeRange = new TimeRange(StartTime, END_OF_DAY);
+				if (UsePreviousDay) {
+					this.PreviousRange = new TimeRange(StartTime, END_OF_DAY);
 					this.BaseRange = new TimeRange(START_OF_DAY, EndTime);
 				} else {
 					this.BaseRange = new TimeRange(StartTime, END_OF_DAY);
-					this.AfterRange = new TimeRange(START_OF_DAY, EndTime);
+					this.NextRange = new TimeRange(START_OF_DAY, EndTime);
 				}
 			}
 			// set valid
@@ -92,15 +92,15 @@ namespace Nursery.Utility {
 			if (IsMatchToBaseDate(dt) && this.BaseRange.Contains(dt)) {
 				return new DateTimeRangeMatch(true, dt.Date);
 			}
-			if (this.BeforeRange != null) {
+			if (this.PreviousRange != null) {
 				var tomorrow = dt.AddDays(1);
-				if (IsMatchToBaseDate(tomorrow) && this.BeforeRange.Contains(dt)) {
+				if (IsMatchToBaseDate(tomorrow) && this.PreviousRange.Contains(dt)) {
 					return new DateTimeRangeMatch(true, tomorrow.Date);
 				}
 			}
-			if (this.AfterRange != null) {
+			if (this.NextRange != null) {
 				var yesterday = dt.AddDays(-1);
-				if (IsMatchToBaseDate(yesterday) && this.AfterRange.Contains(dt)) {
+				if (IsMatchToBaseDate(yesterday) && this.NextRange.Contains(dt)) {
 					return new DateTimeRangeMatch(true, yesterday.Date);
 				}
 			}
