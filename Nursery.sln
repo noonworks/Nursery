@@ -41,6 +41,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "plugins", "plugins", "{BDB5
 		dist_files\plugins\Nursery.BasicPlugins.LongMessageFilter.json = dist_files\plugins\Nursery.BasicPlugins.LongMessageFilter.json
 		dist_files\plugins\Nursery.SoundEffectPlugin.SoundEffectCommand.json = dist_files\plugins\Nursery.SoundEffectPlugin.SoundEffectCommand.json
 		dist_files\plugins\Nursery.UserDefinedFilterPlugin.UserDefinedFilter.json = dist_files\plugins\Nursery.UserDefinedFilterPlugin.UserDefinedFilter.json
+		dist_files\plugins\Nursery.UserDefinedSchedulerPlugin.UserDefinedScheduler.json = dist_files\plugins\Nursery.UserDefinedSchedulerPlugin.UserDefinedScheduler.json
 		dist_files\plugins\plugins.json = dist_files\plugins\plugins.json
 	EndProjectSection
 EndProject
@@ -55,6 +56,10 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "filters", "filters", "{0B74
 		dist_files\filters\filters.json = dist_files\filters\filters.json
 		dist_files\filters\housou_kinshi_sample.json = dist_files\filters\housou_kinshi_sample.json
 	EndProjectSection
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UserDefinedSchedulerPlugin", "UserDefinedSchedulerPlugin\UserDefinedSchedulerPlugin.csproj", "{319B7E8E-EE9F-47F8-AABB-F6EF50020022}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UnitTests", "UnitTests\UnitTests.csproj", "{2B7A01A3-495E-4174-B7A0-334E9C10FFB8}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -94,6 +99,14 @@ Global
 		{2E0A896A-C686-4139-AB3A-3B3E384D8F36}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{2E0A896A-C686-4139-AB3A-3B3E384D8F36}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{2E0A896A-C686-4139-AB3A-3B3E384D8F36}.Release|Any CPU.Build.0 = Release|Any CPU
+		{319B7E8E-EE9F-47F8-AABB-F6EF50020022}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{319B7E8E-EE9F-47F8-AABB-F6EF50020022}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{319B7E8E-EE9F-47F8-AABB-F6EF50020022}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{319B7E8E-EE9F-47F8-AABB-F6EF50020022}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2B7A01A3-495E-4174-B7A0-334E9C10FFB8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2B7A01A3-495E-4174-B7A0-334E9C10FFB8}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2B7A01A3-495E-4174-B7A0-334E9C10FFB8}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2B7A01A3-495E-4174-B7A0-334E9C10FFB8}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

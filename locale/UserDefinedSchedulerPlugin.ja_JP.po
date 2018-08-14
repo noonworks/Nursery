@@ -1,0 +1,54 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: Nursery beta1.0\n"
+"POT-Creation-Date: 2018-08-13 16:24+0900\n"
+"PO-Revision-Date: 2018-08-13 16:29+0900\n"
+"Last-Translator: noonworks <noonworks@gmail.com>\n"
+"Language-Team: noonworks https://github.com/noonworks/Nursery\n"
+"Language: ja_JP\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: Poedit 2.1.1\n"
+"X-Poedit-Basepath: ../UserDefinedFilterPlugin\n"
+"Plural-Forms: nplurals=1; plural=0;\n"
+"X-Poedit-KeywordsList: _;_n:1,2;_p:1c,2;_pn:1c,2,3\n"
+"X-Poedit-SearchPath-0: .\n"
+
+#. TRANSLATORS: Log message. UserDefinedScheduler plugin.
+msgid "Could not get JS result."
+msgstr "JSの実行結果を取得できませんでした。"
+
+#. TRANSLATORS: Bot-Help message. UserDefinedScheduler plugin.
+msgid "Scheduler manages user-defined schedule tasks."
+msgstr "ユーザー定義スケジュールを管理するスケジューラ。"
+
+#. TRANSLATORS: Log message. UserDefinedScheduler plugin.
+msgid "Can not load schedulers directory."
+msgstr "ユーザー定義スケジュールディレクトリ をロードできません。"
+
+#. TRANSLATORS: Log message. UserDefinedScheduler plugin. {0} is directory.
+#, csharp-format
+msgid "Schedulers directory [{0}] is not found."
+msgstr "ユーザー定義スケジュールディレクトリ [{0}] が見つかりません。"
+
+#. TRANSLATORS: Log message. UserDefinedScheduler plugin. {0} is file path.
+#, csharp-format
+msgid "Could not load scheduler [{0}]."
+msgstr "ユーザー定義スケジュール [{0}] をロードできません。"
+
+#. TRANSLATORS: Bot-Help message. UserDefinedSchedulerReloadCommand plugin.
+msgid "Reload user-defined schedules."
+msgstr "ユーザー定義スケジュールを再読み込みします。"
+
+#. TRANSLATORS: Log message. UserDefinedSchedulerReloadCommand plugin.
+msgid "Could not find UserDefinedScheduler."
+msgstr "UserDefinedSchedulerプラグインが見つかりませんでした。"
+
+#. TRANSLATORS: Bot message. UserDefinedSchedulerReloadCommand plugin. If it is longer than DISCORD_MESSAGE_MAX, it will be cut.
+msgid "Sorry, I could not get information."
+msgstr "ごめんなさい。情報を取得できませんでした。"
+
+#. TRANSLATORS: Bot message. UserDefinedSchedulerReloadCommand plugin. If it is longer than DISCORD_MESSAGE_MAX, it will be cut.
+msgid "User-defined schedules are reloaded."
+msgstr "ユーザー定義スケジュールを再読み込みしました。"
