@@ -12,6 +12,9 @@ namespace Nursery.Plugins {
 			// replace reply
 			if (Original != null) {
 				text = text.Replace("${reply}", Original.Author.Mention);
+				text = text.Replace("${username}", Original.Author.Username);
+				var nn = bot.GetNickName(Original.Author.Id.ToString());
+				text = text.Replace("${nickname}", nn);
 			}
 			// replace username and nickname
 			text = Regex.Replace(text, UserNameRegex, m => bot.GetUserName(m.Groups[1].Value));

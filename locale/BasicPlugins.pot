@@ -2,7 +2,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Nursery beta1.0\n"
-"POT-Creation-Date: 2018-08-07 02:03+0900\n"
+"POT-Creation-Date: 2018-08-10 16:50+0900\n"
 "PO-Revision-Date: 2018-07-10 20:12+0900\n"
 "Last-Translator: noonworks <noonworks@gmail.com>\n"
 "Language-Team: noonworks https://github.com/noonworks/Nursery\n"
@@ -228,12 +228,24 @@ msgstr ""
 msgid "Scheduler to add welcome messages."
 msgstr ""
 
-#. TRANSLATORS: Bot message. WelcomeScheduler plugin. ${nickname} is nickname of joined user.
+#. TRANSLATORS: Bot message. WelcomeScheduler plugin.
 msgid "${announce} ${nickname} is joined!"
 msgstr ""
 
-#. TRANSLATORS: Bot message. WelcomeScheduler plugin. ${nickname} is nickname of joined user.
+#. TRANSLATORS: Bot message. WelcomeScheduler plugin.
 msgid "${announce} ${nickname} left."
+msgstr ""
+
+#. TRANSLATORS: Bot message. WelcomeScheduler plugin.
+msgid "${nickname}"
+msgstr ""
+
+#. TRANSLATORS: Bot message. WelcomeScheduler plugin.
+msgid ", "
+msgstr ""
+
+#. TRANSLATORS: Bot message. WelcomeScheduler plugin.
+msgid " and "
 msgstr ""
 
 #. TRANSLATORS: Bot-Help message. WhereCommand plugin.

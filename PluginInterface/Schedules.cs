@@ -1,13 +1,7 @@
 ﻿using Nursery.Utility;
 using System;
-using System.Text.RegularExpressions;
 
 namespace Nursery.Plugins.Schedules {
-	public class ScheduleCheckResult {
-		public bool Established = false;
-		public string AdditionalData = null;
-	}
-
 	public enum ScheduledMessageType {
 		DoNothing,
 		SendMessage,
@@ -19,6 +13,15 @@ namespace Nursery.Plugins.Schedules {
 		public string Content = "";
 		public string[] TextChannelIds = new string[] { };
 		public bool CutIfTooLong = true;
+
+		public ScheduledMessage Clone() {
+			return new ScheduledMessage() {
+				Type = this.Type,
+				Content = this.Content,
+				TextChannelIds = this.TextChannelIds,
+				CutIfTooLong = this.CutIfTooLong
+			};
+		}
 	}
 
 	public abstract class ScheduledTaskBase : IScheduledTask {
@@ -30,24 +33,20 @@ namespace Nursery.Plugins.Schedules {
 			this.Name = Name;
 		}
 		#endregion
-
-		protected string AdditionalData { get; set; } = null;
-		protected DateTime CheckedAt { get; set; }
-		abstract protected ScheduleCheckResult DoCheck(IBot bot);
+		
+		public DateTime CheckedAt { get; protected set; }
+		abstract protected bool DoCheck(IBot bot);
 		abstract protected IScheduledTask[] DoExecute(IBot bot);
 
-		protected bool Check(DateTime checkedAt, IBot bot) {
-			this.CheckedAt = checkedAt;
+		protected bool Check(IBot bot) {
 			var r = this.DoCheck(bot);
-			if (r.AdditionalData != null) {
-				this.AdditionalData = r.AdditionalData;
-			}
-			if (r.Established) { Logger.DebugLog("[SCHEDULE] " + this.Name + " going to be executed."); }
-			return r.Established;
+			if (r) { Logger.DebugLog("[SCHEDULE] " + this.Name + " going to be executed."); }
+			return r;
 		}
 
 		public IScheduledTask[] Execute(IBot bot) {
-			if (! this.Check(this.CheckedAt, bot)) {
+			this.CheckedAt = DateTime.Now;
+			if (! this.Check(bot)) {
 				return new IScheduledTask[] { };
 			}
 			return this.DoExecute(bot);
@@ -62,6 +61,7 @@ namespace Nursery.Plugins.Schedules {
 		protected void Send(ScheduledMessage[] Messages, IBot bot) {
 			var now = DateTime.Now;
 			foreach (var message in Messages) {
+				if (message == null) { continue; }
 				if (message.Type == ScheduledMessageType.DoNothing) { continue; }
 				if (message.Content.Length == 0) { continue; }
 				var text = ReplaceContent(message.Content, bot, now);
@@ -71,7 +71,15 @@ namespace Nursery.Plugins.Schedules {
 					continue;
 				}
 				if (message.Type == ScheduledMessageType.SendMessage) {
-					bot.SendMessageAsync(message.TextChannelIds, text[0], text[1], message.CutIfTooLong);
+					var channels = message.TextChannelIds;
+					if (channels.Length == 1) {
+						if (channels[0] == "default") {
+							channels = null;
+						} else if (channels[0] == "all") {
+							channels = bot.TextChannelIdStrings;
+						}
+					}
+					bot.SendMessageAsync(channels, text[0], text[1], message.CutIfTooLong);
 					continue;
 				}
 			}

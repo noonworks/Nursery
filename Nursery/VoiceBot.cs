@@ -429,15 +429,23 @@ namespace Nursery {
 		public void SendMessageAsync(string[] TextChannelIds, string messageForFirst, string messageForOthers, bool CutIfTooLong) {
 			if (TextChannelIds == null || TextChannelIds.Length == 0) {
 				SendMessageAsync(this.state.DefaultTextChannel, null, messageForFirst, CutIfTooLong);
+				return;
 			}
-			var isFirst = true;
+			var sentChannels = new List<ulong>();
 			foreach (var tcid_s in TextChannelIds) {
 				ulong tcid;
-				if (!ulong.TryParse(tcid_s, out tcid)) { continue; }
-				if (this.state.TextChannelIds.Contains(tcid)) {
-					SendMessageAsync(this.state.Guild.GetTextChannel(tcid), null, isFirst ? messageForFirst : messageForOthers, CutIfTooLong);
-					isFirst = false;
+				SocketTextChannel tc = null;
+				if (ulong.TryParse(tcid_s, out tcid) && this.state.Guild != null) {
+					if (sentChannels.Contains(tcid)) { continue; }
+					tc = this.state.Guild.GetTextChannel(tcid);
 				}
+				if (tc == null) {
+					// TRANSLATORS: Log message. SendMessageAsync. {0} is id of text channel.
+					Logger.Log(T._("Could not find text channel id [{0}].", tcid_s));
+					continue;
+				}
+				SendMessageAsync(tc, null, sentChannels.Count == 0 ? messageForFirst : messageForOthers, CutIfTooLong);
+				sentChannels.Add(tcid);
 			}
 		}
 		
@@ -507,20 +515,30 @@ namespace Nursery {
 			return vc.Users.Select(u => u.Id.ToString()).Distinct().OrderBy(s => s).ToArray();
 		}
 		
-		public string[] GetTextChannelIds() {
-			return this.state.TextChannelIds.Select(id => id.ToString()).ToArray();
-		}
-		
-		public void AddSchedule(IScheduledTask schedule) {
+		public void AddSchedules(IScheduledTask[] schedules) {
+			this.timer.Stop();
 			lock (schedule_lock_object) { // LOCK SCHEDULE
-				this.Schedules.Add(schedule);
+				this.Schedules.AddRange(schedules);
 			}
+			this.timer.Start();
+		}
+
+		public void RemoveSchedules(IScheduledTask[] schedules) {
+			this.timer.Stop();
+			lock (schedule_lock_object) { // LOCK SCHEDULE
+				foreach (var s in schedules) {
+					this.Schedules.Remove(s);
+				}
+			}
+			this.timer.Start();
 		}
 
 		public void ClearSchedule() {
+			this.timer.Stop();
 			lock (schedule_lock_object) { // LOCK SCHEDULE
 				this.Schedules.Clear();
 			}
+			this.timer.Start();
 		}
 
 		#endregion

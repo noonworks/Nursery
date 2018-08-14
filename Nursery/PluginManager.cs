@@ -150,9 +150,7 @@ namespace Nursery.Plugins {
 			this.Plugins = ret.Select(p => { p.Initialize(this, ret); return p; }).ToArray();
 			bot.AnnounceLabel = this.AnnounceLabel;
 			bot.SpeakLabel = this.SpeakLabel;
-			foreach (var s in this.Schedules) {
-				bot.AddSchedule(s);
-			}
+			bot.AddSchedules(this.Schedules.ToArray());
 			Loaded = true;
 		}
 	}

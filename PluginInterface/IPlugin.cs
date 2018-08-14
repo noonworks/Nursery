@@ -75,8 +75,8 @@ namespace Nursery.Plugins {
 		string GetUserName(string UserId);
 		string GetNickName(string UserId);
 		string[] GetUserIdsInVoiceChannel();
-		string[] GetTextChannelIds();
-		void AddSchedule(IScheduledTask schedule);
+		void AddSchedules(IScheduledTask[] schedules);
+		void RemoveSchedules(IScheduledTask[] schedules);
 		void ClearSchedule();
 	}
 

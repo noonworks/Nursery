@@ -1,4 +1,5 @@
 ﻿using Nursery.Utility;
+using System;
 using System.Threading.Tasks;
 
 namespace Nursery {
@@ -28,7 +29,12 @@ namespace Nursery {
 			Logger.DebugLog("*** Timer started.");
 			while (true) {
 				if (!Watching) { break; }
-				this.Handler();
+				try {
+					this.Handler();
+				} catch (Exception e) {
+					Logger.DebugLog("*** ERROR ON TIMER ***");
+					Logger.DebugLog(e.ToString());
+				}
 				// wait to next loop
 				await Task.Delay(TickMilliSeconds).ConfigureAwait(false);
 			}

@@ -17,7 +17,7 @@ namespace Nursery.UserDefinedFilterPlugin {
 		[JsonProperty("filters")]
 		public string[] Filters { get; set; } = new string[] { "*" };
 		[JsonProperty("disabled")]
-		public string[] Disabled { get; set; } = new string[] {};
+		public string[] Disabled { get; set; } = new string[] { };
 	}
 
 	[JsonObject("Nursery.UserDefinedFilterPlugin.FilterConfig")]
@@ -37,13 +37,13 @@ namespace Nursery.UserDefinedFilterPlugin {
 		public string Path { get; set; } = "";
 
 		[JsonIgnore]
-		public FilterType Type { get; private set; } = FilterType.String;
+		private FilterType Type { get; set; } = FilterType.String;
 		[JsonIgnore]
-		public Regex RegexPattern { get; private set; } = null;
+		private Regex RegexPattern { get; set; } = null;
 		[JsonIgnore]
-		public string StringPattern { get; private set; } = null;
+		private string StringPattern { get; set; } = null;
 		[JsonIgnore]
-		public ReplaceDelegate FunctionPattern { get; private set; } = null;
+		private ReplaceDelegate FunctionPattern { get; set; } = null;
 
 		private void SetType() {
 			switch (this.StrType.ToLower()) {
@@ -65,7 +65,9 @@ namespace Nursery.UserDefinedFilterPlugin {
 					StringPattern = StrPattern;
 					break;
 				case FilterType.Regex:
-					RegexPattern = new Regex(StrPattern);
+					if (StrPattern.Length > 0) {
+						RegexPattern = new Regex(StrPattern);
+					}
 					break;
 				case FilterType.Function:
 					if (FunctionName.Length == 0 || StrPattern.Length == 0) {
@@ -77,7 +79,7 @@ namespace Nursery.UserDefinedFilterPlugin {
 					FunctionPattern = (JSArgument arg) => {
 						try {
 							var r = JSWrapper.Instance.ExecuteFunction(FunctionName, arg);
-							return r;
+							return new JSReturnValue(r);
 						} catch (System.Exception e) {
 							// TRANSLATORS: Log message. UserDefinedFilter plugin.
 							Logger.Log(T._("Could not get JS result."));
@@ -95,11 +97,97 @@ namespace Nursery.UserDefinedFilterPlugin {
 			SetType();
 			SetPattern();
 		}
+
+		private FilterResult DoFilterString(string content) {
+			if (this.StringPattern == null || this.StringPattern.Length == 0) { return new FilterResult(); }
+			var ret = new FilterResult();
+			if (!content.Contains(this.StringPattern)) { return ret; }
+			if (this.ReplaceTo != null) {
+				ret.Content = content.Replace(this.StringPattern, this.ReplaceTo);
+			}
+			if (this.SendMessage != null) {
+				ret.SendMessage = this.SendMessage;
+			}
+			return ret;
+		}
+
+		private FilterResult DoFilterRegex(string content) {
+			if (this.RegexPattern == null) { return new FilterResult(); }
+			var ret = new FilterResult();
+			Match match = this.RegexPattern.Match(content);
+			if (match == null || !match.Success) { return ret; }
+			if (this.ReplaceTo != null) {
+				ret.Content = this.RegexPattern.Replace(content, this.ReplaceTo);
+			}
+			if (this.SendMessage != null) {
+				ret.SendMessage = match.Result(this.SendMessage);
+			}
+			return ret;
+		}
+
+		private FilterResult DoFilterFunction(IBot bot, IMessage message) {
+			if (this.FunctionPattern == null) { return new FilterResult(); }
+			var ret = this.FunctionPattern(new JSArgument(bot, message));
+			switch (ret.Type) {
+				case JSReturnValueType.StringValue:
+					return new FilterResult() { Content = ret.StringValue };
+				case JSReturnValueType.StringArrayValue:
+					return new FilterResult() { Content = ret.StringArrayValue[0], SendMessage = ret.StringArrayValue[1] };
+				case JSReturnValueType.Unknown:
+				default:
+					return new FilterResult();
+			}
+		}
+
+		public FilterResult DoFilter(IBot bot, IMessage message) {
+			switch (this.Type) {
+				case FilterType.Regex:
+					return DoFilterRegex(message.Content);
+				case FilterType.Function:
+					return DoFilterFunction(bot, message);
+				case FilterType.String:
+				default:
+					return DoFilterString(message.Content);
+			}
+		}
 	}
 
-	public delegate object ReplaceDelegate(JSArgument arg);
+	public class FilterResult {
+		public string Content = null;
+		public string SendMessage = null;
+	}
 
-	public enum FilterType {
+	enum JSReturnValueType {
+		Unknown,
+		StringValue,
+		StringArrayValue,
+	}
+
+	class JSReturnValue {
+		public JSReturnValueType Type { get; } = JSReturnValueType.Unknown;
+		public string StringValue { get; } = null;
+		public string[] StringArrayValue { get; } = null;
+
+		public JSReturnValue(object val) {
+			if (val == null) { return; }
+			if (val.GetType() == typeof(string)) {
+				this.Type = JSReturnValueType.StringValue;
+				this.StringValue = (string)val;
+			}
+			if (val.GetType().IsArray) {
+				var arr = (object[])val;
+				if (arr.Length != 2) { return; }
+				if (arr[0].GetType() == typeof(string) && arr[1].GetType() == typeof(string)) {
+					this.Type = JSReturnValueType.StringArrayValue;
+					this.StringArrayValue = new string[] { (string)arr[0], (string)arr[1] };
+				}
+			}
+		}
+	}
+
+	delegate JSReturnValue ReplaceDelegate(JSArgument arg);
+
+	enum FilterType {
 		String,
 		Regex,
 		Function,
