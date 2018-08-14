@@ -431,11 +431,12 @@ namespace Nursery {
 				SendMessageAsync(this.state.DefaultTextChannel, null, messageForFirst, CutIfTooLong);
 				return;
 			}
-			var isFirst = true;
+			var sentChannels = new List<ulong>();
 			foreach (var tcid_s in TextChannelIds) {
 				ulong tcid;
 				SocketTextChannel tc = null;
 				if (ulong.TryParse(tcid_s, out tcid) && this.state.Guild != null) {
+					if (sentChannels.Contains(tcid)) { continue; }
 					tc = this.state.Guild.GetTextChannel(tcid);
 				}
 				if (tc == null) {
@@ -443,8 +444,8 @@ namespace Nursery {
 					Logger.Log(T._("Could not find text channel id [{0}].", tcid_s));
 					continue;
 				}
-				SendMessageAsync(tc, null, isFirst ? messageForFirst : messageForOthers, CutIfTooLong);
-				isFirst = false;
+				SendMessageAsync(tc, null, sentChannels.Count == 0 ? messageForFirst : messageForOthers, CutIfTooLong);
+				sentChannels.Add(tcid);
 			}
 		}
 		
