@@ -78,6 +78,17 @@ namespace Nursery.Options {
 			this.path = filepath;
 		}
 
+		public static string LoadFile(string path) {
+			if (path == null || path.Length == 0) { return ""; }
+			if (!File.Exists(path)) {
+				path = System.IO.Path.Combine(Directory.GetCurrentDirectory(), path);
+			}
+			if (!File.Exists(path)) { return ""; }
+			using (StreamReader sr = new StreamReader(path, new System.Text.UTF8Encoding(true))) {
+				return sr.ReadToEnd();
+			}
+		}
+
 		public TConfig LoadConfig<TConfig>(string path) {
 			if (!File.Exists(path)) {
 				path = Path.Combine(Directory.GetCurrentDirectory(), path);

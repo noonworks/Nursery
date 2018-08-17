@@ -1,4 +1,5 @@
 ﻿using Newtonsoft.Json;
+using Nursery.Options;
 using Nursery.Plugins.Schedules;
 using Nursery.Utility;
 using System.Collections.Generic;
@@ -48,6 +49,8 @@ namespace Nursery.UserDefinedSchedulerPlugin {
 		public string FunctionStr { get; set; } = "";
 		[JsonProperty("function_name")]
 		public string FunctionName { get; set; } = "";
+		[JsonProperty("function_file")]
+		public string FunctionFile { get; set; } = "";
 		[JsonIgnore]
 		public JSScheduleProcessFunction Function { get; private set; } = null;
 		#endregion
@@ -92,6 +95,8 @@ namespace Nursery.UserDefinedSchedulerPlugin {
 		}
 
 		private bool SetFunction() {
+			var file = Config.LoadFile(this.FunctionFile);
+			if (file.Length > 0) { this.FunctionStr = file; }
 			if (this.FunctionName.Length == 0 || this.FunctionStr.Length == 0) {
 				return false;
 			}

@@ -1,4 +1,5 @@
 ﻿using Newtonsoft.Json;
+using Nursery.Options;
 using Nursery.Plugins;
 using Nursery.Utility;
 using System.Collections.Generic;
@@ -39,6 +40,8 @@ namespace Nursery.SoundEffectPlugin {
 		public string ReplaceTo { get; set; } = null;
 		[JsonProperty("function_name")]
 		public string FunctionName { get; set; } = null;
+		[JsonProperty("function_file")]
+		public string FunctionFile { get; set; } = null;
 
 		[JsonIgnore]
 		public PatternType Type { get; private set; } = PatternType.String;
@@ -72,6 +75,8 @@ namespace Nursery.SoundEffectPlugin {
 					RegexPattern = new Regex(StrPattern);
 					break;
 				case PatternType.Function:
+					var file = Config.LoadFile(this.FunctionFile);
+					if (file.Length > 0) { this.StrPattern = file; }
 					if (FunctionName.Length == 0 || StrPattern.Length == 0) {
 						// TRANSLATORS: Log message. SoundEffectCommand plugin.
 						Logger.Log(T._("Could not set function."));

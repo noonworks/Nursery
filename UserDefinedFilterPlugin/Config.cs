@@ -1,4 +1,5 @@
 ﻿using Newtonsoft.Json;
+using Nursery.Options;
 using Nursery.Plugins;
 using Nursery.Utility;
 using System.Text.RegularExpressions;
@@ -32,6 +33,8 @@ namespace Nursery.UserDefinedFilterPlugin {
 		public string SendMessage { get; set; } = null;
 		[JsonProperty("function_name")]
 		public string FunctionName { get; set; } = null;
+		[JsonProperty("function_file")]
+		public string FunctionFile { get; set; } = null;
 
 		[JsonIgnore]
 		public string Path { get; set; } = "";
@@ -70,6 +73,8 @@ namespace Nursery.UserDefinedFilterPlugin {
 					}
 					break;
 				case FilterType.Function:
+					var file = Config.LoadFile(this.FunctionFile);
+					if (file.Length > 0) { this.StrPattern = file; }
 					if (FunctionName.Length == 0 || StrPattern.Length == 0) {
 						// TRANSLATORS: Log message. UserDefinedFilter plugin.
 						Logger.Log(T._("Could not set function."));
