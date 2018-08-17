@@ -23,6 +23,8 @@ namespace Nursery.Options {
 		public string DeviceRead { get; set; } = "";
 		[JsonProperty("device_sound_effect")]
 		public string DeviceSoundEffect { get; set; } = "";
+		[JsonProperty("bouyomichan_path")]
+		public string BouyomichanPath { get; set; } = "";
 		[JsonProperty("plugins_dir")]
 		public string PluginDir { get; set; } = "plugins";
 		[JsonIgnore]
