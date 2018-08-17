@@ -160,18 +160,59 @@ namespace Nursery {
 			return new DiscordSocketClient();
 		}
 
+		private void CheckBouyomichan() {
+			Exception err = null;
+			try {
+				// TRANSLATORS: Log message. Initializing Nursery.
+				Logger.Log(T._("  - Check Bouyomi-chan ..."));
+				this.bouyomichan.ClearTalkTasks();
+				return;
+			} catch (Exception e) {
+				err = e;
+			}
+			if (Config.Instance.MainConfig.BouyomichanPath == null || Config.Instance.MainConfig.BouyomichanPath.Length == 0) {
+				// TRANSLATORS: Error message. Initializing Nursery.
+				throw new Exception(T._("Could not load Bouyomi-chan. Please check Bouyomi-chan awaking."), err);
+			}
+			try {
+				// TRANSLATORS: Log message. Initializing Nursery.
+				Logger.Log(T._("  - Executing Bouyomi-chan ..."));
+				System.Diagnostics.Process p = System.Diagnostics.Process.Start(Config.Instance.MainConfig.BouyomichanPath);
+				var timeout_exec = 10;
+				while (timeout_exec > 0) {
+					if (p.WaitForInputIdle(1000)) { break; }
+					timeout_exec--;
+				}
+			} catch (Exception e) {
+				// TRANSLATORS: Error message. Initializing Nursery.
+				throw new Exception(T._("Could not execute Bouyomi-chan."), e);
+			}
+			// TRANSLATORS: Log message. Initializing Nursery.
+			Logger.Log(T._("  - Check Bouyomi-chan ..."));
+			var timeout = 10;
+			while (timeout > 0) {
+				try {
+					this.bouyomichan.ClearTalkTasks();
+					return;
+				} catch (Exception e) {
+					err = e;
+				}
+				System.Threading.Thread.Sleep(1000);
+				timeout--;
+			}
+			this.Dispose();
+			if (err != null) {
+				// TRANSLATORS: Error message. Initializing Nursery.
+				throw new Exception(T._("Could not load Bouyomi-chan. Please check Bouyomi-chan awaking."), err);
+			}
+		}
+
 		private VoiceBot() {
 			this.state = new BotState();
 			// TRANSLATORS: Log message. Initializing Nursery.
 			Logger.Log(T._("- initialize Bouyomi-chan ..."));
 			this.bouyomichan = new BouyomiChanClient();
-			try {
-				this.bouyomichan.ClearTalkTasks();
-			} catch (Exception e) {
-				this.Dispose();
-				// TRANSLATORS: Error message. Initializing Nursery.
-				throw new Exception(T._("Could not load Bouyomi-chan. Please check Bouyomi-chan awaking."), e);
-			}
+			this.CheckBouyomichan();
 			// TRANSLATORS: Log message. Initializing Nursery.
 			Logger.Log(T._("- initialize sound devices ..."));
 			try {
