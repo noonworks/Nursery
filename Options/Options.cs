@@ -98,7 +98,10 @@ namespace Nursery.Options {
 				throw new FileNotFoundException(T._("Config file [{0}] is not found.", path));
 			}
 			using (StreamReader sr = new StreamReader(path, new System.Text.UTF8Encoding(true))) {
-				return JsonConvert.DeserializeObject<TConfig>(sr.ReadToEnd());
+				var f = JsonConvert.DeserializeObject<TConfig>(sr.ReadToEnd());
+				var f2 = f as PathHolderConfig;
+				if (f2 != null) { f2.SetPath(path); }
+				return f;
 			}
 		}
 
