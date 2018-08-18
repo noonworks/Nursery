@@ -78,10 +78,11 @@ namespace Nursery.Options {
 			this.path = filepath;
 		}
 
-		public static string LoadFile(string path) {
+		public static string LoadFile(string path, string dir = "") {
 			if (path == null || path.Length == 0) { return ""; }
+			if (dir.Length == 0) { dir = Directory.GetCurrentDirectory(); }
 			if (!File.Exists(path)) {
-				path = System.IO.Path.Combine(Directory.GetCurrentDirectory(), path);
+				path = System.IO.Path.Combine(dir, path);
 			}
 			if (!File.Exists(path)) { return ""; }
 			using (StreamReader sr = new StreamReader(path, new System.Text.UTF8Encoding(true))) {
