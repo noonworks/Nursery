@@ -1,4 +1,5 @@
 ﻿using Newtonsoft.Json;
+using Nursery.Options;
 using Nursery.Utility;
 using System;
 
@@ -52,6 +53,8 @@ namespace Nursery.UserDefinedSchedulerPlugin {
 		public string FunctionStr { get; set; } = "";
 		[JsonProperty("function_name")]
 		public string FunctionName { get; set; } = "";
+		[JsonProperty("function_file")]
+		public string FunctionFile { get; set; } = "";
 		[JsonIgnore]
 		public JSScheduleConditionFunction Function { get; private set; } = null;
 		#endregion
@@ -117,7 +120,9 @@ namespace Nursery.UserDefinedSchedulerPlugin {
 			return true;
 		}
 
-		private bool SetupFunction() {
+		private bool SetupFunction(ScheduleConfig parent) {
+			var file = Config.LoadFile(this.FunctionFile, parent.ConfigFileDir);
+			if (file.Length > 0) { this.FunctionStr = file; }
 			if (this.FunctionName.Length == 0 || this.FunctionStr.Length == 0) {
 				return false;
 			}
@@ -143,7 +148,7 @@ namespace Nursery.UserDefinedSchedulerPlugin {
 			return this.TimeRangeMatcher.Valid;
 		}
 
-		public void Init() {
+		public void Init(ScheduleConfig parent) {
 			SetType();
 			switch (this.Type) {
 				case ConditionType.DateTime:
@@ -153,7 +158,7 @@ namespace Nursery.UserDefinedSchedulerPlugin {
 					this.Valid = SetupInterval();
 					break;
 				case ConditionType.Function:
-					this.Valid = SetupFunction();
+					this.Valid = SetupFunction(parent);
 					break;
 				case ConditionType.TimeRange:
 					this.Valid = SetupRange();

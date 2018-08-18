@@ -1,4 +1,5 @@
 ﻿using Newtonsoft.Json;
+using Nursery.Options;
 using Nursery.Plugins.Schedules;
 using Nursery.Utility;
 using System.Collections.Generic;
@@ -48,6 +49,8 @@ namespace Nursery.UserDefinedSchedulerPlugin {
 		public string FunctionStr { get; set; } = "";
 		[JsonProperty("function_name")]
 		public string FunctionName { get; set; } = "";
+		[JsonProperty("function_file")]
+		public string FunctionFile { get; set; } = "";
 		[JsonIgnore]
 		public JSScheduleProcessFunction Function { get; private set; } = null;
 		#endregion
@@ -91,7 +94,9 @@ namespace Nursery.UserDefinedSchedulerPlugin {
 			}
 		}
 
-		private bool SetFunction() {
+		private bool SetFunction(ScheduleConfig parent) {
+			var file = Config.LoadFile(this.FunctionFile, parent.ConfigFileDir);
+			if (file.Length > 0) { this.FunctionStr = file; }
 			if (this.FunctionName.Length == 0 || this.FunctionStr.Length == 0) {
 				return false;
 			}
@@ -122,7 +127,7 @@ namespace Nursery.UserDefinedSchedulerPlugin {
 
 		}
 
-		public void Init() {
+		public void Init(ScheduleConfig parent) {
 			SetType();
 			switch (this.Type) {
 				case ProcessType.SendMessage:
@@ -135,7 +140,7 @@ namespace Nursery.UserDefinedSchedulerPlugin {
 					this.Valid = this.Values.Length > 0;
 					break;
 				case ProcessType.Function:
-					this.Valid = SetFunction();
+					this.Valid = SetFunction(parent);
 					break;
 				case ProcessType.Unknown:
 				default:

@@ -1,4 +1,5 @@
 ﻿using Newtonsoft.Json;
+using Nursery.Options;
 using Nursery.Plugins;
 using Nursery.Utility;
 using System.Collections.Generic;
@@ -16,7 +17,7 @@ namespace Nursery.SoundEffectPlugin {
 	}
 
 	[JsonObject("Nursery.SoundEffectPlugin.SoundConfig")]
-	public class SoundConfig {
+	public class SoundConfig : PathHolderConfig {
 		[JsonProperty("file")]
 		public string File { get; set; } = "";
 		[JsonProperty("volume")]
@@ -25,8 +26,6 @@ namespace Nursery.SoundEffectPlugin {
 		public List<string> Aliases { get; set; } = new List<string>();
 		[JsonProperty("patterns")]
 		public List<PatternConfig> Patterns { get; set; } = new List<PatternConfig>();
-		[JsonIgnore]
-		public string ConfigFile { get; set; } = "";
 	}
 
 	[JsonObject("Nursery.SoundEffectPlugin.PatternConfig")]
@@ -39,6 +38,8 @@ namespace Nursery.SoundEffectPlugin {
 		public string ReplaceTo { get; set; } = null;
 		[JsonProperty("function_name")]
 		public string FunctionName { get; set; } = null;
+		[JsonProperty("function_file")]
+		public string FunctionFile { get; set; } = null;
 
 		[JsonIgnore]
 		public PatternType Type { get; private set; } = PatternType.String;
@@ -63,7 +64,7 @@ namespace Nursery.SoundEffectPlugin {
 			}
 		}
 
-		private void SetPattern() {
+		private void SetPattern(SoundConfig parent) {
 			switch (this.Type) {
 				case PatternType.String:
 					StringPattern = StrPattern;
@@ -72,6 +73,8 @@ namespace Nursery.SoundEffectPlugin {
 					RegexPattern = new Regex(StrPattern);
 					break;
 				case PatternType.Function:
+					var file = Config.LoadFile(this.FunctionFile, parent.ConfigFileDir);
+					if (file.Length > 0) { this.StrPattern = file; }
 					if (FunctionName.Length == 0 || StrPattern.Length == 0) {
 						// TRANSLATORS: Log message. SoundEffectCommand plugin.
 						Logger.Log(T._("Could not set function."));
@@ -95,9 +98,9 @@ namespace Nursery.SoundEffectPlugin {
 			}
 		}
 
-		public void Initialize() {
+		public void Initialize(SoundConfig parent) {
 			SetType();
-			SetPattern();
+			SetPattern(parent);
 		}
 	}
 

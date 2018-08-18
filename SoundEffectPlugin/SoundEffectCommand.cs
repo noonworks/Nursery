@@ -47,9 +47,8 @@ namespace Nursery.SoundEffectPlugin {
 				SoundConfig c;
 				try {
 					c = Config.Instance.LoadConfig<SoundConfig>(json);
-					c.ConfigFile = json;
 					c.File = Path.Combine(Path.GetDirectoryName(json), c.File);
-					foreach (var p in c.Patterns) { p.Initialize(); }
+					foreach (var p in c.Patterns) { p.Initialize(c); }
 					return c;
 				} catch (Exception) {
 					// TRANSLATORS: Log message. SoundEffectCommand plugin. {0} is file path.
