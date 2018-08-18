@@ -17,7 +17,7 @@ namespace Nursery.SoundEffectPlugin {
 	}
 
 	[JsonObject("Nursery.SoundEffectPlugin.SoundConfig")]
-	public class SoundConfig {
+	public class SoundConfig : PathHolderConfig {
 		[JsonProperty("file")]
 		public string File { get; set; } = "";
 		[JsonProperty("volume")]
@@ -26,8 +26,6 @@ namespace Nursery.SoundEffectPlugin {
 		public List<string> Aliases { get; set; } = new List<string>();
 		[JsonProperty("patterns")]
 		public List<PatternConfig> Patterns { get; set; } = new List<PatternConfig>();
-		[JsonIgnore]
-		public string ConfigFile { get; set; } = "";
 	}
 
 	[JsonObject("Nursery.SoundEffectPlugin.PatternConfig")]
@@ -66,7 +64,7 @@ namespace Nursery.SoundEffectPlugin {
 			}
 		}
 
-		private void SetPattern() {
+		private void SetPattern(SoundConfig parent) {
 			switch (this.Type) {
 				case PatternType.String:
 					StringPattern = StrPattern;
@@ -75,7 +73,7 @@ namespace Nursery.SoundEffectPlugin {
 					RegexPattern = new Regex(StrPattern);
 					break;
 				case PatternType.Function:
-					var file = Config.LoadFile(this.FunctionFile);
+					var file = Config.LoadFile(this.FunctionFile, parent.ConfigFileDir);
 					if (file.Length > 0) { this.StrPattern = file; }
 					if (FunctionName.Length == 0 || StrPattern.Length == 0) {
 						// TRANSLATORS: Log message. SoundEffectCommand plugin.
@@ -100,9 +98,9 @@ namespace Nursery.SoundEffectPlugin {
 			}
 		}
 
-		public void Initialize() {
+		public void Initialize(SoundConfig parent) {
 			SetType();
-			SetPattern();
+			SetPattern(parent);
 		}
 	}
 

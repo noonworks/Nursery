@@ -1,4 +1,5 @@
 ﻿using Newtonsoft.Json;
+using Nursery.Options;
 using Nursery.Plugins;
 using System;
 using System.Linq;
@@ -11,7 +12,7 @@ namespace Nursery.UserDefinedSchedulerPlugin {
 	}
 
 	[JsonObject("Nursery.UserDefinedSchedulerPlugin.ScheduleConfig")]
-	public class ScheduleConfig {
+	public class ScheduleConfig : PathHolderConfig {
 		[JsonProperty("name")]
 		public string Name { get; set; } = "";
 		[JsonProperty("conditions")]
@@ -25,8 +26,8 @@ namespace Nursery.UserDefinedSchedulerPlugin {
 
 		public void Init(string path) {
 			this.Path = path;
-			this.Conditions = this.Conditions.Where(c => { c.Init(); return c.Valid; }).ToArray();
-			this.Processes = this.Processes.Where(c => { c.Init(); return c.Valid; }).ToArray();
+			this.Conditions = this.Conditions.Where(c => { c.Init(this); return c.Valid; }).ToArray();
+			this.Processes = this.Processes.Where(c => { c.Init(this); return c.Valid; }).ToArray();
 			this.Valid = (this.Conditions.Length > 0 && this.Processes.Length > 0);
 		}
 	}

@@ -22,7 +22,7 @@ namespace Nursery.UserDefinedFilterPlugin {
 	}
 
 	[JsonObject("Nursery.UserDefinedFilterPlugin.FilterConfig")]
-	public class FilterConfig {
+	public class FilterConfig : PathHolderConfig {
 		[JsonProperty("pattern")]
 		public string StrPattern { get; set; } = "";
 		[JsonProperty("type")]
@@ -73,7 +73,7 @@ namespace Nursery.UserDefinedFilterPlugin {
 					}
 					break;
 				case FilterType.Function:
-					var file = Config.LoadFile(this.FunctionFile);
+					var file = Config.LoadFile(this.FunctionFile, this.ConfigFileDir);
 					if (file.Length > 0) { this.StrPattern = file; }
 					if (FunctionName.Length == 0 || StrPattern.Length == 0) {
 						// TRANSLATORS: Log message. UserDefinedFilter plugin.

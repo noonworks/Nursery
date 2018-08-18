@@ -120,8 +120,8 @@ namespace Nursery.UserDefinedSchedulerPlugin {
 			return true;
 		}
 
-		private bool SetupFunction() {
-			var file = Config.LoadFile(this.FunctionFile);
+		private bool SetupFunction(ScheduleConfig parent) {
+			var file = Config.LoadFile(this.FunctionFile, parent.ConfigFileDir);
 			if (file.Length > 0) { this.FunctionStr = file; }
 			if (this.FunctionName.Length == 0 || this.FunctionStr.Length == 0) {
 				return false;
@@ -148,7 +148,7 @@ namespace Nursery.UserDefinedSchedulerPlugin {
 			return this.TimeRangeMatcher.Valid;
 		}
 
-		public void Init() {
+		public void Init(ScheduleConfig parent) {
 			SetType();
 			switch (this.Type) {
 				case ConditionType.DateTime:
@@ -158,7 +158,7 @@ namespace Nursery.UserDefinedSchedulerPlugin {
 					this.Valid = SetupInterval();
 					break;
 				case ConditionType.Function:
-					this.Valid = SetupFunction();
+					this.Valid = SetupFunction(parent);
 					break;
 				case ConditionType.TimeRange:
 					this.Valid = SetupRange();

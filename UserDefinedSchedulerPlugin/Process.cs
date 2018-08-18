@@ -94,8 +94,8 @@ namespace Nursery.UserDefinedSchedulerPlugin {
 			}
 		}
 
-		private bool SetFunction() {
-			var file = Config.LoadFile(this.FunctionFile);
+		private bool SetFunction(ScheduleConfig parent) {
+			var file = Config.LoadFile(this.FunctionFile, parent.ConfigFileDir);
 			if (file.Length > 0) { this.FunctionStr = file; }
 			if (this.FunctionName.Length == 0 || this.FunctionStr.Length == 0) {
 				return false;
@@ -127,7 +127,7 @@ namespace Nursery.UserDefinedSchedulerPlugin {
 
 		}
 
-		public void Init() {
+		public void Init(ScheduleConfig parent) {
 			SetType();
 			switch (this.Type) {
 				case ProcessType.SendMessage:
@@ -140,7 +140,7 @@ namespace Nursery.UserDefinedSchedulerPlugin {
 					this.Valid = this.Values.Length > 0;
 					break;
 				case ProcessType.Function:
-					this.Valid = SetFunction();
+					this.Valid = SetFunction(parent);
 					break;
 				case ProcessType.Unknown:
 				default:
