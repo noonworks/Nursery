@@ -1,7 +1,7 @@
 ﻿namespace Nursery.Utility {
 	public class Common {
 		public const string MAJOR = "0";
-		public const string MINOR = "3";
+		public const string MINOR = "4";
 		public const string RELEASE = "0";
 		public const string BUILD = "0";
 		public const string POSTFIX = " beta";

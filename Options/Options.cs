@@ -23,6 +23,8 @@ namespace Nursery.Options {
 		public string DeviceRead { get; set; } = "";
 		[JsonProperty("device_sound_effect")]
 		public string DeviceSoundEffect { get; set; } = "";
+		[JsonProperty("bouyomichan_path")]
+		public string BouyomichanPath { get; set; } = "";
 		[JsonProperty("plugins_dir")]
 		public string PluginDir { get; set; } = "plugins";
 		[JsonIgnore]
@@ -76,6 +78,18 @@ namespace Nursery.Options {
 			this.path = filepath;
 		}
 
+		public static string LoadFile(string path, string dir = "") {
+			if (path == null || path.Length == 0) { return ""; }
+			if (dir.Length == 0) { dir = Directory.GetCurrentDirectory(); }
+			if (!File.Exists(path)) {
+				path = System.IO.Path.Combine(dir, path);
+			}
+			if (!File.Exists(path)) { return ""; }
+			using (StreamReader sr = new StreamReader(path, new System.Text.UTF8Encoding(true))) {
+				return sr.ReadToEnd();
+			}
+		}
+
 		public TConfig LoadConfig<TConfig>(string path) {
 			if (!File.Exists(path)) {
 				path = Path.Combine(Directory.GetCurrentDirectory(), path);
@@ -85,7 +99,10 @@ namespace Nursery.Options {
 				throw new FileNotFoundException(T._("Config file [{0}] is not found.", path));
 			}
 			using (StreamReader sr = new StreamReader(path, new System.Text.UTF8Encoding(true))) {
-				return JsonConvert.DeserializeObject<TConfig>(sr.ReadToEnd());
+				var f = JsonConvert.DeserializeObject<TConfig>(sr.ReadToEnd());
+				var f2 = f as PathHolderConfig;
+				if (f2 != null) { f2.SetPath(path); }
+				return f;
 			}
 		}
 
