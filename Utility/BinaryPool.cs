@@ -77,28 +77,6 @@ namespace Nursery.Utility {
 		abstract public void UnLoad();
 	}
 
-	public class BinaryFile : BinaryFileBase<byte[]> {
-		public BinaryFile() : base() {
-			this.Data = new byte[0];
-		}
-
-		public override byte[] Load() {
-			if (this.IsLoad) { return this.Data; }
-			using (FileStream fs = new FileStream(this.FileName, FileMode.Open, FileAccess.Read)) {
-				if (this.Size != fs.Length) { this.Size = fs.Length; }
-				this.Data = new byte[fs.Length];
-				fs.Read(this.Data, 0, this.Data.Length);
-			}
-			this.IsLoad = true;
-			return this.Data;
-		}
-
-		public override void UnLoad() {
-			this.Data = new byte[0];
-			this.IsLoad = false;
-		}
-	}
-
 	public class BinaryStream : BinaryFileBase<MemoryStream> {
 		public BinaryStream() : base() {
 			this.Data = new MemoryStream();
@@ -118,57 +96,6 @@ namespace Nursery.Utility {
 		public override void UnLoad() {
 			this.Data = new MemoryStream();
 			this.IsLoad = false;
-		}
-	}
-
-	public class UnsafeBinaryFile : BinaryFileBase<SafeBinaryHandle> {
-		public UnsafeBinaryFile() : base() {
-			this.Data = default(SafeBinaryHandle);
-		}
-
-		public override SafeBinaryHandle Load() {
-			if (this.IsLoad) { return this.Data; }
-			byte[] bytes;
-			using (FileStream fs = new FileStream(this.FileName, FileMode.Open, FileAccess.Read)) {
-				if (this.Size != fs.Length) { this.Size = fs.Length; }
-				bytes = new byte[fs.Length];
-				fs.Read(bytes, 0, bytes.Length);
-			}
-			this.Data = SafeBinaryHandle.Create(bytes);
-			this.IsLoad = true;
-			return this.Data;
-		}
-
-		public override void UnLoad() {
-			this.Data = default(SafeBinaryHandle);
-			this.IsLoad = false;
-		}
-	}
-
-	public class SafeBinaryHandle : SafeHandleZeroOrMinusOneIsInvalid {
-		private bool released = false;
-
-		public IntPtr RawIntPtr { get => handle; }
-		public long Size { get; private set; }
-
-		private SafeBinaryHandle() : base(true) { }
-
-		public static SafeBinaryHandle Create(byte[] bytes) {
-			var instance = new SafeBinaryHandle {
-				Size = bytes.Length,
-				// alloc unsafe memory
-				handle = Marshal.AllocCoTaskMem(Marshal.SizeOf(typeof(byte)) * bytes.Length)
-			};
-			// copy bytes to unsafe memory
-			Marshal.Copy(bytes, 0, instance.handle, bytes.Length);
-			return instance;
-		}
-
-		[ReliabilityContract(Consistency.WillNotCorruptState, Cer.MayFail)]
-		override protected bool ReleaseHandle() {
-			if (!released) { Marshal.FreeCoTaskMem(handle); }
-			released = true;
-			return true;
 		}
 	}
 }
