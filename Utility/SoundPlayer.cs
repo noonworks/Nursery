@@ -55,9 +55,11 @@ namespace Nursery.Utility {
 					this.audioFile = null;
 					break;
 			}
-			this.outDevice = new WaveOutEvent() { DeviceNumber = Utility.Audio.NAudio.Instance.WaveOutDeviceId };
+			this.outDevice = new WaveOutEvent() {
+				DeviceNumber = Utility.Audio.NAudio.Instance.WaveOutDeviceId,
+				Volume = volume,
+			};
 			this.outDevice.Init(this.audioFile);
-			this.Volume = volume;
 		}
 
 		public bool Play(bool Restart = false) {
