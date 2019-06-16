@@ -99,6 +99,28 @@ namespace Nursery.Utility {
 		}
 	}
 
+	public class BinaryStream : BinaryFileBase<MemoryStream> {
+		public BinaryStream() : base() {
+			this.Data = new MemoryStream();
+		}
+
+		public override MemoryStream Load() {
+			if (this.IsLoad) { return this.Data; }
+			this.Data = new MemoryStream();
+			using (FileStream fs = new FileStream(this.FileName, FileMode.Open, FileAccess.Read)) {
+				if (this.Size != fs.Length) { this.Size = fs.Length; }
+				fs.CopyTo(this.Data);
+			}
+			this.IsLoad = true;
+			return this.Data;
+		}
+
+		public override void UnLoad() {
+			this.Data = new MemoryStream();
+			this.IsLoad = false;
+		}
+	}
+
 	public class UnsafeBinaryFile : BinaryFileBase<SafeBinaryHandle> {
 		public UnsafeBinaryFile() : base() {
 			this.Data = default(SafeBinaryHandle);
