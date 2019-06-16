@@ -37,9 +37,6 @@
     <ApplicationIcon>nursery.ico</ApplicationIcon>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Bass.Net">
-      <HintPath>..\libs\Bass.Net.dll</HintPath>
-    </Reference>
     <Reference Include="CommandLine">
       <HintPath>..\libs\CommandLine.dll</HintPath>
     </Reference>
@@ -113,10 +110,6 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <Content Include="..\libs\bass.dll">
-      <Link>bass.dll</Link>
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
     <Content Include="..\libs\libsodium.dll">
       <Link>libsodium.dll</Link>
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
@@ -218,10 +211,8 @@
     <ItemGroup>
       <DeletePDBFiles Include="$(TargetDir)**\*.pdb"/>
       <DeleteXMLFiles Include="$(TargetDir)*.xml"/>
-      <DeleteBassFiles Include="$(TargetDir)bass*.dll"/>
     </ItemGroup>
     <Delete Files="@(DeletePDBFiles)" />
     <Delete Files="@(DeleteXMLFiles)" />
-    <Delete Files="@(DeleteBassFiles)" />
   </Target>
 </Project>
