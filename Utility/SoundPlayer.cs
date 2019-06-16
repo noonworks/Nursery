@@ -1,6 +1,6 @@
-﻿using System;
-using System.IO;
+﻿using System.IO;
 using NAudio.Wave;
+using NAudio.Wave.SampleProviders;
 
 namespace Nursery.Utility {
 	public enum PlayState {
@@ -12,13 +12,27 @@ namespace Nursery.Utility {
 	public class SoundPlayer {
 		public readonly string Name;
 		public readonly string FilePath;
-		private readonly WaveStream audioFile;
 		private readonly WaveOutEvent outDevice;
+		private readonly SampleChannel channel = null;
+		private readonly AudioFileReader autoFile = null;
 
 		public float Volume {
-			get => this.outDevice.Volume;
+			get {
+				if (this.channel != null) {
+					return this.channel.Volume;
+				}
+				if (this.channel != null) {
+					return this.autoFile.Volume;
+				}
+				return 0;
+			}
 			set {
-				this.outDevice.Volume = value;
+				if (this.channel != null) {
+					this.channel.Volume = value;
+				}
+				if (this.channel != null) {
+					this.autoFile.Volume = value;
+				}
 			}
 		}
 
@@ -39,27 +53,28 @@ namespace Nursery.Utility {
 		public SoundPlayer(string identifer, string filepath, MemoryStream stream, float volume) {
 			this.Name = identifer;
 			this.FilePath = filepath;
-			var ext = Path.GetExtension(this.FilePath).ToLower();
-			stream.Position = 0;
-			switch (ext) {
-				case ".wav":
-					this.audioFile = new WaveFileReader(stream);
-					break;
-				case ".mp3":
-					this.audioFile = new Mp3FileReader(stream);
-					break;
-				case ".aiff":
-					this.audioFile = new AiffFileReader(stream);
-					break;
-				default:
-					this.audioFile = null;
-					break;
-			}
 			this.outDevice = new WaveOutEvent() {
 				DeviceNumber = Utility.Audio.NAudio.Instance.WaveOutDeviceId,
-				Volume = volume,
 			};
-			this.outDevice.Init(this.audioFile);
+			stream.Position = 0;
+			switch (Path.GetExtension(this.FilePath).ToLower()) {
+				case ".wav":
+					this.channel = new SampleChannel(new WaveFileReader(stream)) { Volume = volume };
+					this.outDevice.Init(this.channel);
+					break;
+				case ".mp3":
+					this.channel = new SampleChannel(new Mp3FileReader(stream)) { Volume = volume };
+					this.outDevice.Init(this.channel);
+					break;
+				case ".aiff":
+					this.channel = new SampleChannel(new AiffFileReader(stream)) { Volume = volume };
+					this.outDevice.Init(this.channel);
+					break;
+				default:
+					this.autoFile = new AudioFileReader(filepath){ Volume = volume };
+					this.outDevice.Init(this.autoFile);
+					break;
+			}
 		}
 
 		public bool Play(bool Restart = false) {
