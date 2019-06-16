@@ -37,9 +37,6 @@
     <ApplicationIcon>nursery.ico</ApplicationIcon>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Bass.Net">
-      <HintPath>..\libs\Bass.Net.dll</HintPath>
-    </Reference>
     <Reference Include="CommandLine">
       <HintPath>..\libs\CommandLine.dll</HintPath>
     </Reference>
@@ -60,6 +57,9 @@
     </Reference>
     <Reference Include="Discord.Net.WebSocket">
       <HintPath>..\libs\Discord.Net.WebSocket.dll</HintPath>
+    </Reference>
+    <Reference Include="NAudio, Version=1.9.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\NAudio.1.9.0\lib\net35\NAudio.dll</HintPath>
     </Reference>
     <Reference Include="Newtonsoft.Json">
       <HintPath>..\libs\Newtonsoft.Json.dll</HintPath>
@@ -83,14 +83,13 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="BassWrapper.cs" />
     <Compile Include="BotState.cs" />
     <Compile Include="PluginManager.cs" />
+    <Compile Include="AudioConnector\NAudio.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Timer.cs" />
     <Compile Include="VoiceBot.cs" />
-    <Compile Include="VoiceChat.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Bouyomichan\Bouyomichan.csproj">
@@ -111,10 +110,6 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <Content Include="..\libs\bass.dll">
-      <Link>bass.dll</Link>
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
     <Content Include="..\libs\libsodium.dll">
       <Link>libsodium.dll</Link>
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
@@ -216,10 +211,8 @@
     <ItemGroup>
       <DeletePDBFiles Include="$(TargetDir)**\*.pdb"/>
       <DeleteXMLFiles Include="$(TargetDir)*.xml"/>
-      <DeleteBassFiles Include="$(TargetDir)bass*.dll"/>
     </ItemGroup>
     <Delete Files="@(DeletePDBFiles)" />
     <Delete Files="@(DeleteXMLFiles)" />
-    <Delete Files="@(DeleteBassFiles)" />
   </Target>
 </Project>
