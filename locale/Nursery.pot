@@ -2,7 +2,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Nursery beta1.0\n"
-"POT-Creation-Date: 2018-08-14 20:24+0900\n"
+"POT-Creation-Date: 2019-06-16 20:59+0900\n"
 "PO-Revision-Date: 2018-07-10 16:52+0900\n"
 "Last-Translator: noonworks <noonworks@gmail.com>\n"
 "Language-Team: noonworks https://github.com/noonworks/Nursery\n"
@@ -20,41 +20,15 @@ msgstr ""
 "X-Poedit-SearchPathExcluded-2: UserDefinedFilterPlugin\n"
 "X-Poedit-SearchPathExcluded-3: UserDefinedSchedulerPlugin\n"
 
-#. TRANSLATORS: Log message. In BassWrapper.
+#. TRANSLATORS: Log message. In AudioManager.
 msgid "- get sound device ..."
 msgstr ""
 
-#. TRANSLATORS: Log message. In BassWrapper.
+#. TRANSLATORS: Log message. In AudioManager.
 msgid "- get record device ..."
 msgstr ""
 
-#. TRANSLATORS: Log message. In BassWrapper.
-msgid "- initialize sound device ..."
-msgstr ""
-
-#. TRANSLATORS: Error message. In BassWrapper. {0} is error code.
-#, csharp-format
-msgid "Failed to init sound device: {0}"
-msgstr ""
-
-#. TRANSLATORS: Log message. In BassWrapper.
-msgid "- initialize record device ..."
-msgstr ""
-
-#. TRANSLATORS: Error message. In BassWrapper. {0} is error code.
-#, csharp-format
-msgid "Failed to init recording device: {0}"
-msgstr ""
-
-#. TRANSLATORS: Error message. In BassWrapper. {0} is name of recording device. {1} is list of available recording device(s).
-#, csharp-format
-msgid ""
-"Recording device \"{0}\" is not found.\n"
-"Available recording devices:\n"
-"{1}"
-msgstr ""
-
-#. TRANSLATORS: Error message. In BassWrapper. {0} is name of sound device. {1} is list of available sound device(s).
+#. TRANSLATORS: Error message. In AudioManager. {0} is name of sound device. {1} is list of available sound device(s).
 #, csharp-format
 msgid ""
 "Sound device \"{0}\" is not found.\n"
@@ -62,16 +36,69 @@ msgid ""
 "{1}"
 msgstr ""
 
-#. TRANSLATORS: Log message. In BassWrapper.
-msgid "- free sound device ..."
+#. TRANSLATORS: Error message. In AudioManager. {0} is name of recording device. {1} is list of available recording device(s).
+#, csharp-format
+msgid ""
+"Recording device \"{0}\" is not found.\n"
+"Available recording devices:\n"
+"{1}"
 msgstr ""
 
-#. TRANSLATORS: Log message. In BassWrapper.
-msgid "  - success"
+#. TRANSLATORS: Log message. In AudioManager.
+msgid "Error in audio recording."
 msgstr ""
 
-#. TRANSLATORS: Log message. In BassWrapper.
-msgid "- free record device ..."
+#. TRANSLATORS: Log message. In AudioManager.
+#. TRANSLATORS: Error message. In AudioManager.
+msgid "Could not disconnect from voice channel."
+msgstr ""
+
+#. TRANSLATORS: Log message. In AudioManager.
+msgid "* Connect to voice channel"
+msgstr ""
+
+#. TRANSLATORS: Log message. In AudioManager.
+msgid "- stop recording ..."
+msgstr ""
+
+#. TRANSLATORS: Log message. In AudioManager.
+msgid "- join voice channel ..."
+msgstr ""
+
+#. TRANSLATORS: Log message. In AudioManager.
+msgid "- create stream ..."
+msgstr ""
+
+#. TRANSLATORS: Log message. In AudioManager.
+msgid "- start recording ..."
+msgstr ""
+
+#. TRANSLATORS: Log message. In AudioManager.
+msgid "... Done!"
+msgstr ""
+
+#. TRANSLATORS: Error message. In AudioManager.
+msgid "Could not connect to voice channel."
+msgstr ""
+
+#. TRANSLATORS: Log message. In AudioManager.
+msgid "* Disconnect from voice channel"
+msgstr ""
+
+#. TRANSLATORS: Log message. In AudioManager.
+msgid "- close stream ..."
+msgstr ""
+
+#. TRANSLATORS: Log message. In AudioManager.
+msgid "- stream is closed."
+msgstr ""
+
+#. TRANSLATORS: Log message. In AudioManager.
+msgid "- leave voice channel ..."
+msgstr ""
+
+#. TRANSLATORS: Log message. In AudioManager.
+msgid "- not in voice channel."
 msgstr ""
 
 #. TRANSLATORS: Error message. In PluginManager. {0} is plugin directory.
@@ -168,11 +195,23 @@ msgid "Error: This OS is not supported."
 msgstr ""
 
 #. TRANSLATORS: Log message. Initializing Nursery.
-msgid "- initialize Bouyomi-chan ..."
+msgid "  - Check Bouyomi-chan ..."
 msgstr ""
 
 #. TRANSLATORS: Error message. Initializing Nursery.
 msgid "Could not load Bouyomi-chan. Please check Bouyomi-chan awaking."
+msgstr ""
+
+#. TRANSLATORS: Log message. Initializing Nursery.
+msgid "  - Executing Bouyomi-chan ..."
+msgstr ""
+
+#. TRANSLATORS: Error message. Initializing Nursery.
+msgid "Could not execute Bouyomi-chan."
+msgstr ""
+
+#. TRANSLATORS: Log message. Initializing Nursery.
+msgid "- initialize Bouyomi-chan ..."
 msgstr ""
 
 #. TRANSLATORS: Log message. Initializing Nursery.
@@ -266,85 +305,6 @@ msgstr ""
 msgid "* Applied plugins: {0}"
 msgstr ""
 
-#. TRANSLATORS: Log message. In VoiceChat.
-#. TRANSLATORS: Error message. In VoiceChat.
-msgid "Could not disconnect from voice channel."
-msgstr ""
-
-#. TRANSLATORS: Log message. In VoiceChat.
-msgid "(Audio recording canceled.)"
-msgstr ""
-
-#. TRANSLATORS: Log message. In VoiceChat.
-msgid "Error in audio recording."
-msgstr ""
-
-#. TRANSLATORS: Log message. In VoiceChat.
-msgid "* Connect to voice channel"
-msgstr ""
-
-#. TRANSLATORS: Log message. In VoiceChat.
-msgid "- join voice channel ..."
-msgstr ""
-
-#. TRANSLATORS: Log message. In VoiceChat.
-msgid "- create stream ..."
-msgstr ""
-
-#. TRANSLATORS: Log message. In VoiceChat.
-msgid "- start recording ..."
-msgstr ""
-
-#. TRANSLATORS: Log message. In VoiceChat. {0} is error code.
-#, csharp-format
-msgid "Could not start recording. Error code: {0}"
-msgstr ""
-
-#. TRANSLATORS: Log message. In VoiceChat.
-msgid "- already in recording."
-msgstr ""
-
-#. TRANSLATORS: Log message. In VoiceChat.
-msgid "... Done!"
-msgstr ""
-
-#. TRANSLATORS: Error message. In VoiceChat.
-msgid "Could not connect to voice channel."
-msgstr ""
-
-#. TRANSLATORS: Log message. In VoiceChat.
-msgid "* Disconnect from voice channel"
-msgstr ""
-
-#. TRANSLATORS: Log message. In VoiceChat.
-msgid "- close stream ..."
-msgstr ""
-
-#. TRANSLATORS: Log message. In VoiceChat.
-msgid "- stream is closed."
-msgstr ""
-
-#. TRANSLATORS: Log message. In VoiceChat.
-msgid "- leave voice channel ..."
-msgstr ""
-
-#. TRANSLATORS: Log message. In VoiceChat.
-msgid "- not in voice channel."
-msgstr ""
-
-#. TRANSLATORS: Log message. In VoiceChat.
-msgid "- stop recording ..."
-msgstr ""
-
-#. TRANSLATORS: Log message. In VoiceChat. {0} is error code.
-#, csharp-format
-msgid "Could not stop recording. ErrorCode: {0}"
-msgstr ""
-
-#. TRANSLATORS: Log message. In VoiceChat.
-msgid "- not in recording."
-msgstr ""
-
 #. TRANSLATORS: Error message. In Config.
 msgid "Please Initialize before get instance."
 msgstr ""
@@ -382,19 +342,4 @@ msgstr ""
 #. TRANSLATORS: Log message. In JintWrapper. {0} is name of Function.
 #, csharp-format
 msgid "Could not execute function [{0}]."
-msgstr ""
-
-#. TRANSLATORS: Log message. In SoundPlayer. {0} is error code.
-#, csharp-format
-msgid "Could not play sound. Error: {0}"
-msgstr ""
-
-#. TRANSLATORS: Log message. In SoundPlayer. {0} is error code.
-#, csharp-format
-msgid "Could not stop sound. Error: {0}"
-msgstr ""
-
-#. TRANSLATORS: Log message. In SoundPlayer. {0} is error code.
-#, csharp-format
-msgid "Could not pause sound. Error: {0}"
 msgstr ""

@@ -1,8 +1,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Nursery beta1.0\n"
-"POT-Creation-Date: 2018-08-14 20:24+0900\n"
-"PO-Revision-Date: 2018-08-14 20:25+0900\n"
+"POT-Creation-Date: 2019-06-16 20:59+0900\n"
+"PO-Revision-Date: 2019-06-16 21:05+0900\n"
 "Last-Translator: noonworks <noonworks@gmail.com>\n"
 "Language-Team: noonworks https://github.com/noonworks/Nursery\n"
 "Language: ja_JP\n"
@@ -15,44 +15,15 @@ msgstr ""
 "X-Poedit-KeywordsList: _;_n:1,2;_p:1c,2;_pn:1c,2,3\n"
 "X-Poedit-SearchPath-0: .\n"
 
-#. TRANSLATORS: Log message. In BassWrapper.
+#. TRANSLATORS: Log message. In AudioManager.
 msgid "- get sound device ..."
 msgstr "- 再生デバイスを取得中 ..."
 
-#. TRANSLATORS: Log message. In BassWrapper.
+#. TRANSLATORS: Log message. In AudioManager.
 msgid "- get record device ..."
 msgstr "- 録音デバイスを取得中 ..."
 
-#. TRANSLATORS: Log message. In BassWrapper.
-msgid "- initialize sound device ..."
-msgstr "- 再生デバイスを初期化中 ..."
-
-#. TRANSLATORS: Error message. In BassWrapper. {0} is error code.
-#, csharp-format
-msgid "Failed to init sound device: {0}"
-msgstr "再生デバイスの初期化に失敗しました。エラーコード: {0}"
-
-#. TRANSLATORS: Log message. In BassWrapper.
-msgid "- initialize record device ..."
-msgstr "- 録音デバイスの初期化中 ..."
-
-#. TRANSLATORS: Error message. In BassWrapper. {0} is error code.
-#, csharp-format
-msgid "Failed to init recording device: {0}"
-msgstr "録音デバイスの初期化に失敗しました。エラーコード: {0}"
-
-#. TRANSLATORS: Error message. In BassWrapper. {0} is name of recording device. {1} is list of available recording device(s).
-#, csharp-format
-msgid ""
-"Recording device \"{0}\" is not found.\n"
-"Available recording devices:\n"
-"{1}"
-msgstr ""
-"録音デバイス \"{0}\" は見つかりませんでした。\n"
-"使用可能な録音デバイスの一覧は以下の通りです:\n"
-"{1}"
-
-#. TRANSLATORS: Error message. In BassWrapper. {0} is name of sound device. {1} is list of available sound device(s).
+#. TRANSLATORS: Error message. In AudioManager. {0} is name of sound device. {1} is list of available sound device(s).
 #, csharp-format
 msgid ""
 "Sound device \"{0}\" is not found.\n"
@@ -63,17 +34,73 @@ msgstr ""
 "使用可能な録音デバイスの一覧は以下の通りです:\n"
 "{1}"
 
-#. TRANSLATORS: Log message. In BassWrapper.
-msgid "- free sound device ..."
-msgstr "- 再生デバイスを解放しています ..."
+#. TRANSLATORS: Error message. In AudioManager. {0} is name of recording device. {1} is list of available recording device(s).
+#, csharp-format
+msgid ""
+"Recording device \"{0}\" is not found.\n"
+"Available recording devices:\n"
+"{1}"
+msgstr ""
+"録音デバイス \"{0}\" は見つかりませんでした。\n"
+"使用可能な録音デバイスの一覧は以下の通りです:\n"
+"{1}"
 
-#. TRANSLATORS: Log message. In BassWrapper.
-msgid "  - success"
-msgstr "  - 成功"
+#. TRANSLATORS: Log message. In AudioManager.
+msgid "Error in audio recording."
+msgstr "録音中にエラーが発生しました。"
 
-#. TRANSLATORS: Log message. In BassWrapper.
-msgid "- free record device ..."
-msgstr "- 録音デバイスを解放しています ..."
+#. TRANSLATORS: Log message. In AudioManager.
+#. TRANSLATORS: Error message. In AudioManager.
+msgid "Could not disconnect from voice channel."
+msgstr "ボイスチャンネルから切断できませんでした。"
+
+#. TRANSLATORS: Log message. In AudioManager.
+msgid "* Connect to voice channel"
+msgstr "* ボイスチャンネルに接続"
+
+#. TRANSLATORS: Log message. In AudioManager.
+msgid "- stop recording ..."
+msgstr "- 録音を停止中 ..."
+
+#. TRANSLATORS: Log message. In AudioManager.
+msgid "- join voice channel ..."
+msgstr "- ボイスチャンネルに参加中 ..."
+
+#. TRANSLATORS: Log message. In AudioManager.
+msgid "- create stream ..."
+msgstr "- 音声ストリームを作成中 ..."
+
+#. TRANSLATORS: Log message. In AudioManager.
+msgid "- start recording ..."
+msgstr "- 録音を開始中 ..."
+
+#. TRANSLATORS: Log message. In AudioManager.
+msgid "... Done!"
+msgstr "... 完了！"
+
+#. TRANSLATORS: Error message. In AudioManager.
+msgid "Could not connect to voice channel."
+msgstr "ボイスチャンネルに接続できませんでした。"
+
+#. TRANSLATORS: Log message. In AudioManager.
+msgid "* Disconnect from voice channel"
+msgstr "* ボイスチャンネルから切断"
+
+#. TRANSLATORS: Log message. In AudioManager.
+msgid "- close stream ..."
+msgstr "- 音声ストリームを閉じています ..."
+
+#. TRANSLATORS: Log message. In AudioManager.
+msgid "- stream is closed."
+msgstr "- 音声ストリームは閉じられています。"
+
+#. TRANSLATORS: Log message. In AudioManager.
+msgid "- leave voice channel ..."
+msgstr "- ボイスチャンネルから退出中 ..."
+
+#. TRANSLATORS: Log message. In AudioManager.
+msgid "- not in voice channel."
+msgstr "- ボイスチャンネルに参加していません。"
 
 #. TRANSLATORS: Error message. In PluginManager. {0} is plugin directory.
 #, csharp-format
@@ -171,14 +198,26 @@ msgid "Error: This OS is not supported."
 msgstr "エラー：このOSはサポートされていません。"
 
 #. TRANSLATORS: Log message. Initializing Nursery.
-msgid "- initialize Bouyomi-chan ..."
-msgstr "- 棒読みちゃんを初期化中 ..."
+msgid "  - Check Bouyomi-chan ..."
+msgstr " - 棒読みちゃんを確認中 ..."
 
 #. TRANSLATORS: Error message. Initializing Nursery.
 msgid "Could not load Bouyomi-chan. Please check Bouyomi-chan awaking."
 msgstr ""
 "棒読みちゃんを読み込めませんでした。棒読みちゃんが起動しているか確認してくだ"
 "さい。"
+
+#. TRANSLATORS: Log message. Initializing Nursery.
+msgid "  - Executing Bouyomi-chan ..."
+msgstr " - 棒読みちゃんを起動中 ..."
+
+#. TRANSLATORS: Error message. Initializing Nursery.
+msgid "Could not execute Bouyomi-chan."
+msgstr "棒読みちゃんを起動できませんでした。"
+
+#. TRANSLATORS: Log message. Initializing Nursery.
+msgid "- initialize Bouyomi-chan ..."
+msgstr "- 棒読みちゃんを初期化中 ..."
 
 #. TRANSLATORS: Log message. Initializing Nursery.
 msgid "- initialize sound devices ..."
@@ -275,85 +314,6 @@ msgstr "* メッセージ [{0}]"
 msgid "* Applied plugins: {0}"
 msgstr "* 適用されたプラグイン: {0}"
 
-#. TRANSLATORS: Log message. In VoiceChat.
-#. TRANSLATORS: Error message. In VoiceChat.
-msgid "Could not disconnect from voice channel."
-msgstr "ボイスチャンネルから切断できませんでした。"
-
-#. TRANSLATORS: Log message. In VoiceChat.
-msgid "(Audio recording canceled.)"
-msgstr "（録音がキャンセルされました。）"
-
-#. TRANSLATORS: Log message. In VoiceChat.
-msgid "Error in audio recording."
-msgstr "録音中にエラーが発生しました。"
-
-#. TRANSLATORS: Log message. In VoiceChat.
-msgid "* Connect to voice channel"
-msgstr "* ボイスチャンネルに接続"
-
-#. TRANSLATORS: Log message. In VoiceChat.
-msgid "- join voice channel ..."
-msgstr "- ボイスチャンネルに参加中 ..."
-
-#. TRANSLATORS: Log message. In VoiceChat.
-msgid "- create stream ..."
-msgstr "- 音声ストリームを作成中 ..."
-
-#. TRANSLATORS: Log message. In VoiceChat.
-msgid "- start recording ..."
-msgstr "- 録音を開始中 ..."
-
-#. TRANSLATORS: Log message. In VoiceChat. {0} is error code.
-#, csharp-format
-msgid "Could not start recording. Error code: {0}"
-msgstr "録音を開始できませんでした。エラーコード: {0}"
-
-#. TRANSLATORS: Log message. In VoiceChat.
-msgid "- already in recording."
-msgstr "- すでに録音中です。"
-
-#. TRANSLATORS: Log message. In VoiceChat.
-msgid "... Done!"
-msgstr "... 完了！"
-
-#. TRANSLATORS: Error message. In VoiceChat.
-msgid "Could not connect to voice channel."
-msgstr "ボイスチャンネルに接続できませんでした。"
-
-#. TRANSLATORS: Log message. In VoiceChat.
-msgid "* Disconnect from voice channel"
-msgstr "* ボイスチャンネルから切断"
-
-#. TRANSLATORS: Log message. In VoiceChat.
-msgid "- close stream ..."
-msgstr "- 音声ストリームを閉じています ..."
-
-#. TRANSLATORS: Log message. In VoiceChat.
-msgid "- stream is closed."
-msgstr "- 音声ストリームは閉じられています。"
-
-#. TRANSLATORS: Log message. In VoiceChat.
-msgid "- leave voice channel ..."
-msgstr "- ボイスチャンネルから退出中 ..."
-
-#. TRANSLATORS: Log message. In VoiceChat.
-msgid "- not in voice channel."
-msgstr "- ボイスチャンネルに参加していません。"
-
-#. TRANSLATORS: Log message. In VoiceChat.
-msgid "- stop recording ..."
-msgstr "- 録音を停止中 ..."
-
-#. TRANSLATORS: Log message. In VoiceChat. {0} is error code.
-#, csharp-format
-msgid "Could not stop recording. ErrorCode: {0}"
-msgstr "録音を停止できませんでした。エラーコード: {0}"
-
-#. TRANSLATORS: Log message. In VoiceChat.
-msgid "- not in recording."
-msgstr "- 録音は停止済みです。"
-
 #. TRANSLATORS: Error message. In Config.
 msgid "Please Initialize before get instance."
 msgstr "インスタンスにアクセスする前に初期化してください。"
@@ -393,17 +353,47 @@ msgstr "関数 [{0}] が見つかりませんでした。"
 msgid "Could not execute function [{0}]."
 msgstr "関数 [{0}] が実行できませんでした。"
 
-#. TRANSLATORS: Log message. In SoundPlayer. {0} is error code.
-#, csharp-format
-msgid "Could not play sound. Error: {0}"
-msgstr "音声を再生できませんでした。エラーコード: {0}"
+#~ msgid "- initialize sound device ..."
+#~ msgstr "- 再生デバイスを初期化中 ..."
 
-#. TRANSLATORS: Log message. In SoundPlayer. {0} is error code.
-#, csharp-format
-msgid "Could not stop sound. Error: {0}"
-msgstr "音声を停止できませんでした。エラーコード: {0}"
+#~ msgid "Failed to init sound device: {0}"
+#~ msgstr "再生デバイスの初期化に失敗しました。エラーコード: {0}"
 
-#. TRANSLATORS: Log message. In SoundPlayer. {0} is error code.
-#, csharp-format
-msgid "Could not pause sound. Error: {0}"
-msgstr "音声を一時停止できませんでした。エラーコード: {0}"
+#~ msgid "- initialize record device ..."
+#~ msgstr "- 録音デバイスの初期化中 ..."
+
+#~ msgid "Failed to init recording device: {0}"
+#~ msgstr "録音デバイスの初期化に失敗しました。エラーコード: {0}"
+
+#~ msgid "- free sound device ..."
+#~ msgstr "- 再生デバイスを解放しています ..."
+
+#~ msgid "  - success"
+#~ msgstr "  - 成功"
+
+#~ msgid "- free record device ..."
+#~ msgstr "- 録音デバイスを解放しています ..."
+
+#~ msgid "(Audio recording canceled.)"
+#~ msgstr "（録音がキャンセルされました。）"
+
+#~ msgid "Could not start recording. Error code: {0}"
+#~ msgstr "録音を開始できませんでした。エラーコード: {0}"
+
+#~ msgid "- already in recording."
+#~ msgstr "- すでに録音中です。"
+
+#~ msgid "Could not stop recording. ErrorCode: {0}"
+#~ msgstr "録音を停止できませんでした。エラーコード: {0}"
+
+#~ msgid "- not in recording."
+#~ msgstr "- 録音は停止済みです。"
+
+#~ msgid "Could not play sound. Error: {0}"
+#~ msgstr "音声を再生できませんでした。エラーコード: {0}"
+
+#~ msgid "Could not stop sound. Error: {0}"
+#~ msgstr "音声を停止できませんでした。エラーコード: {0}"
+
+#~ msgid "Could not pause sound. Error: {0}"
+#~ msgstr "音声を一時停止できませんでした。エラーコード: {0}"
