@@ -83,20 +83,24 @@ Nurseryではまず、棒読みちゃんの音声を「スピーカーのフリ�
 
 ## 営利目的での利用について
 
-後述の権利表記にある通り、Nursery内部で使用している[BASS audio library](https://www.un4seen.com/)および[BASS.NET](http://bass.radio42.com/)は非営利目的での利用に限り無償提供されています。そのため、Nurseryを営利目的で利用することはできません。
+* Nursery本体およびNursery付属のプラグインは、営利／非営利目的を問わず、無料で利用できます。（Nursery 0.4.2 以前を除く。後述）
+* Nurseryから[棒読みちゃん](http://chi.usamimi.info/Program/Application/BouyomiChan/)、[NETDUETTO](https://www.netduetto.net/)、もしくはその他のソフトウェアを利用する場合は、それらのソフトウェアの利用規約が適用されます。各ソフトウェアの利用規約をご確認ください。
+
+### Nursery 0.4.2 以前について
+
+Nursery 0.4.2 以前において、内部で使用している[BASS audio library](https://www.un4seen.com/)および[BASS.NET](http://bass.radio42.com/)は、非営利目的での利用に限り無償提供されています。そのため、Nursery 0.4.2 以前を営利目的で利用することはできません。
 
 
 ## 権利表記
 
 ### ライブラリ、参考
 
-* [BASS audio library - un4seen.com](https://www.un4seen.com/)
-* [BASS.NET - radio42](http://bass.radio42.com/)
 * [BouyomiChanClient.cs - 棒読みちゃん](http://chi.usamimi.info/Program/Application/BouyomiChan/)
 * [CommandLineParser](https://github.com/commandlineparser/commandline) ([MIT License](https://github.com/commandlineparser/commandline/blob/master/License.md))
 * [Discord.Net](https://github.com/RogueException/Discord.Net) ([MIT License](https://github.com/RogueException/Discord.Net/blob/dev/LICENSE))
 * [Jint](https://github.com/sebastienros/jint) ([BSD 2-Clause "Simplified" License](https://github.com/sebastienros/jint/blob/dev/LICENSE.txt))
 * [libsodium](https://download.libsodium.org/doc/) ([ISC license](https://en.wikipedia.org/wiki/ISC_license))
+* [NAudio](https://github.com/naudio/NAudio) ([Microsoft Public License (Ms-PL)](https://github.com/naudio/NAudio/blob/master/license.txt))
 * [Newtonsoft Json.NET](https://www.newtonsoft.com/json) ([MIT License](https://github.com/JamesNK/Newtonsoft.Json/blob/master/LICENSE.md))
 * [NGettext](https://github.com/neris/NGettext) ([MIT License](https://github.com/neris/NGettext/blob/master/LICENSE))
 * [opas.dll - Opus Interactive Audio Codec](http://opus-codec.org/) ([three-clause BSD license](http://opus-codec.org/license/))

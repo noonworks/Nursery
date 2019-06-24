@@ -7,6 +7,8 @@ using Nursery.Options;
 using Nursery.Plugins;
 using Nursery.Utility;
 
+using TYPE_OF_SOUND_BINARY_POOL = Nursery.Utility.BinaryPool<Nursery.Utility.BinaryStream, System.IO.MemoryStream>;
+
 namespace Nursery.SoundEffectPlugin {
 	public class SoundEffectCommand : IPlugin {
 		public string Name { get; } = "Nursery.SoundEffectPlugin.SoundEffectCommand";
@@ -15,7 +17,7 @@ namespace Nursery.SoundEffectPlugin {
 		Plugins.Type IPlugin.Type => Plugins.Type.Command;
 
 		private SoundEffectCommandConfig config = null;
-		private BinaryPool<UnsafeBinaryFile, SafeBinaryHandle> pool = null;
+		private TYPE_OF_SOUND_BINARY_POOL pool = null;
 		private SoundConfig[] _soundconfigs = new SoundConfig[] { };
 
 		public SoundConfig[] SoundConfigs {
@@ -67,8 +69,9 @@ namespace Nursery.SoundEffectPlugin {
 
 		public void Initialize(IPluginManager loader, IPlugin[] plugins) {
 			this.config = loader.GetPluginSetting<SoundEffectCommandConfig>(this.Name);
-			this.pool = new BinaryPool<UnsafeBinaryFile, SafeBinaryHandle>();
-			this.pool.MemoryMax = this.config.MemoryMax;
+			this.pool = new TYPE_OF_SOUND_BINARY_POOL {
+				MemoryMax = this.config.MemoryMax
+			};
 			PlayQueue.Instance.MaxPlayInParallel = this.config.MaxPlayInParallel;
 			Reload();
 		}
@@ -229,7 +232,7 @@ namespace Nursery.SoundEffectPlugin {
 				var identifier = sidr.ToString() + DateTime.Now.ToString("-HH:mm:ss.fff");
 				try {
 					var data = this.pool.GetData(sidr.SoundConfig.File);
-					var player = new SoundPlayer(identifier, data, sidr.SoundConfig.Volume);
+					var player = new SoundPlayer(identifier, sidr.SoundConfig.File, data, sidr.SoundConfig.Volume);
 					PlayQueue.Instance.Add(player);
 				} catch (Exception) {
 					cannotplay.Add(sidr);

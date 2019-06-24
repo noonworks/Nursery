@@ -17,7 +17,7 @@ namespace Nursery {
 		private BotState state;
 		private BouyomiChanClient bouyomichan = null;
 		private DiscordSocketClient discord = null;
-		private VoiceChat voice = null;
+		private Nursery.AudioConnector.NAudio voice = null;
 		private Timer timer = null;
 		private List<IScheduledTask> Schedules = new List<IScheduledTask>();
 		private object schedule_lock_object = new object();
@@ -216,14 +216,14 @@ namespace Nursery {
 			// TRANSLATORS: Log message. Initializing Nursery.
 			Logger.Log(T._("- initialize sound devices ..."));
 			try {
-				BassWrapper.Initialize(Config.Instance.MainConfig);
+				Nursery.AudioConnector.NAudio.Initialize(Config.Instance.MainConfig);
 			} catch (Exception e) {
 				this.Dispose();
 				// TRANSLATORS: Error message. Initializing Nursery.
 				throw new Exception(T._("Could not initialize sound devices. Please check virtual devices installed and valid name set."), e);
 			}
 			try {
-				this.voice = new VoiceChat(Config.Instance.MainConfig);
+				this.voice = new Nursery.AudioConnector.NAudio(Config.Instance.MainConfig);
 			} catch (Exception e) {
 				this.Dispose();
 				// TRANSLATORS: Error message. Initializing Nursery.
@@ -302,7 +302,6 @@ namespace Nursery {
 				}
 				// TRANSLATORS: Log message. Dispose Nursery.
 				Logger.Log(T._("- unload sound devices ..."));
-				BassWrapper.Free();
 				// TRANSLATORS: Log message. Dispose Nursery.
 				Logger.Log(T._("- unload discord ..."));
 				if (this.discord != null) {
