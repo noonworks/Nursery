@@ -1,8 +1,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Nursery beta1.0\n"
-"POT-Creation-Date: 2019-06-16 20:59+0900\n"
-"PO-Revision-Date: 2019-06-16 21:05+0900\n"
+"POT-Creation-Date: 2019-12-09 21:08+0900\n"
+"PO-Revision-Date: 2019-12-09 21:10+0900\n"
 "Last-Translator: noonworks <noonworks@gmail.com>\n"
 "Language-Team: noonworks https://github.com/noonworks/Nursery\n"
 "Language: ja_JP\n"
@@ -55,16 +55,32 @@ msgid "Could not disconnect from voice channel."
 msgstr "ボイスチャンネルから切断できませんでした。"
 
 #. TRANSLATORS: Log message. In AudioManager.
-msgid "* Connect to voice channel"
-msgstr "* ボイスチャンネルに接続"
+msgid ""
+"==========\n"
+"==========\n"
+"Disconnected from Discord!\n"
+"Please try to \"bye\" and \"come\" to reconnect.\n"
+"==========\n"
+"=========="
+msgstr ""
+"==========\n"
+"==========\n"
+"Discordから切断されました！\n"
+"\"bye\" と \"come\" のコマンドで再接続してください。\n"
+"==========\n"
+"=========="
 
 #. TRANSLATORS: Log message. In AudioManager.
 msgid "- stop recording ..."
 msgstr "- 録音を停止中 ..."
 
 #. TRANSLATORS: Log message. In AudioManager.
-msgid "- join voice channel ..."
-msgstr "- ボイスチャンネルに参加中 ..."
+msgid "- close stream ..."
+msgstr "- 音声ストリームを閉じています ..."
+
+#. TRANSLATORS: Log message. In AudioManager.
+msgid "- stream is closed."
+msgstr "- 音声ストリームは閉じられています。"
 
 #. TRANSLATORS: Log message. In AudioManager.
 msgid "- create stream ..."
@@ -73,6 +89,14 @@ msgstr "- 音声ストリームを作成中 ..."
 #. TRANSLATORS: Log message. In AudioManager.
 msgid "- start recording ..."
 msgstr "- 録音を開始中 ..."
+
+#. TRANSLATORS: Log message. In AudioManager.
+msgid "* Connect to voice channel"
+msgstr "* ボイスチャンネルに接続"
+
+#. TRANSLATORS: Log message. In AudioManager.
+msgid "- join voice channel ..."
+msgstr "- ボイスチャンネルに参加中 ..."
 
 #. TRANSLATORS: Log message. In AudioManager.
 msgid "... Done!"
@@ -85,14 +109,6 @@ msgstr "ボイスチャンネルに接続できませんでした。"
 #. TRANSLATORS: Log message. In AudioManager.
 msgid "* Disconnect from voice channel"
 msgstr "* ボイスチャンネルから切断"
-
-#. TRANSLATORS: Log message. In AudioManager.
-msgid "- close stream ..."
-msgstr "- 音声ストリームを閉じています ..."
-
-#. TRANSLATORS: Log message. In AudioManager.
-msgid "- stream is closed."
-msgstr "- 音声ストリームは閉じられています。"
 
 #. TRANSLATORS: Log message. In AudioManager.
 msgid "- leave voice channel ..."
