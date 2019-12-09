@@ -46,6 +46,8 @@ namespace Nursery.AudioConnector {
 			st_lock_sem.Wait(); // LOCK STREAMS
 			try {
 				if (this.stream == null) { return; }
+				if (e.BytesRecorded == 0) { return; }
+				if (!this.stream.CanWrite) { return; }
 				// send audio to discord voice
 				this.stream.Write(e.Buffer, 0, e.BytesRecorded);
 			} catch (Exception ex) {
@@ -96,7 +98,7 @@ namespace Nursery.AudioConnector {
 				this.audioClient = await voiceChannel.ConnectAsync();
 				// TRANSLATORS: Log message. In AudioManager.
 				Logger.Log(T._("- create stream ..."));
-				this.stream = this.audioClient.CreatePCMStream(AudioApplication.Voice, voiceChannel.Bitrate, 1000);
+				this.stream = this.audioClient.CreatePCMStream(AudioApplication.Voice, voiceChannel.Bitrate);
 				// TRANSLATORS: Log message. In AudioManager.
 				Logger.Log(T._("- start recording ..."));
 				this.input.StartRecording();
