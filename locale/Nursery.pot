@@ -2,7 +2,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Nursery beta1.0\n"
-"POT-Creation-Date: 2019-06-16 20:59+0900\n"
+"POT-Creation-Date: 2019-12-09 21:08+0900\n"
 "PO-Revision-Date: 2018-07-10 16:52+0900\n"
 "Last-Translator: noonworks <noonworks@gmail.com>\n"
 "Language-Team: noonworks https://github.com/noonworks/Nursery\n"
@@ -54,7 +54,13 @@ msgid "Could not disconnect from voice channel."
 msgstr ""
 
 #. TRANSLATORS: Log message. In AudioManager.
-msgid "* Connect to voice channel"
+msgid ""
+"==========\n"
+"==========\n"
+"Disconnected from Discord!\n"
+"Please try to \"bye\" and \"come\" to reconnect.\n"
+"==========\n"
+"=========="
 msgstr ""
 
 #. TRANSLATORS: Log message. In AudioManager.
@@ -62,7 +68,11 @@ msgid "- stop recording ..."
 msgstr ""
 
 #. TRANSLATORS: Log message. In AudioManager.
-msgid "- join voice channel ..."
+msgid "- close stream ..."
+msgstr ""
+
+#. TRANSLATORS: Log message. In AudioManager.
+msgid "- stream is closed."
 msgstr ""
 
 #. TRANSLATORS: Log message. In AudioManager.
@@ -71,6 +81,14 @@ msgstr ""
 
 #. TRANSLATORS: Log message. In AudioManager.
 msgid "- start recording ..."
+msgstr ""
+
+#. TRANSLATORS: Log message. In AudioManager.
+msgid "* Connect to voice channel"
+msgstr ""
+
+#. TRANSLATORS: Log message. In AudioManager.
+msgid "- join voice channel ..."
 msgstr ""
 
 #. TRANSLATORS: Log message. In AudioManager.
@@ -83,14 +101,6 @@ msgstr ""
 
 #. TRANSLATORS: Log message. In AudioManager.
 msgid "* Disconnect from voice channel"
-msgstr ""
-
-#. TRANSLATORS: Log message. In AudioManager.
-msgid "- close stream ..."
-msgstr ""
-
-#. TRANSLATORS: Log message. In AudioManager.
-msgid "- stream is closed."
 msgstr ""
 
 #. TRANSLATORS: Log message. In AudioManager.
