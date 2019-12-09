@@ -35,6 +35,7 @@ namespace Nursery.AudioConnector {
 		private IAudioClient audioClient = null;
 		private AudioOutStream stream;
 		private readonly SemaphoreSlim st_lock_sem = new SemaphoreSlim(1, 1);
+		private int bitrate = 0;
 
 		public NAudio(Options.MainConfig config) {
 			this.input = new WaveInEvent() { DeviceNumber = Utility.Audio.NAudio.Instance.WaveInDeviceId };
@@ -46,12 +47,15 @@ namespace Nursery.AudioConnector {
 			st_lock_sem.Wait(); // LOCK STREAMS
 			try {
 				if (this.stream == null) { return; }
+				if (e.BytesRecorded == 0) { return; }
+				if (!this.stream.CanWrite) { return; }
 				// send audio to discord voice
 				this.stream.Write(e.Buffer, 0, e.BytesRecorded);
 			} catch (Exception ex) {
 				// TRANSLATORS: Log message. In AudioManager.
 				Logger.Log(T._("Error in audio recording."));
 				Logger.DebugLog(ex.ToString());
+				this.ReOpenRecordStream();
 			} finally {
 				st_lock_sem.Release(); // RELEASE STREAMS
 			}
@@ -80,6 +84,46 @@ namespace Nursery.AudioConnector {
 		}
 		#endregion
 
+		private void ReOpenRecordStream() {
+			// stop recording and close audio stream
+			this.CloseRecordStream();
+			// check connection state
+			if (this.audioClient.ConnectionState == Discord.ConnectionState.Connected) {
+				// create audio stream and start recording
+				this.CreateRecordStream();
+			} else {
+				// TRANSLATORS: Log message. In AudioManager.
+				Logger.Log(T._("==========\n==========\nDisconnected from Discord!\nPlease try to \"bye\" and \"come\" to reconnect.\n==========\n=========="));
+			}
+		}
+
+		private void CloseRecordStream() {
+			// stop recording
+			// TRANSLATORS: Log message. In AudioManager.
+			Logger.Log(T._("- stop recording ..."));
+			this.input.StopRecording();
+			// disconnect audio stream
+			if (this.stream != null) {
+				// TRANSLATORS: Log message. In AudioManager.
+				Logger.Log(T._("- close stream ..."));
+				this.stream.Close();
+				this.stream = null;
+			}
+			// TRANSLATORS: Log message. In AudioManager.
+			Logger.Log(T._("- stream is closed."));
+		}
+
+		private void CreateRecordStream() {
+			if (this.stream == null) {
+				// TRANSLATORS: Log message. In AudioManager.
+				Logger.Log(T._("- create stream ..."));
+				this.stream = this.audioClient.CreatePCMStream(AudioApplication.Voice, this.bitrate);
+			}
+			// TRANSLATORS: Log message. In AudioManager.
+			Logger.Log(T._("- start recording ..."));
+			this.input.StartRecording();
+		}
+
 		public async Task Connect(SocketVoiceChannel voiceChannel) {
 			if (this.audioClient != null) { await this.Disconnect(); }
 			// TRANSLATORS: Log message. In AudioManager.
@@ -87,19 +131,14 @@ namespace Nursery.AudioConnector {
 			try {
 				// LOCK STREAMS
 				await st_lock_sem.WaitAsync().ConfigureAwait(false);
-				// stop recording
-				// TRANSLATORS: Log message. In AudioManager.
-				Logger.Log(T._("- stop recording ..."));
-				this.input.StopRecording();
+				// stop recording and close audio stream
+				this.CloseRecordStream();
 				// TRANSLATORS: Log message. In AudioManager.
 				Logger.Log(T._("- join voice channel ..."));
 				this.audioClient = await voiceChannel.ConnectAsync();
-				// TRANSLATORS: Log message. In AudioManager.
-				Logger.Log(T._("- create stream ..."));
-				this.stream = this.audioClient.CreatePCMStream(AudioApplication.Voice, voiceChannel.Bitrate, 1000);
-				// TRANSLATORS: Log message. In AudioManager.
-				Logger.Log(T._("- start recording ..."));
-				this.input.StartRecording();
+				this.bitrate = voiceChannel.Bitrate;
+				// create audio stream and start recording
+				this.CreateRecordStream();
 				// TRANSLATORS: Log message. In AudioManager.
 				Logger.Log(T._("... Done!"));
 			} catch (Exception e) {
@@ -116,16 +155,8 @@ namespace Nursery.AudioConnector {
 			Logger.Log(T._("* Disconnect from voice channel"));
 			try {
 				await st_lock_sem.WaitAsync().ConfigureAwait(false); // LOCK STREAMS
-				// disconnect audio stream
-				if (this.stream != null) {
-					// TRANSLATORS: Log message. In AudioManager.
-					Logger.Log(T._("- close stream ..."));
-					this.stream.Close();
-					this.stream = null;
-				} else {
-					// TRANSLATORS: Log message. In AudioManager.
-					Logger.Log(T._("- stream is closed."));
-				}
+				// stop recording and close audio stream
+				this.CloseRecordStream();
 				// leave voice chat
 				if (this.audioClient != null) {
 					// TRANSLATORS: Log message. In AudioManager.
@@ -137,10 +168,6 @@ namespace Nursery.AudioConnector {
 					// TRANSLATORS: Log message. In AudioManager.
 					Logger.Log(T._("- not in voice channel."));
 				}
-				// stop recording
-				// TRANSLATORS: Log message. In AudioManager.
-				Logger.Log(T._("- stop recording ..."));
-				this.input.StopRecording();
 				// TRANSLATORS: Log message. In AudioManager.
 				Logger.Log(T._("... Done!"));
 			} catch (Exception e) {
