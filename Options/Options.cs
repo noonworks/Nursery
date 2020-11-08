@@ -1,9 +1,7 @@
 ﻿using CommandLine;
 using Newtonsoft.Json;
-using Newtonsoft.Json.Linq;
 using Nursery.Utility;
 using System;
-using System.Collections.Generic;
 using System.IO;
 
 namespace Nursery.Options {

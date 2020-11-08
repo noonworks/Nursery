@@ -1,13 +1,12 @@
 ﻿using Discord.WebSocket;
-using FNF.Utility;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Reflection;
 using Nursery.Options;
 using Nursery.Utility;
-using System.Diagnostics;
 
 namespace Nursery.Plugins {
 	public class Message : IMessage {
