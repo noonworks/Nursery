@@ -151,7 +151,7 @@ namespace Nursery {
 				return new DiscordSocketClient(
 					new DiscordSocketConfig() {
 						WebSocketProvider = Discord.Net.Providers.WS4Net.WS4NetProvider.Instance,
-						GatewayIntents = GatewayIntents.AllUnprivileged | GatewayIntents.MessageContent
+						GatewayIntents = GatewayIntents.AllUnprivileged | GatewayIntents.MessageContent | GatewayIntents.GuildMembers | GatewayIntents.GuildPresences
                     }
                 );
 			}
@@ -162,7 +162,7 @@ namespace Nursery {
 			}
 			return new DiscordSocketClient(
 				new DiscordSocketConfig() {
-					GatewayIntents = GatewayIntents.AllUnprivileged | GatewayIntents.MessageContent
+					GatewayIntents = GatewayIntents.AllUnprivileged | GatewayIntents.MessageContent | GatewayIntents.GuildMembers | GatewayIntents.GuildPresences
 				});
 		}
 
@@ -558,7 +558,7 @@ namespace Nursery {
 			if (!this.state.Joined || this.state.Guild == null || this.state.VoiceChannelId < 0) { return new string[] { }; }
 			var vc = this.state.Guild.GetVoiceChannel(this.state.VoiceChannelId);
 			if (vc == null) { return new string[] { }; }
-			return vc.Users.Select(u => u.Id.ToString()).Distinct().OrderBy(s => s).ToArray();
+			return vc.ConnectedUsers.Select(u => u.Id.ToString()).Distinct().OrderBy(s => s).ToArray();
 		}
 		
 		public void AddSchedules(IScheduledTask[] schedules) {
