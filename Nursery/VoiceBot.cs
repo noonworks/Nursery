@@ -149,15 +149,21 @@ namespace Nursery {
 			if (os.Major == 6 && os.Minor == 1) {
 				Logger.DebugLog("* Windows 7 - Use Discord.Net.Providers.WS4Net.WS4NetProvider");
 				return new DiscordSocketClient(
-					new DiscordSocketConfig() { WebSocketProvider = Discord.Net.Providers.WS4Net.WS4NetProvider.Instance }
-				);
+					new DiscordSocketConfig() {
+						WebSocketProvider = Discord.Net.Providers.WS4Net.WS4NetProvider.Instance,
+						GatewayIntents = GatewayIntents.AllUnprivileged | GatewayIntents.MessageContent
+                    }
+                );
 			}
 			if (os.Major < 6 || (os.Major == 6 && os.Minor < 1)) {
 				// TRANSLATORS: Log message. Initializing Nursery.
 				Logger.Log(T._("Error: This OS is not supported."));
 				return null;
 			}
-			return new DiscordSocketClient();
+			return new DiscordSocketClient(
+				new DiscordSocketConfig() {
+					GatewayIntents = GatewayIntents.AllUnprivileged | GatewayIntents.MessageContent
+				});
 		}
 
 		private void CheckBouyomichan() {
