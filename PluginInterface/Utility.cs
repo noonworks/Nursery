@@ -44,8 +44,14 @@ namespace Nursery.Plugins {
 			this.keywords = keywords;
 			this.regexs = new Regex[keywords.Length];
 			for (int i = 0; i < this.keywords.Length; i++) {
-				this.regexs[i] = new Regex(@"\b" + this.keywords[i] + @"\b");
-			}
+				if (this.keywords[i].Contains("^") || this.keywords[i].Contains("$"))
+				{
+                    this.regexs[i] = new Regex(this.keywords[i]);
+                } else
+				{
+				    this.regexs[i] = new Regex(@"\b" + this.keywords[i] + @"\b");
+                }
+            }
 		}
 
 		abstract public void Initialize(IPluginManager loader, IPlugin[] plugins);

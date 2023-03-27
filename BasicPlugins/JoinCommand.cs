@@ -6,7 +6,7 @@ namespace Nursery.BasicPlugins {
 		// TRANSLATORS: Bot-Help message. JoinCommand plugin.
 		public override string HelpText { get; } = T._("Join voice-bot to channel.") + " ```@voice-bot join\n@voice-bot come\n@voice-bot connect\n@voice-bot here```";
 
-		public JoinCommand() : base(new string[] { "join", "connect", "here", "come" }) { }
+		public JoinCommand() : base(new string[] { "join", "connect", "here", "come", @"^<@\d+>$" }) { }
 
 		public override void Initialize(IPluginManager loader, IPlugin[] plugins) { }
 
