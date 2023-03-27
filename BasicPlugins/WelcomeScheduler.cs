@@ -354,6 +354,16 @@ namespace Nursery.BasicPlugins {
 				var msgs = this.Builder.GetMessages(true, this.Joined, channels);
 				Send(msgs, bot);
 			}
+			if (this.LastMembers.Length <= 1)
+			{
+                Send(new[] {
+                    new ScheduledMessage() {
+                    Type=ScheduledMessageType.SendMessage,
+                    Content=T._("Bye!"),
+                    TextChannelIds=channels,
+                } }, bot);
+                bot.LeaveChannel(null);
+            }
 			return null;
 		}
 	}
