@@ -40,7 +40,7 @@ namespace Nursery.BasicPlugins {
 			if (this.config.IgnorePrefix.Length > 0 && message.Content.IndexOf(this.config.IgnorePrefix) == 0) { return false; }
 			if (user.Nickname == null || user.Nickname.Length == 0) {
 				// TRANSLATORS: Bot message. AddNameFilter plugin. {0} is user name. {1} is message content.
-				message.Content = T._("{0} says: {1}", user.Username, message.Content);
+				message.Content = T._("{0} says: {1}", user.DisplayName, message.Content);
 			} else {
 				// TRANSLATORS: Bot message. AddNameFilter plugin. {0} is user name. {1} is message content.
 				message.Content = T._("{0} says: {1}", user.Nickname, message.Content);
